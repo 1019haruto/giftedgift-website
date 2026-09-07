@@ -138,3 +138,15 @@ select, .field-grid input[type="text"] {
 @media (max-width: 640px) {
   .category-toggle { flex-direction: column; align-items: stretch; }
 }
+
+.issued-code {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.3em;
+  color: var(--gold-deep);
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  text-align: center;
+  margin: 16px 0;
+}

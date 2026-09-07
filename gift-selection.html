@@ -135,6 +135,30 @@
 
     <button type="submit" class="btn btn-primary btn-large" style="width:auto;">この内容で相談する →</button>
   </form>
+
+  <div class="plan-form wrap" id="emailStep" hidden>
+    <div class="category-panel">
+      <h3>📧 メールアドレスのご入力</h3>
+      <p>選択いただいた内容を確認するため、メールアドレスをご入力ください。</p>
+      <label class="gate-field">メールアドレス
+        <input type="email" id="finalEmailInput" placeholder="example@mail.com">
+      </label>
+      <button type="button" class="btn btn-primary btn-large" id="sendEmailBtn" style="width:auto;">送信</button>
+    </div>
+  </div>
+
+  <div class="plan-form wrap" id="doneStep" hidden>
+    <div class="category-panel">
+      <h3>ご相談ありがとうございます</h3>
+      <p>
+        この度はGIFTED×GIFTへご相談いただき、誠にありがとうございます。<br>
+        内容を確認のうえ、担当より改めてご連絡させていただきます。
+      </p>
+      <p id="confirmedEmail"></p>
+      <p>次回以降のログインにお使いいただける確認コードです。大切に保管してください。</p>
+      <p class="issued-code" id="issuedCode"></p>
+    </div>
+  </div>
 </main>
 
 <footer class="site-footer">

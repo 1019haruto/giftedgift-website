@@ -336,3 +336,82 @@ img { max-width: 100%; display: block; }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
 }
+
+/* ---------- Login / New-user gate modal ---------- */
+.gate-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(43, 38, 32, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.gate-modal {
+  background: var(--cream);
+  border-radius: 24px;
+  padding: 40px 36px;
+  max-width: 420px;
+  width: 100%;
+  position: relative;
+  box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.4);
+}
+
+.gate-close {
+  position: absolute;
+  top: 14px;
+  right: 18px;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+  color: var(--ink-soft);
+}
+
+.gate-step h3 { font-size: 1.2rem; margin-bottom: 0.5em; }
+.gate-step p { color: var(--ink-soft); font-size: 0.9rem; }
+
+.gate-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 1.4em; }
+.gate-actions .btn { width: 100%; text-align: center; }
+
+.gate-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--ink-soft);
+  margin: 1.2em 0;
+}
+
+.gate-field input {
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+
+.gate-step .btn { width: 100%; text-align: center; }
+
+.gate-back {
+  display: block;
+  margin: 14px auto 0;
+  background: none;
+  border: none;
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.gate-link {
+  display: block;
+  text-align: center;
+  margin-top: 14px;
+  font-size: 0.85rem;
+  color: var(--gold-deep);
+  font-weight: 700;
+}
