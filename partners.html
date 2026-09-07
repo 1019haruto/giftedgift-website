@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>提携サービス・パートナー | GITEDGIFT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#FBF6EC; --paper:#F3E8D3; --paper-deep:#EADCC0; --ink:#3C362B; --ink-soft:#6B6154;
+    --gold:#F2A93D; --gold-deep:#D9861F; --sage:#7C9473; --sage-deep:#5F7554;
+    --line:rgba(60,54,43,0.14);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0; background:var(--cream); color:var(--ink); font-family:'Zen Kaku Gothic New',sans-serif; line-height:1.75;}
+  h1,h2,h3{font-family:'Zen Maru Gothic',sans-serif; font-weight:700; margin:0;}
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1120px; margin:0 auto; padding:0 28px;}
+
+  header{position:sticky; top:0; z-index:20; background:rgba(251,246,236,0.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:14px 28px; max-width:1120px; margin:0 auto;}
+  .back-link{font-size:0.88rem; font-weight:600; color:var(--ink-soft); display:flex; align-items:center; gap:6px;}
+  .back-link:hover{color:var(--ink);}
+  .brand-mini{font-family:'Zen Maru Gothic'; font-weight:900; font-size:1.05rem;}
+
+  .page-head{padding:56px 0 36px; text-align:center;}
+  .page-head h1{font-size:clamp(1.7rem,3vw,2.3rem); margin-bottom:14px;}
+  .page-head p{color:var(--ink-soft); max-width:56ch; margin:0 auto; font-size:0.95rem;}
+  .notice{
+    max-width:640px; margin:22px auto 0; background:var(--paper); border-radius:16px; padding:14px 20px;
+    font-size:0.83rem; color:var(--ink-soft); text-align:left;
+  }
+
+  .category{padding:36px 0;}
+  .category h2{font-size:1.25rem; margin-bottom:4px; display:flex; align-items:center; gap:10px;}
+  .category .cat-count{font-size:0.78rem; font-weight:500; color:var(--ink-soft); background:var(--paper); padding:3px 12px; border-radius:20px;}
+  .category > p{color:var(--ink-soft); font-size:0.88rem; margin:6px 0 22px;}
+
+  .partner-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:14px;}
+  .partner-card{
+    background:#fff; border:1px solid var(--line); border-radius:16px; padding:18px 18px 16px;
+    display:flex; flex-direction:column; gap:8px; transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .partner-card:hover{transform:translateY(-2px); box-shadow:0 14px 26px -18px rgba(60,54,43,0.35);}
+  .partner-name{font-weight:700; font-size:0.98rem;}
+  .partner-desc{font-size:0.82rem; color:var(--ink-soft); flex:1;}
+  .partner-asp{font-size:0.72rem; color:var(--sage-deep); background:var(--sage-soft, #EAF0E6); display:inline-block; padding:2px 10px; border-radius:12px; align-self:flex-start;}
+  .partner-link{
+    margin-top:6px; font-size:0.82rem; font-weight:700; color:var(--gold-deep);
+    display:flex; align-items:center; gap:6px;
+  }
+  .partner-link.pending{color:var(--ink-soft); font-weight:500;}
+
+  footer{padding:50px 0; border-top:1px solid var(--line); text-align:center; color:var(--ink-soft); font-size:0.85rem;}
+
+  @media (max-width: 860px){
+    .partner-grid{grid-template-columns:1fr 1fr;}
+  }
+  @media (max-width: 560px){
+    .partner-grid{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <span class="brand-mini">GITEDGIFT</span>
+    <a href="index.html" class="back-link">← トップページに戻る</a>
+  </div>
+</header>
+
+<div class="page-head wrap">
+  <h1>提携サービス・パートナー</h1>
+  <p>ホテル・レストラン・ショッピングなど、旅やギフト選びに役立つおすすめのサービスをまとめています。</p>
+  <div class="notice">
+    ※このページに掲載しているリンクは、現在準備中のものが含まれます。各サービスのアフィリエイトリンクが発行され次第、順次差し替えていきます。
+  </div>
+</div>
+
+<main class="wrap">
+
+  <section class="category">
+    <h2>ホテル予約サイト <span class="cat-count">11件</span></h2>
+    <div class="partner-grid">
+      <article class="partner-card">
+        <span class="partner-name">楽天トラベル</span>
+        <span class="partner-desc">利用者が多く成約しやすい定番サイト</span>
+        <span class="partner-asp">楽天アフィリエイト</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">じゃらん net</span>
+        <span class="partner-desc">掲載数が豊富で知名度が高い</span>
+        <span class="partner-asp">A8.net / バリューコマース / アクセストレード</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">Yahoo!トラベル</span>
+        <span class="partner-desc">PayPayポイント還元施策などで人気</span>
+        <span class="partner-asp">バリューコマース / A8.net</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">一休.com</span>
+        <span class="partner-desc">高級ホテル・旅館・高級レストランに特化</span>
+        <span class="partner-asp">バリューコマース / A8.net</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">JTB</span>
+        <span class="partner-desc">国内ツアー・大手旅館・ホテルに強い</span>
+        <span class="partner-asp">バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">るるぶトラベル</span>
+        <span class="partner-desc">JTBグループの予約サイト</span>
+        <span class="partner-asp">バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">Agoda（アゴダ）</span>
+        <span class="partner-desc">海外・アジア圏・訪日外国人客向け</span>
+        <span class="partner-asp">A8.net / Agoda Partner Program</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">Booking.com</span>
+        <span class="partner-desc">世界最大級の海外・国内ホテル予約</span>
+        <span class="partner-asp">A8.net / Booking.com Partner Network</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">Expedia</span>
+        <span class="partner-desc">海外ホテル・航空券＋ホテルのセット予約</span>
+        <span class="partner-asp">A8.net / バリューコマース / Expedia Partner Solutions</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">Trip.com</span>
+        <span class="partner-desc">海外旅行や中国・アジア圏の宿泊施設に強み</span>
+        <span class="partner-asp">A8.net / ValueCommerce / Trip.comアフィリエイト</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">エアトリ</span>
+        <span class="partner-desc">航空券とホテルのセット販売</span>
+        <span class="partner-asp">A8.net</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="category">
+    <h2>総合EC・モール型 <span class="cat-count">4件</span></h2>
+    <p>知名度・購入率が高い定番のECサイトです。</p>
+    <div class="partner-grid">
+      <article class="partner-card">
+        <span class="partner-name">Amazon</span>
+        <span class="partner-desc">知名度・購入率が圧倒的No.1。紹介していない商品が買われても成果対象。</span>
+        <span class="partner-asp">Amazonアソシエイト / もしもアフィリエイト</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">楽天市場</span>
+        <span class="partner-desc">楽天ポイントユーザーに強い。お買い物マラソン時に売上が急増。</span>
+        <span class="partner-asp">楽天アフィリエイト / もしもアフィリエイト</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">Yahoo!ショッピング</span>
+        <span class="partner-desc">PayPayユーザーに効果的。バリューコマース経由が定番。</span>
+        <span class="partner-asp">バリューコマース / もしもアフィリエイト</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">au PAYマーケット</span>
+        <span class="partner-desc">Pontaポイントやauユーザーの取り込みに有効。</span>
+        <span class="partner-asp">バリューコマース / A8.net</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="category">
+    <h2>ファッション・アパレル <span class="cat-count">4件</span></h2>
+    <div class="partner-grid">
+      <article class="partner-card">
+        <span class="partner-name">SHEIN（シーイン）</span>
+        <span class="partner-desc">激安・トレンド系ファッション。若年層やSNS訴求で爆発的な成約率。</span>
+        <span class="partner-asp">A8.net / 各主要ASP</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">SHOPLIST（ショップリスト）</span>
+        <span class="partner-desc">レディース・メンズ・キッズのプチプラブランドが充実。</span>
+        <span class="partner-asp">A8.net / バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">MAGASEEK（マガシーク）</span>
+        <span class="partner-desc">有名ブランドや大人向けセレクトショップのアパレルが豊富。</span>
+        <span class="partner-asp">リンクシェア / バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">coca（コカ）</span>
+        <span class="partner-desc">大人のプチプラファストファッションとしてSNSで人気。</span>
+        <span class="partner-asp">A8.net / バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="category">
+    <h2>家電・ガジェット・PC <span class="cat-count">4件</span></h2>
+    <div class="partner-grid">
+      <article class="partner-card">
+        <span class="partner-name">ビックカメラ.com / ソフマップ</span>
+        <span class="partner-desc">大手家電量販店。高単価商品やポイント還元率の高さを強みに訴求可能。</span>
+        <span class="partner-asp">リンクシェア / バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">ヤマダウェブコム</span>
+        <span class="partner-desc">家電・生活雑貨・パソコンなど幅広いラインナップ。</span>
+        <span class="partner-asp">バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">Lenovo / Dell / HP</span>
+        <span class="partner-desc">高単価（数万〜数十万円）のため、1件の成約で高額報酬が狙える。</span>
+        <span class="partner-asp">バリューコマース / リンクシェア</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">Anker（アンカー）公式</span>
+        <span class="partner-desc">充電器やモバイルバッテリー、イヤホン等で絶大な人気を誇る定番ブランド。</span>
+        <span class="partner-asp">A8.net / バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="category">
+    <h2>コスメ・美容・健康食品 <span class="cat-count">3件</span></h2>
+    <div class="partner-grid">
+      <article class="partner-card">
+        <span class="partner-name">Qoo10（キューテン）</span>
+        <span class="partner-desc">韓国コスメやトレンド雑貨に強み。「メガ割」セール時の売り上げが非常に高い。</span>
+        <span class="partner-asp">A8.net / Qoo10 Move など</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">@cosme SHOPPING</span>
+        <span class="partner-desc">日本最大級のコスメ比較サイト公式通販。知名度と信頼性が高い。</span>
+        <span class="partner-asp">バリューコマース / リンクシェア</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">ファンケル / DHC 公式</span>
+        <span class="partner-desc">定番のサプリメント・スキンケア。お試しセット等の初回購入キャンペーンが強力。</span>
+        <span class="partner-asp">A8.net / afb / バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="category">
+    <h2>インテリア・家具・日用品 <span class="cat-count">2件</span></h2>
+    <div class="partner-grid">
+      <article class="partner-card">
+        <span class="partner-name">LOWYA（ロウヤ）</span>
+        <span class="partner-desc">デザイン性の高い家具EC。SNS映えもしやすく、インテリア系で定番。</span>
+        <span class="partner-asp">A8.net / バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">アイリスプラザ</span>
+        <span class="partner-desc">アイリスオーヤマ直営。コスパの良い家電・収納グッズ・ペット用品などが豊富。</span>
+        <span class="partner-asp">A8.net / バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="category">
+    <h2>飲食店予約サイト <span class="cat-count">7件</span></h2>
+    <div class="partner-grid">
+      <article class="partner-card">
+        <span class="partner-name">食べログ</span>
+        <span class="partner-desc">国内最大級の掲載数・口コミサイト。知名度No.1。</span>
+        <span class="partner-asp">バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">ホットペッパーグルメ</span>
+        <span class="partner-desc">居酒屋・飲み会予約に強く、ポイント利用者が多い。</span>
+        <span class="partner-asp">バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">一休.com レストラン</span>
+        <span class="partner-desc">高級ホテルランチ・ディナー、記念日レストランに特化。高単価。</span>
+        <span class="partner-asp">バリューコマース / A8.net</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">PayPayグルメ</span>
+        <span class="partner-desc">PayPayポイント還元施策が強力。若年層やスマホ予約に強い。</span>
+        <span class="partner-asp">バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">OZmall（オズモール）</span>
+        <span class="partner-desc">女性向けの女子会・デート・高級ディナー予約に強み。</span>
+        <span class="partner-asp">バリューコマース / A8.net</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">ヒトサラ</span>
+        <span class="partner-desc">料理人・シェフ起点のおしゃれな店検索。接待やデート向き。</span>
+        <span class="partner-asp">バリューコマース / A8.net</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">Retty（レッティ）</span>
+        <span class="partner-desc">実名口コミグルメサービス。</span>
+        <span class="partner-asp">バリューコマース（時期により変動）</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="category">
+    <h2>レンタカー <span class="cat-count">10件</span></h2>
+    <div class="partner-grid">
+      <article class="partner-card">
+        <span class="partner-name">たびらいレンタカー</span>
+        <span class="partner-desc">免責補償・カーナビ込みの格安プランが豊富。沖縄・北海道の観光地記事と高相性。</span>
+        <span class="partner-asp">バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">楽天トラベル（レンタカー）</span>
+        <span class="partner-desc">楽天ポイントが貯まるため成約率が高い。セール時の訴求が強力。</span>
+        <span class="partner-asp">楽天アフィリエイト</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">じゃらんレンタカー</span>
+        <span class="partner-desc">クーポン配布が多く、宿予約記事とのクロスセルに強い。</span>
+        <span class="partner-asp">A8.net / バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">スカイチケット（skyticket）レンタカー</span>
+        <span class="partner-desc">全国各地の格安レンタカーを一括比較可能。UIがシンプル。</span>
+        <span class="partner-asp">A8.net / アクセストレード</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">沖楽（おきらく）</span>
+        <span class="partner-desc">沖縄本島・離島エリアに特化した格安比較サイト。</span>
+        <span class="partner-asp">A8.net</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">レンナビ</span>
+        <span class="partner-desc">全国100社以上のレンタカー会社を一括検索・比較できるサービス。</span>
+        <span class="partner-asp">A8.net</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">タイムズカーレンタル</span>
+        <span class="partner-desc">全国的な認知度と店舗数がトップクラス。安心感重視のユーザーに強い。</span>
+        <span class="partner-asp">A8.net / バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">ニッポンレンタカー</span>
+        <span class="partner-desc">営業所数が多く空港アクセスも良好。ビジネス・旅行双方で定番。</span>
+        <span class="partner-asp">A8.net / バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">オリックスレンタカー</span>
+        <span class="partner-desc">車種ラインナップが豊富。キャンペーン施策が多い。</span>
+        <span class="partner-asp">A8.net / アクセストレード</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+      <article class="partner-card">
+        <span class="partner-name">スカイレンタカー</span>
+        <span class="partner-desc">北海道・九州・沖縄などの観光地に強く、格安プランが充実。</span>
+        <span class="partner-asp">A8.net / バリューコマース</span>
+        <a class="partner-link pending" href="#">リンク準備中</a>
+      </article>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">© 2026 GITEDGIFT. All rights reserved.</div>
+</footer>
+
+</body>
+</html>

@@ -4,10 +4,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GIFTED×GIFT ｜ Total Gift Consulting</title>
-<meta name="description" content="ギフト選定、ギフト×旅行、1Dayプラン、付随コンサルティング。想いをかたちにするギフトの総合コンサルティング、GIFTED×GIFT。">
+<meta name="description" content="贈り物も、旅の時間も、想いを形にするお手伝い。GIFTED×GIFTのギフト×旅行、1Dayプラン、ギフト選定サービス。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Zen+Old+Mincho:wght@400;600;700&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -15,19 +15,8 @@
 <header class="site-header">
   <div class="wrap header-inner">
     <a href="#top" class="brand">
-      <span class="brand-mark" aria-hidden="true">
-        <svg viewBox="0 0 48 48" width="34" height="34">
-          <rect x="8" y="20" width="32" height="22" fill="none" stroke="currentColor" stroke-width="2"/>
-          <rect x="6" y="14" width="36" height="8" fill="none" stroke="currentColor" stroke-width="2"/>
-          <path d="M24 14 V42" stroke="currentColor" stroke-width="2"/>
-          <path d="M24 14 C24 14 16 4 12 8 C8 12 16 14 24 14 Z" fill="none" stroke="currentColor" stroke-width="2"/>
-          <path d="M24 14 C24 14 32 4 36 8 C40 12 32 14 24 14 Z" fill="none" stroke="currentColor" stroke-width="2"/>
-        </svg>
-      </span>
-      <span class="brand-text">
-        <span class="brand-name">GIFTED<span class="brand-x">×</span>GIFT</span>
-        <span class="brand-tagline">Total Gift Consulting</span>
-      </span>
+      <span class="brand-mark">🎁</span>
+      <span class="brand-name">GIFTED<span class="brand-x">×</span>GIFT</span>
     </a>
 
     <button class="nav-toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false">
@@ -35,10 +24,11 @@
     </button>
 
     <nav class="site-nav" id="siteNav">
-      <a href="#about">私たちについて</a>
       <a href="#services">サービス</a>
-      <a href="#paths">個人・法人の方へ</a>
-      <a href="#contact" class="nav-cta">お問い合わせ</a>
+      <a href="#travel">ギフト×旅行</a>
+      <a href="#flow">ご利用の流れ</a>
+      <a href="#about">私たちについて</a>
+      <a href="#contact" class="nav-cta">無料相談を予約する</a>
     </nav>
   </div>
 </header>
@@ -48,118 +38,168 @@
   <section class="hero">
     <div class="wrap hero-inner">
       <div class="hero-copy">
-        <p class="eyebrow">Total Gift Consulting</p>
-        <h1>贈る理由も、<br>贈りかたも、<br>まるごと考える。</h1>
+        <h1>贈り物も、旅の時間も、<br>想いを形にするお手伝い。</h1>
         <p class="hero-lead">
-          何を贈るか迷ったその先に、旅も、時間も、体験も贈れることを。
-          GIFTED×GIFTは、贈り物にまつわる悩みや想いに寄り添い、
-          かたちにするための総合コンサルティングです。
+          大切な人への一歩から、記憶に残る旅の計画まで。GIFTED×GIFTが寄り添い、
+          心からご満足いただける時間をトータルでコーディネートします。
         </p>
         <div class="hero-actions">
-          <a href="#paths" class="btn btn-primary">個人の方はこちら</a>
-          <a href="#paths" class="btn btn-outline">法人の方はこちら</a>
+          <a href="#contact" class="btn btn-primary">無料相談を予約する →</a>
+          <a href="#services" class="btn btn-outline">他のサービスを見る</a>
         </div>
+        <p class="hero-note">● オンライン相談も承っております</p>
       </div>
 
-      <div class="hero-visual" aria-hidden="true">
-        <svg viewBox="0 0 320 320" class="hero-svg">
-          <circle cx="160" cy="160" r="150" fill="none" stroke="var(--gold)" stroke-width="1"/>
-          <rect x="90" y="140" width="140" height="110" fill="none" stroke="var(--gold)" stroke-width="2"/>
-          <rect x="80" y="120" width="160" height="30" fill="none" stroke="var(--gold)" stroke-width="2"/>
-          <path d="M160 120 V250" stroke="var(--gold)" stroke-width="2"/>
-          <path d="M160 120 C160 120 130 80 110 92 C90 104 130 120 160 120 Z" fill="none" stroke="var(--gold)" stroke-width="2"/>
-          <path d="M160 120 C160 120 190 80 210 92 C230 104 190 120 160 120 Z" fill="none" stroke="var(--gold)" stroke-width="2"/>
-        </svg>
+      <div class="hero-visual">
+        <img src="https://images.unsplash.com/photo-1506929562872-bb421503ef21?auto=format&fit=crop&w=1200&q=80" alt="旅先で過ごすひととき" class="hero-photo">
       </div>
-    </div>
-  </section>
-
-  <section id="about" class="about">
-    <div class="wrap about-inner">
-      <p class="section-label">Concept</p>
-      <h2>贈り物は、<br>関係を続けていく手段のひとつ。</h2>
-      <p class="about-text">
-        誕生日や記念日のためのギフト選び。旅行という体験そのものを贈るギフト。
-        一日だけの特別な計画。そして、それらを組み合わせて考える相談ごと。
-        GIFTED×GIFTは、個人のお客様にも法人のお客様にも、
-        「贈る」という行為の裏にある想いを一緒に整理し、
-        かたちにするお手伝いをしています。
-      </p>
     </div>
   </section>
 
   <section id="services" class="services">
     <div class="wrap">
-      <p class="section-label">Services</p>
-      <h2>4つの領域から、<br>ちょうどいい贈り方を見つける。</h2>
+      <h2 class="center">あなたの想いを、最も特別な形に。</h2>
 
-      <div class="service-list">
-
-        <article class="service-item service-item--a">
-          <span class="service-tag">01</span>
+      <div class="service-grid">
+        <article class="service-card">
+          <span class="service-icon">🎀</span>
           <h3>ギフト選定</h3>
-          <p>相手の好みや関係性、渡すシーンをヒアリングしたうえで、
-             既製品にとらわれない一品をご提案します。予算感の相談も歓迎です。</p>
+          <p>心に響く贈り物を、シーンに合わせてご提案</p>
+          <span class="card-arrow">→</span>
         </article>
 
-        <article class="service-item service-item--b">
-          <span class="service-tag">02</span>
-          <h3>ギフト×旅行</h3>
-          <p>モノではなく、時間や景色を贈るという選択肢。
-             行き先選びから当日の過ごし方まで、旅そのものをギフトとして設計します。</p>
+        <article class="service-card service-card--featured">
+          <span class="badge">おすすめ</span>
+          <span class="service-icon">✈️</span>
+          <h3>ギフト × 旅行</h3>
+          <p>旅を贈るという、特別な体験をトータルで設計</p>
+          <span class="card-arrow">→</span>
         </article>
 
-        <article class="service-item service-item--c">
-          <span class="service-tag">03</span>
+        <article class="service-card">
+          <span class="service-icon">📅</span>
           <h3>1Dayプラン</h3>
-          <p>特別な一日をまるごとプロデュース。
-             サプライズの段取りや当日のスケジュールまで、細部まで組み立てます。</p>
+          <p>日帰りで叶う、特別な時間をご提案</p>
+          <span class="card-arrow">→</span>
         </article>
 
-        <article class="service-item service-item--d">
-          <span class="service-tag">04</span>
-          <h3>付随コンサルティング</h3>
-          <p>贈答の慣習や予算設計、法人の際の贈り分けなど、
-             ギフトにまつわる周辺の悩みごとにも継続的に伴走します。</p>
+        <article class="service-card service-card--dark">
+          <span class="service-icon">✨</span>
+          <h3>その他サービス</h3>
+          <p>贈答マナーや撮影など、さまざまなお手伝い</p>
+          <span class="card-arrow">→</span>
         </article>
-
       </div>
     </div>
   </section>
 
-  <section id="paths" class="paths">
-    <div class="wrap paths-inner">
+  <section id="travel" class="travel-feature">
+    <div class="wrap travel-inner">
+      <div class="travel-copy">
+        <span class="badge badge-light">一番人気のサービス</span>
+        <h2>ギフト × 旅行 <span class="en">Gift × Travel</span></h2>
+        <p>
+          「行きたいね」が「最高の思い出」になるように。行き先選びから旅程の設計、
+          宿泊や体験の手配まで、すべてをオーダーメイドでご提案します。
+        </p>
 
-      <div class="path-card">
-        <p class="section-label">For Individuals</p>
-        <h3>大切な人への贈り物を、<br>一緒に考えます。</h3>
-        <p>誕生日、記念日、退職や卒業のお祝いなど、
-           個人のお客様からのご相談を承っています。</p>
-        <a href="#contact" class="btn btn-outline">個人のご相談はこちら</a>
+        <ul class="feature-list">
+          <li><span class="feature-icon">🗺️</span>目的やご予算に合わせて最適な旅をご提案</li>
+          <li><span class="feature-icon">💛</span>特別な演出やサプライズもトータルにサポート</li>
+          <li><span class="feature-icon">🧑‍💼</span>準備から旅のサポートまで安心のコンシェルジュ対応</li>
+        </ul>
+
+        <a href="#contact" class="btn btn-sage">ギフト×旅行の詳細を見る →</a>
       </div>
 
-      <div class="path-card path-card--dark">
-        <p class="section-label">For Business</p>
-        <h3>取引先・従業員への<br>贈り分けをサポート。</h3>
-        <p>周年記念や表彰、株主優待など、法人ならではの
-           贈答シーンに合わせたご提案・継続契約に対応します。</p>
-        <a href="#contact" class="btn btn-primary">法人のご相談はこちら</a>
+      <div class="travel-photos">
+        <img src="https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80" alt="一緒に過ごす時間こそ、最高のギフト" class="photo photo--back">
+        <img src="https://images.unsplash.com/photo-1502920917128-1aa500764cbd?auto=format&fit=crop&w=700&q=80" alt="For You" class="photo photo--front">
       </div>
+    </div>
+  </section>
 
+  <section id="flow" class="flow">
+    <div class="wrap">
+      <h2 class="center">ご利用の流れ</h2>
+      <p class="center flow-lead">初めての方でも安心。簡単3ステップで、理想の贈り物がかたちになります。</p>
+
+      <div class="flow-steps">
+        <div class="flow-step">
+          <span class="step-tag">01</span>
+          <span class="step-icon">📋</span>
+          <h3>ヒアリング</h3>
+          <p>ご希望やご予算、想いをじっくりお伺いします。</p>
+        </div>
+        <span class="step-arrow">→</span>
+        <div class="flow-step">
+          <span class="step-tag">02</span>
+          <span class="step-icon">🖼️</span>
+          <h3>ご提案</h3>
+          <p>お客様にぴったりのプランやアイデアをご提案します。</p>
+        </div>
+        <span class="step-arrow">→</span>
+        <div class="flow-step">
+          <span class="step-tag">03</span>
+          <span class="step-icon">💼</span>
+          <h3>実行支援</h3>
+          <p>ご予約・手配から当日のサポートまで安心してお任せいただけます。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about" class="audience">
+    <div class="wrap">
+      <h2 class="center">個人のお客様にも、法人のお客様にも</h2>
+
+      <div class="audience-grid">
+        <article class="audience-card">
+          <img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=900&q=80" alt="個人のお客様">
+          <div class="audience-body">
+            <span class="badge badge-gold">個人のお客様</span>
+            <h3>大切な人への一品と、忘れられない旅を</h3>
+            <ul class="check-list">
+              <li>誕生日、記念日、プロポーズ、節目のお祝いに</li>
+              <li>サプライズや旅行のご相談もOK</li>
+              <li>忙しい方でも安心のトータルサポート</li>
+            </ul>
+          </div>
+        </article>
+
+        <article class="audience-card">
+          <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=900&q=80" alt="法人のお客様">
+          <div class="audience-body">
+            <span class="badge badge-sage">法人のお客様</span>
+            <h3>贈答文化と社員体験を、まとめて設計</h3>
+            <ul class="check-list">
+              <li>取引先への贈答品、記念品、イベントの企画</li>
+              <li>社員旅行・表彰旅行のプランニング</li>
+              <li>コンシェルジュサービスで業務を効率化</li>
+            </ul>
+          </div>
+        </article>
+      </div>
     </div>
   </section>
 
   <section id="contact" class="contact">
-    <div class="wrap contact-inner">
-      <p class="section-label">Contact</p>
-      <h2>まずは、話すところから。</h2>
-      <p class="contact-lead">
-        贈りたい相手がいる、まだ形になっていない、という段階でも構いません。
-        下記よりお気軽にお問い合わせください。
-      </p>
-      <a href="mailto:info@giftedxgift.example.com" class="btn btn-primary btn-large">
-        お問い合わせフォームへ
-      </a>
+    <div class="wrap contact-panel">
+      <div class="contact-copy">
+        <h2>まずは、お気軽にご相談ください。</h2>
+        <p>
+          「何を贈ればいいかわからない」「旅行の計画を丸ごとお願いしたい」など、
+          どんなご相談でも大丈夫。あなたの想いを丁寧にお聞きします。
+        </p>
+        <p class="contact-free">相談は無料です。</p>
+      </div>
+
+      <form class="contact-form" onsubmit="event.preventDefault(); alert('送信ありがとうございます（デモ画面です）');">
+        <input type="text" placeholder="お名前" required>
+        <input type="email" placeholder="メールアドレス" required>
+        <textarea placeholder="ご相談内容（任意）" rows="3"></textarea>
+        <button type="submit" class="btn btn-dark btn-large">無料相談を予約する →</button>
+      </form>
     </div>
   </section>
 
@@ -167,8 +207,20 @@
 
 <footer class="site-footer">
   <div class="wrap footer-inner">
-    <span class="brand-name brand-name--small">GIFTED<span class="brand-x">×</span>GIFT</span>
-    <p>&copy; 2026 GIFTED×GIFT. Total Gift Consulting.</p>
+    <div class="footer-brand">
+      <span class="brand-mark">🎁</span>
+      <span class="brand-name brand-name--small">GIFTED<span class="brand-x">×</span>GIFT</span>
+    </div>
+    <nav class="footer-nav">
+      <a href="#services">サービス</a>
+      <a href="#travel">ギフト×旅行</a>
+      <a href="#flow">ご利用の流れ</a>
+      <a href="#contact">お問い合わせ</a>
+    </nav>
+    <div class="footer-meta">
+      <p>&copy; 2026 GIFTED×GIFT. All rights reserved.</p>
+      <p class="footer-tagline">Total Gift Consulting</p>
+    </div>
   </div>
 </footer>
 
