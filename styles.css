@@ -423,3 +423,84 @@ img { max-width: 100%; display: block; }
   color: var(--gold-deep);
   font-weight: 700;
 }
+
+/* ---------- My Page ---------- */
+.mypage-hero { padding: 64px 0 20px; }
+.mypage-hero h1 { font-size: clamp(1.6rem, 3.4vw, 2.2rem); }
+.mypage-hero p { color: var(--ink-soft); }
+
+.mypage-list { padding: 20px 0 60px; }
+
+.mypage-heading { font-size: 1.2rem; margin-bottom: 24px; }
+
+.proposal-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 24px 26px;
+  margin-bottom: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.proposal-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gold-deep);
+  background: var(--cream-card);
+  padding: 4px 12px;
+  border-radius: 999px;
+  margin-bottom: 0.6em;
+}
+
+.proposal-main h3 { font-size: 1.05rem; margin-bottom: 0.4em; }
+.proposal-main p { font-size: 0.88rem; color: var(--ink-soft); max-width: 46ch; margin-bottom: 0; }
+
+.proposal-side {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+  min-width: 140px;
+}
+
+.status-badge {
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 999px;
+}
+.status-badge--pending { background: #FDECC8; color: #8C6D2F; }
+.status-badge--done { background: #E7EEE1; color: var(--sage-deep); }
+.status-badge--progress { background: #EFE4CC; color: var(--ink-soft); }
+
+.proposal-date { font-size: 0.78rem; color: var(--ink-soft); }
+.proposal-link { font-size: 0.85rem; font-weight: 700; color: var(--gold-deep); }
+
+.mypage-cta { padding: 20px 0 90px; }
+
+.mypage-cta-inner {
+  background: var(--paper, var(--cream-card));
+  border-radius: 24px;
+  padding: 40px 36px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.mypage-cta-inner h2 { font-size: 1.2rem; margin-bottom: 0.4em; }
+.mypage-cta-inner p { color: var(--ink-soft); margin-bottom: 0; }
+
+.mypage-cta-links { display: flex; flex-wrap: wrap; gap: 10px; }
+
+@media (max-width: 640px) {
+  .proposal-card { flex-direction: column; }
+  .proposal-side { align-items: flex-start; }
+  .mypage-cta-inner { flex-direction: column; align-items: flex-start; }
+}

@@ -90,7 +90,7 @@
         return;
       }
       closeGate();
-      window.location.href = targetUrl;
+      window.location.href = 'mypage.html';
     });
   }
 })();
