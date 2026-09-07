@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>管理者ページ ｜ GIFTED×GIFT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<style>
+  #adminGate { max-width: 360px; margin: 120px auto; text-align: center; padding: 0 20px; }
+  #adminGate input { width: 100%; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line); margin: 16px 0; font-family: var(--font-body); }
+  #adminDashboard { display: none; }
+  .admin-toolbar { display: flex; gap: 12px; align-items: center; margin: 24px 0; flex-wrap: wrap; }
+  .admin-toolbar input[type="search"] { flex: 1; min-width: 200px; padding: 12px 16px; border-radius: 12px; border: 1px solid var(--line); font-family: var(--font-body); }
+  .admin-count { font-size: 0.85rem; color: var(--ink-soft); }
+  .admin-card { background: #fff; border: 1px solid var(--line); border-radius: 20px; padding: 22px 24px; margin-bottom: 14px; }
+  .admin-card.is-handled { opacity: 0.5; }
+  .admin-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+  .admin-page-tag { font-size: 0.75rem; font-weight: 700; color: var(--gold-deep); background: var(--cream-card); padding: 4px 12px; border-radius: 999px; }
+  .admin-date { font-size: 0.78rem; color: var(--ink-soft); }
+  .admin-email { font-size: 0.88rem; color: var(--gold-deep); margin-bottom: 8px; word-break: break-all; }
+  .admin-detail { font-size: 0.88rem; color: var(--ink); white-space: pre-wrap; background: var(--cream-card); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; }
+  .admin-notes { font-size: 0.85rem; color: var(--ink-soft); }
+  .admin-check { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--ink-soft); margin-top: 10px; }
+  .admin-state { text-align: center; color: var(--ink-soft); padding: 60px 20px; }
+  .admin-error { color: #b3452f; }
+</style>
+</head>
+<body>
+
+<div id="adminGate">
+  <h1>管理者ページ</h1>
+  <p>パスワードを入力してください。</p>
+  <input type="password" id="adminPassword" placeholder="パスワード">
+  <button type="button" class="btn btn-primary" id="adminLoginBtn" style="width:100%;">ログイン</button>
+</div>
+
+<div id="adminDashboard">
+  <div class="wrap">
+    <header class="header-inner" style="padding-top:24px;">
+      <h1 style="font-size:1.3rem;">ご相談・依頼一覧</h1>
+      <button type="button" class="btn btn-outline" id="reloadBtn">再読み込み</button>
+    </header>
+
+    <div class="admin-toolbar">
+      <input type="search" id="searchInput" placeholder="ページ・メールアドレス・内容で検索">
+      <span class="admin-count" id="countBadge"></span>
+    </div>
+
+    <div id="listArea">
+      <div class="admin-state">読み込み中です…</div>
+    </div>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script>
+  var allItems = [];
+  var handledIds = JSON.parse(localStorage.getItem('gitedgift_admin_handled') || '[]');
+
+  document.getElementById('adminLoginBtn').addEventListener('click', function () {
+    var input = document.getElementById('adminPassword').value.trim();
+    if (input !== SITE_CONFIG.ADMIN_SECRET) {
+      alert('パスワードが違います。');
+      return;
+    }
+    document.getElementById('adminGate').style.display = 'none';
+    document.getElementById('adminDashboard').style.display = 'block';
+    loadSubmissions();
+  });
+
+  document.getElementById('reloadBtn').addEventListener('click', loadSubmissions);
+
+  function loadSubmissions() {
+    document.getElementById('listArea').innerHTML = '<div class="admin-state">読み込み中です…</div>';
+
+    if (!SITE_CONFIG.SUBMISSION_ENDPOINT || SITE_CONFIG.SUBMISSION_ENDPOINT.indexOf('script.google.com') === -1) {
+      document.getElementById('listArea').innerHTML =
+        '<div class="admin-state admin-error">config.js の SUBMISSION_ENDPOINT がまだ設定されていません。Apps ScriptのURLを設定してください。</div>';
+      return;
+    }
+
+    var url = SITE_CONFIG.SUBMISSION_ENDPOINT + '?key=' + encodeURIComponent(SITE_CONFIG.ADMIN_SECRET);
+
+    fetch(url)
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data && data.error) {
+          document.getElementById('listArea').innerHTML =
+            '<div class="admin-state admin-error">認証エラー：config.js の ADMIN_SECRET と、Apps Script側の SECRET が一致しているか確認してください。</div>';
+          return;
+        }
+        allItems = data || [];
+        renderList(allItems);
+      })
+      .catch(function () {
+        document.getElementById('listArea').innerHTML =
+          '<div class="admin-state admin-error">読み込みに失敗しました。Apps ScriptのURLやデプロイ設定をご確認ください。</div>';
+      });
+  }
+
+  function renderList(items) {
+    var listArea = document.getElementById('listArea');
+    document.getElementById('countBadge').textContent = items.length + '件';
+
+    if (items.length === 0) {
+      listArea.innerHTML = '<div class="admin-state">まだご相談の送信はありません。</div>';
+      return;
+    }
+
+    listArea.innerHTML = items.map(function (item, index) {
+      var id = 'row-' + index + '-' + (item.date || '');
+      var isHandled = handledIds.indexOf(id) !== -1;
+      var dateStr = item.date ? new Date(item.date).toLocaleString('ja-JP') : '';
+      var categories = item.categories;
+      try { categories = JSON.stringify(JSON.parse(categories), null, 2); } catch (e) {}
+
+      return (
+        '<div class="admin-card' + (isHandled ? ' is-handled' : '') + '">' +
+          '<div class="admin-top">' +
+            '<span class="admin-page-tag">' + escapeHtml(item.page || '') + '</span>' +
+            '<span class="admin-date">' + escapeHtml(dateStr) + '</span>' +
+          '</div>' +
+          '<div class="admin-email">' + escapeHtml(item.email || '') + '</div>' +
+          '<div class="admin-detail">' + escapeHtml(categories || '') + '</div>' +
+          (item.notes ? '<div class="admin-notes">こだわり・補足：' + escapeHtml(item.notes) + '</div>' : '') +
+          '<label class="admin-check">' +
+            '<input type="checkbox" class="admin-checkbox" data-id="' + id + '" ' + (isHandled ? 'checked' : '') + '>' +
+            '対応済みにする' +
+          '</label>' +
+        '</div>'
+      );
+    }).join('');
+
+    Array.prototype.forEach.call(document.querySelectorAll('.admin-checkbox'), function (checkbox) {
+      checkbox.addEventListener('change', function () {
+        var id = checkbox.getAttribute('data-id');
+        if (checkbox.checked) {
+          if (handledIds.indexOf(id) === -1) handledIds.push(id);
+        } else {
+          handledIds = handledIds.filter(function (x) { return x !== id; });
+        }
+        localStorage.setItem('gitedgift_admin_handled', JSON.stringify(handledIds));
+        checkbox.closest('.admin-card').classList.toggle('is-handled', checkbox.checked);
+      });
+    });
+  }
+
+  document.getElementById('searchInput').addEventListener('input', function (e) {
+    var q = e.target.value.trim().toLowerCase();
+    if (!q) { renderList(allItems); return; }
+    var filtered = allItems.filter(function (item) {
+      return (
+        (item.page || '').toLowerCase().indexOf(q) !== -1 ||
+        (item.email || '').toLowerCase().indexOf(q) !== -1 ||
+        (item.categories || '').toLowerCase().indexOf(q) !== -1 ||
+        (item.notes || '').toLowerCase().indexOf(q) !== -1
+      );
+    });
+    renderList(filtered);
+  });
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+</script>
+</body>
+</html>

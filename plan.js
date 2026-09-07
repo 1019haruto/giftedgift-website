@@ -31,6 +31,32 @@ if (planForm) {
   });
 }
 
+function collectRequestSummary() {
+  const summary = { page: document.title, categories: [] };
+
+  document.querySelectorAll('.category-panel').forEach((panel) => {
+    if (panel.hidden) return;
+    const heading = panel.querySelector('h3');
+    const fields = {};
+
+    panel.querySelectorAll('select').forEach((select) => {
+      const label = select.closest('label');
+      const labelText = label ? label.childNodes[0].textContent.trim() : (select.id || '選択項目');
+      fields[labelText] = select.value;
+    });
+
+    const checked = Array.from(panel.querySelectorAll('.checkbox-row input[type="checkbox"]:checked'))
+      .map((cb) => (cb.closest('label') ? cb.closest('label').textContent.trim() : cb.value));
+    if (checked.length > 0) fields['選択項目'] = checked;
+
+    summary.categories.push({ name: heading ? heading.textContent.trim() : '', fields });
+  });
+
+  const notes = document.querySelector('.notes-field textarea');
+  summary.notes = notes ? notes.value : '';
+  return summary;
+}
+
 const sendEmailBtn = document.getElementById('sendEmailBtn');
 if (sendEmailBtn) {
   sendEmailBtn.addEventListener('click', () => {
@@ -49,6 +75,19 @@ if (sendEmailBtn) {
     if (doneStep) {
       doneStep.hidden = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    if (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.SUBMISSION_ENDPOINT &&
+        SITE_CONFIG.SUBMISSION_ENDPOINT.indexOf('script.google.com') !== -1) {
+      const payload = Object.assign(collectRequestSummary(), { email: email });
+      fetch(SITE_CONFIG.SUBMISSION_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify(payload),
+      }).catch(() => {
+        // 送信に失敗しても、お客様には既に完了画面を表示済みのため何もしない
+      });
     }
   });
 }

@@ -1,0 +1,49 @@
+// ▼このコードを丸ごとApps Scriptエディタに貼り付けてください▼
+
+var SHEET_NAME = 'Submissions';
+var SECRET = 'gitedgift-2026-secret'; // ← 必ず自分だけの文字列に変更してください
+
+function doPost(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  var data = JSON.parse(e.postData.contents);
+
+  sheet.appendRow([
+    new Date(),
+    data.page || '',
+    data.email || '',
+    JSON.stringify(data.categories || [], null, 0),
+    data.notes || ''
+  ]);
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ result: 'ok' }))
+    .setMimeType(ContentService.MimeType.JSON);
+}
+
+function doGet(e) {
+  if (!e.parameter.key || e.parameter.key !== SECRET) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ error: 'unauthorized' }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  var rows = sheet.getDataRange().getValues();
+  var items = [];
+
+  for (var i = 0; i < rows.length; i++) {
+    items.push({
+      date: rows[i][0],
+      page: rows[i][1],
+      email: rows[i][2],
+      categories: rows[i][3],
+      notes: rows[i][4]
+    });
+  }
+
+  items.reverse();
+
+  return ContentService
+    .createTextOutput(JSON.stringify(items))
+    .setMimeType(ContentService.MimeType.JSON);
+}
