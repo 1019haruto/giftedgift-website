@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>1Dayプラン ｜ GIFTED×GIFT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="form.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">🎁</span>
+      <span class="brand-name">GIFTED<span class="brand-x">×</span>GIFT</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="site-nav" id="siteNav">
+      <a href="index.html#services">サービス</a>
+      <a href="index.html#travel">ギフト×旅行</a>
+      <a href="index.html#flow">ご利用の流れ</a>
+      <a href="index.html#about">私たちについて</a>
+      <a href="index.html#contact" class="nav-cta">無料相談を予約する</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="plan-hero wrap">
+    <a href="index.html" class="back-link">← トップページに戻る</a>
+    <p class="section-label">1Day Plan</p>
+    <h1>1Dayプラン</h1>
+    <p>組み合わせたい内容にチェックを入れると、条件を入力できます。複数選択も可能です。</p>
+  </section>
+
+  <form class="plan-form wrap" id="planForm">
+
+    <div class="category-toggle">
+      <label class="category-chip"><input type="checkbox" data-target="cat-activity"> アクティビティ</label>
+      <label class="category-chip"><input type="checkbox" data-target="cat-meal"> お食事</label>
+      <label class="category-chip"><input type="checkbox" data-target="cat-transport"> 移動手段</label>
+      <label class="category-chip"><input type="checkbox" data-target="cat-gift"> 添えるギフト</label>
+    </div>
+
+    <p class="empty-hint" id="emptyHint">上のチェックボックスから、組み合わせたい内容を選んでください。</p>
+
+    <div class="category-panel" id="cat-activity" hidden>
+      <h3>🎡 アクティビティ</h3>
+      <div class="field-grid">
+        <label>希望価格（お一人あたり）
+          <select>
+            <option>¥3,000未満</option>
+            <option>¥3,000〜8,000</option>
+            <option>¥8,000〜15,000</option>
+            <option>¥15,000以上</option>
+          </select>
+        </label>
+        <label>希望される雰囲気
+          <select>
+            <option>アクティブ・体験重視</option>
+            <option>のんびり・癒し</option>
+            <option>非日常・特別感</option>
+            <option>文化・アート鑑賞</option>
+          </select>
+        </label>
+        <label>年代
+          <select>
+            <option>10代</option>
+            <option>20代</option>
+            <option>30代</option>
+            <option>40代</option>
+            <option>50代以上</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="category-panel" id="cat-meal" hidden>
+      <h3>🍽️ お食事</h3>
+      <div class="field-grid">
+        <label>希望価格（お一人あたり）
+          <select>
+            <option>¥3,000未満</option>
+            <option>¥3,000〜8,000</option>
+            <option>¥8,000〜15,000</option>
+            <option>¥15,000以上</option>
+          </select>
+        </label>
+        <label>希望ジャンル
+          <select>
+            <option>和食</option>
+            <option>フレンチ・イタリアン</option>
+            <option>カフェ・スイーツ</option>
+            <option>個室・記念日利用向け</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="category-panel" id="cat-transport" hidden>
+      <h3>🚗 移動手段</h3>
+      <p style="margin-bottom:12px; font-size:0.85rem; color:var(--ink-soft);">ご希望のものを選んでください（複数選択可）</p>
+      <div class="checkbox-row">
+        <label><input type="checkbox"> 電車</label>
+        <label><input type="checkbox"> 車・レンタカー</label>
+        <label><input type="checkbox"> タクシー・ハイヤー</label>
+        <label><input type="checkbox"> 徒歩・自由行動</label>
+      </div>
+    </div>
+
+    <div class="category-panel" id="cat-gift" hidden>
+      <h3>🎀 添えるギフト</h3>
+      <div class="field-grid">
+        <label>希望価格
+          <select>
+            <option>¥3,000未満</option>
+            <option>¥3,000〜5,000</option>
+            <option>¥5,000〜10,000</option>
+            <option>¥10,000以上</option>
+          </select>
+        </label>
+        <label>希望ジャンル
+          <select>
+            <option>花束・プリザーブド</option>
+            <option>スイーツ</option>
+            <option>雑貨・アクセサリー</option>
+            <option>手紙・メッセージ演出</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="notes-field">
+      <label>こだわり・補足事項
+        <textarea rows="4" placeholder="サプライズにしたい、記念日の内容、当日の時間帯など自由にご記入ください"></textarea>
+      </label>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-large" style="width:auto;">この内容で相談する →</button>
+  </form>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <span class="brand-mark">🎁</span>
+      <span class="brand-name brand-name--small">GIFTED<span class="brand-x">×</span>GIFT</span>
+    </div>
+    <div class="footer-meta"><p>&copy; 2026 GIFTED×GIFT. All rights reserved.</p></div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="plan.js"></script>
+</body>
+</html>

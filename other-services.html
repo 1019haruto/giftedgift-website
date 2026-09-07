@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>その他サービス ｜ GIFTED×GIFT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="form.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a href="index.html" class="brand">
+      <span class="brand-mark">🎁</span>
+      <span class="brand-name">GIFTED<span class="brand-x">×</span>GIFT</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="site-nav" id="siteNav">
+      <a href="index.html#services">サービス</a>
+      <a href="index.html#travel">ギフト×旅行</a>
+      <a href="index.html#flow">ご利用の流れ</a>
+      <a href="index.html#about">私たちについて</a>
+      <a href="index.html#contact" class="nav-cta">無料相談を予約する</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="plan-hero wrap">
+    <a href="index.html" class="back-link">← トップページに戻る</a>
+    <p class="section-label">Other Services</p>
+    <h1>その他サービス</h1>
+    <p>贈答マナーのご相談や、当日の撮影など、その他のご相談はこちらから承ります。</p>
+  </section>
+
+  <form class="plan-form wrap" id="planForm">
+
+    <div class="category-panel">
+      <h3>📝 ご相談内容</h3>
+      <div class="field-grid">
+        <label>ご希望の内容
+          <select>
+            <option>贈答マナー・のし・表書きの相談</option>
+            <option>当日の撮影・記録</option>
+            <option>予算設計・贈り分けの相談</option>
+            <option>その他</option>
+          </select>
+        </label>
+        <label>ご予算の目安
+          <select>
+            <option>特に決まっていない</option>
+            <option>¥10,000未満</option>
+            <option>¥10,000〜30,000</option>
+            <option>¥30,000以上</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="notes-field">
+      <label>こだわり・補足事項
+        <textarea rows="5" placeholder="ご相談の内容や状況を詳しくご記入ください"></textarea>
+      </label>
+    </div>
+
+    <button type="submit" class="btn btn-primary btn-large" style="width:auto;">この内容で相談する →</button>
+  </form>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap footer-inner">
+    <div class="footer-brand">
+      <span class="brand-mark">🎁</span>
+      <span class="brand-name brand-name--small">GIFTED<span class="brand-x">×</span>GIFT</span>
+    </div>
+    <div class="footer-meta"><p>&copy; 2026 GIFTED×GIFT. All rights reserved.</p></div>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+<script src="plan.js"></script>
+</body>
+</html>
