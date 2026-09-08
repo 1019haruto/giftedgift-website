@@ -33,6 +33,16 @@
   .admin-check { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--ink-soft); margin-top: 10px; }
   .admin-state { text-align: center; color: var(--ink-soft); padding: 60px 20px; }
   .admin-error { color: #b3452f; }
+
+  .admin-plan-panel { background: var(--cream-card); border-radius: 12px; padding: 16px; margin-top: 12px; }
+  .admin-plan-field { display: block; font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 12px; }
+  .admin-plan-field input, .admin-plan-field select { display: block; width: 100%; margin-top: 4px; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); font-family: inherit; }
+  .admin-plan-table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
+  .admin-plan-table th { text-align: left; font-size: 0.75rem; color: var(--ink-soft); padding: 4px 6px; }
+  .admin-plan-table td { padding: 3px; }
+  .admin-plan-table input { width: 100%; padding: 7px 8px; border-radius: 6px; border: 1px solid var(--line); font-family: inherit; font-size: 0.85rem; }
+  .plan-row-remove { border: none; background: none; color: var(--ink-soft); cursor: pointer; font-size: 1rem; padding: 0 6px; }
+  .admin-plan-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
 </style>
 </head>
 <body>
@@ -136,6 +146,12 @@
             '<input type="checkbox" class="admin-checkbox" data-id="' + id + '" ' + (isHandled ? 'checked' : '') + '>' +
             '対応済みにする' +
           '</label>' +
+          '<div style="margin-top:10px;">' +
+            '<button type="button" class="btn btn-outline admin-plan-toggle" data-index="' + index + '">プランを作成する</button>' +
+          '</div>' +
+          '<div class="admin-plan-panel" id="planPanel-' + index + '" hidden>' +
+            planRowTemplate(index) +
+          '</div>' +
         '</div>'
       );
     }).join('');
@@ -150,6 +166,122 @@
         }
         localStorage.setItem('gitedgift_admin_handled', JSON.stringify(handledIds));
         checkbox.closest('.admin-card').classList.toggle('is-handled', checkbox.checked);
+      });
+    });
+
+    Array.prototype.forEach.call(document.querySelectorAll('.admin-plan-toggle'), function (btn) {
+      btn.addEventListener('click', function () {
+        var panel = document.getElementById('planPanel-' + btn.dataset.index);
+        if (panel) panel.hidden = !panel.hidden;
+      });
+    });
+
+    Array.prototype.forEach.call(document.querySelectorAll('.admin-plan-panel'), function (panel) {
+      wirePlanPanel(panel, items[Number(panel.id.split('-')[1])]);
+    });
+  }
+
+  function planRowTemplate(index) {
+    return (
+      '<label class="admin-plan-field">プランタイトル' +
+        '<input type="text" class="plan-title-input" placeholder="例：軽井沢 1泊2日プラン">' +
+      '</label>' +
+      '<table class="admin-plan-table">' +
+        '<thead><tr><th>時間</th><th>場所</th><th>移動手段</th><th>備考</th><th></th></tr></thead>' +
+        '<tbody class="plan-rows-body">' + planRowHtml() + '</tbody>' +
+      '</table>' +
+      '<button type="button" class="btn btn-outline plan-add-row">＋ 行を追加</button>' +
+      '<label class="admin-plan-field">ステータス' +
+        '<select class="plan-status-select">' +
+          '<option value="ご提案中">ご提案中</option>' +
+          '<option value="調整中">調整中</option>' +
+          '<option value="確定済み">確定済み</option>' +
+        '</select>' +
+      '</label>' +
+      '<div class="admin-plan-actions">' +
+        '<span class="plan-send-status" style="font-size:0.8rem;color:var(--ink-soft);"></span>' +
+        '<button type="button" class="btn btn-primary plan-send-btn">マイページに送信する</button>' +
+      '</div>'
+    );
+  }
+
+  function planRowHtml() {
+    return (
+      '<tr class="plan-row">' +
+        '<td><input type="text" class="plan-time" placeholder="10:00"></td>' +
+        '<td><input type="text" class="plan-place" placeholder="東京駅"></td>' +
+        '<td><input type="text" class="plan-transport" placeholder="新幹線"></td>' +
+        '<td><input type="text" class="plan-notes" placeholder=""></td>' +
+        '<td><button type="button" class="plan-row-remove">×</button></td>' +
+      '</tr>'
+    );
+  }
+
+  function wirePlanPanel(panel, item) {
+    var rowsBody = panel.querySelector('.plan-rows-body');
+
+    panel.querySelector('.plan-add-row').addEventListener('click', function () {
+      rowsBody.insertAdjacentHTML('beforeend', planRowHtml());
+    });
+
+    rowsBody.addEventListener('click', function (e) {
+      if (!e.target.classList.contains('plan-row-remove')) return;
+      var rows = rowsBody.querySelectorAll('.plan-row');
+      if (rows.length <= 1) return;
+      e.target.closest('.plan-row').remove();
+    });
+
+    panel.querySelector('.plan-send-btn').addEventListener('click', function () {
+      var title = panel.querySelector('.plan-title-input').value.trim();
+      var status = panel.querySelector('.plan-status-select').value;
+      var statusEl = panel.querySelector('.plan-send-status');
+
+      if (!item || !item.email) {
+        statusEl.textContent = 'この依頼にメールアドレスがないため送信できません。';
+        return;
+      }
+      if (!title) {
+        statusEl.textContent = 'プランタイトルを入力してください。';
+        return;
+      }
+
+      var schedule = Array.prototype.map.call(rowsBody.querySelectorAll('.plan-row'), function (row) {
+        return {
+          time: row.querySelector('.plan-time').value.trim(),
+          place: row.querySelector('.plan-place').value.trim(),
+          transport: row.querySelector('.plan-transport').value.trim(),
+          notes: row.querySelector('.plan-notes').value.trim(),
+        };
+      }).filter(function (row) {
+        return row.time || row.place || row.transport || row.notes;
+      });
+
+      if (schedule.length === 0) {
+        statusEl.textContent = 'スケジュールを1行以上入力してください。';
+        return;
+      }
+
+      if (!SITE_CONFIG.SUBMISSION_ENDPOINT || SITE_CONFIG.SUBMISSION_ENDPOINT.indexOf('script.google.com') === -1) {
+        statusEl.textContent = 'config.js の SUBMISSION_ENDPOINT が未設定です。';
+        return;
+      }
+
+      fetch(SITE_CONFIG.SUBMISSION_ENDPOINT, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({
+          type: 'plan',
+          email: item.email,
+          title: title,
+          page: item.page || '',
+          schedule: schedule,
+          status: status,
+        }),
+      }).then(function () {
+        statusEl.textContent = '送信しました。マイページに反映されます。';
+      }).catch(function () {
+        statusEl.textContent = '送信に失敗しました。時間をおいて再度お試しください。';
       });
     });
   }

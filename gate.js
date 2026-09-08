@@ -97,6 +97,10 @@
         alert('6桁のコードを入力してください。');
         return;
       }
+      const emailInput = document.getElementById('loginEmailInput');
+      if (emailInput && emailInput.value.trim()) {
+        localStorage.setItem('gitedgift_user_email', emailInput.value.trim());
+      }
       closeGate();
       window.location.href = 'mypage.html';
     });

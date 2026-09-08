@@ -546,7 +546,18 @@ img { max-width: 100%; display: block; }
 .status-badge--progress { background: #EFE4CC; color: var(--ink-soft); }
 
 .proposal-date { font-size: 0.78rem; color: var(--ink-soft); }
-.proposal-link { font-size: 0.85rem; font-weight: 700; color: var(--gold-deep); }
+.proposal-link { font-size: 0.85rem; font-weight: 700; color: var(--gold-deep); background: none; border: none; cursor: pointer; font-family: inherit; padding: 0; }
+
+.proposal-schedule { margin-top: 14px; width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.proposal-schedule th, .proposal-schedule td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--line); }
+.proposal-schedule th { color: var(--ink-soft); font-weight: 700; }
+
+.proposal-email-gate { background: var(--cream-card); border-radius: 16px; padding: 20px 24px; margin-bottom: 24px; }
+.proposal-email-gate p { margin-bottom: 12px; color: var(--ink-soft); font-size: 0.9rem; }
+.proposal-email-gate-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.proposal-email-gate-row input { flex: 1; min-width: 200px; padding: 10px 14px; border-radius: 10px; border: 1px solid var(--line); font-family: inherit; }
+
+.mypage-state { text-align: center; color: var(--ink-soft); padding: 40px 20px; }
 
 .mypage-cta { padding: 20px 0 90px; }
 

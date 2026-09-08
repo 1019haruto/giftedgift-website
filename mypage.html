@@ -41,43 +41,16 @@
   <section class="mypage-list wrap">
     <h2 class="mypage-heading">ご提案・ギフト一覧</h2>
 
-    <div class="proposal-card">
-      <div class="proposal-main">
-        <span class="proposal-tag">ギフト × 旅行</span>
-        <h3>軽井沢 1泊2日プラン</h3>
-        <p>記念日旅行のご相談内容をもとに、宿泊先と当日のスケジュール案をご用意しました。</p>
-      </div>
-      <div class="proposal-side">
-        <span class="status-badge status-badge--pending">ご提案中</span>
-        <span class="proposal-date">更新日：9/5</span>
-        <a href="#" class="proposal-link">詳細を見る →</a>
+    <div id="emailGate" class="proposal-email-gate" hidden>
+      <p>ご相談時にご入力いただいたメールアドレスを入力してください。</p>
+      <div class="proposal-email-gate-row">
+        <input type="email" id="myEmailInput" placeholder="example@mail.com">
+        <button type="button" class="btn btn-primary" id="myEmailSubmit">確認する</button>
       </div>
     </div>
 
-    <div class="proposal-card">
-      <div class="proposal-main">
-        <span class="proposal-tag">ギフト選定</span>
-        <h3>母の日ギフト（花束 + スイーツ）</h3>
-        <p>ご予算とご希望のデザインに合わせて、花束とスイーツの組み合わせをご提案しました。</p>
-      </div>
-      <div class="proposal-side">
-        <span class="status-badge status-badge--done">確定済み</span>
-        <span class="proposal-date">更新日：8/20</span>
-        <a href="#" class="proposal-link">詳細を見る →</a>
-      </div>
-    </div>
-
-    <div class="proposal-card">
-      <div class="proposal-main">
-        <span class="proposal-tag">1Dayプラン</span>
-        <h3>日帰り温泉プラン</h3>
-        <p>ご希望の雰囲気とご予算をもとに、日帰り温泉と食事のプランを調整しています。</p>
-      </div>
-      <div class="proposal-side">
-        <span class="status-badge status-badge--progress">調整中</span>
-        <span class="proposal-date">更新日：8/2</span>
-        <a href="#" class="proposal-link">詳細を見る →</a>
-      </div>
+    <div id="planList">
+      <div class="admin-state">読み込み中です…</div>
     </div>
   </section>
 
@@ -107,6 +80,131 @@
   </div>
 </footer>
 
+<script src="config.js"></script>
 <script src="script.js"></script>
+<script>
+(function () {
+  var emailGate = document.getElementById('emailGate');
+  var myEmailInput = document.getElementById('myEmailInput');
+  var myEmailSubmit = document.getElementById('myEmailSubmit');
+  var planList = document.getElementById('planList');
+
+  function statusClass(status) {
+    if (status === '確定済み') return 'status-badge--done';
+    if (status === '調整中') return 'status-badge--progress';
+    return 'status-badge--pending';
+  }
+
+  function escapeHtml(str) {
+    return String(str)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;');
+  }
+
+  function renderSchedule(raw) {
+    var rows;
+    try { rows = JSON.parse(raw); } catch (e) { rows = []; }
+    if (!Array.isArray(rows) || rows.length === 0) return '';
+
+    var body = rows.map(function (row) {
+      return (
+        '<tr>' +
+          '<td>' + escapeHtml(row.time || '') + '</td>' +
+          '<td>' + escapeHtml(row.place || '') + '</td>' +
+          '<td>' + escapeHtml(row.transport || '') + '</td>' +
+          '<td>' + escapeHtml(row.notes || '') + '</td>' +
+        '</tr>'
+      );
+    }).join('');
+
+    return (
+      '<table class="proposal-schedule" hidden>' +
+        '<thead><tr><th>時間</th><th>場所</th><th>移動手段</th><th>備考</th></tr></thead>' +
+        '<tbody>' + body + '</tbody>' +
+      '</table>'
+    );
+  }
+
+  function renderPlans(items) {
+    if (items.length === 0) {
+      planList.innerHTML = '<div class="mypage-state">まだご提案はありません。ご相談いただくと、こちらに表示されます。</div>';
+      return;
+    }
+
+    planList.innerHTML = items.map(function (item) {
+      var dateStr = item.date ? new Date(item.date).toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric' }) : '';
+      var scheduleHtml = renderSchedule(item.schedule);
+
+      return (
+        '<div class="proposal-card">' +
+          '<div class="proposal-main">' +
+            '<span class="proposal-tag">' + escapeHtml(item.page || '') + '</span>' +
+            '<h3>' + escapeHtml(item.title || '') + '</h3>' +
+            scheduleHtml +
+          '</div>' +
+          '<div class="proposal-side">' +
+            '<span class="status-badge ' + statusClass(item.status) + '">' + escapeHtml(item.status || 'ご提案中') + '</span>' +
+            '<span class="proposal-date">更新日：' + escapeHtml(dateStr) + '</span>' +
+            '<a href="#" class="proposal-link proposal-toggle">詳細を見る →</a>' +
+          '</div>' +
+        '</div>'
+      );
+    }).join('');
+
+    Array.prototype.forEach.call(document.querySelectorAll('.proposal-toggle'), function (link) {
+      link.addEventListener('click', function (e) {
+        e.preventDefault();
+        var card = link.closest('.proposal-card');
+        var table = card.querySelector('.proposal-schedule');
+        if (table) {
+          table.hidden = !table.hidden;
+          link.textContent = table.hidden ? '詳細を見る →' : '閉じる ↑';
+        }
+      });
+    });
+  }
+
+  function loadPlans(email) {
+    planList.innerHTML = '<div class="mypage-state">読み込み中です…</div>';
+
+    if (typeof SITE_CONFIG === 'undefined' || !SITE_CONFIG.SUBMISSION_ENDPOINT ||
+        SITE_CONFIG.SUBMISSION_ENDPOINT.indexOf('script.google.com') === -1) {
+      planList.innerHTML = '<div class="mypage-state">config.js の SUBMISSION_ENDPOINT が未設定のため読み込めません。</div>';
+      return;
+    }
+
+    var url = SITE_CONFIG.SUBMISSION_ENDPOINT + '?action=myplans&email=' + encodeURIComponent(email);
+    fetch(url)
+      .then(function (res) { return res.json(); })
+      .then(function (data) { renderPlans(data || []); })
+      .catch(function () {
+        planList.innerHTML = '<div class="mypage-state">読み込みに失敗しました。時間をおいて再度お試しください。</div>';
+      });
+  }
+
+  var savedEmail = localStorage.getItem('gitedgift_user_email');
+  if (savedEmail) {
+    loadPlans(savedEmail);
+  } else {
+    emailGate.hidden = false;
+    planList.innerHTML = '';
+  }
+
+  if (myEmailSubmit) {
+    myEmailSubmit.addEventListener('click', function () {
+      var email = myEmailInput.value.trim();
+      if (!email) {
+        alert('メールアドレスを入力してください。');
+        return;
+      }
+      localStorage.setItem('gitedgift_user_email', email);
+      emailGate.hidden = true;
+      loadPlans(email);
+    });
+  }
+})();
+</script>
 </body>
 </html>
