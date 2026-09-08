@@ -26,7 +26,7 @@
       <a href="index.html#travel">ギフト×旅行</a>
       <a href="index.html#flow">ご利用の流れ</a>
       <a href="index.html#about">私たちについて</a>
-      <a href="index.html#contact" class="nav-cta">無料相談を予約する</a>
+      <button type="button" class="nav-cta" id="navMyGift">マイギフト</button>
     </nav>
   </div>
 </header>
@@ -180,8 +180,45 @@
   </div>
 </footer>
 
+<div class="gate-overlay" id="gateOverlay" hidden>
+  <div class="gate-modal">
+    <button class="gate-close" id="gateClose" type="button" aria-label="閉じる">×</button>
+
+    <div class="gate-step" id="gateChoice">
+      <h3>ご利用方法をお選びください</h3>
+      <p>初めての方も、以前ご相談いただいた方も、こちらからどうぞ。</p>
+      <div class="gate-actions">
+        <button type="button" class="btn btn-primary" id="gateNewUser">新規利用でお申し込み</button>
+        <button type="button" class="btn btn-outline" id="gateLogin">ログイン</button>
+      </div>
+    </div>
+
+    <div class="gate-step" id="gateLoginEmail" hidden>
+      <h3>ログイン</h3>
+      <p>ご登録のメールアドレスに確認コードをお送りします。</p>
+      <label class="gate-field">メールアドレス
+        <input type="email" id="loginEmailInput" placeholder="example@mail.com">
+      </label>
+      <button type="button" class="btn btn-primary" id="sendCodeBtn">コードを送信する</button>
+      <button type="button" class="gate-back" id="backToChoice1">← 戻る</button>
+    </div>
+
+    <div class="gate-step" id="gateLoginCode" hidden>
+      <h3>確認コードを入力</h3>
+      <p id="codeSentTo"></p>
+      <label class="gate-field">確認コード（6桁）
+        <input type="text" id="loginCodeInput" maxlength="6" inputmode="numeric" placeholder="123456">
+      </label>
+      <button type="button" class="btn btn-primary" id="verifyCodeBtn">ログイン</button>
+      <a href="#" class="gate-link" id="resendCodeLink">コードが届かない・お忘れの方はこちら</a>
+      <button type="button" class="gate-back" id="backToChoice2">← 戻る</button>
+    </div>
+  </div>
+</div>
+
 <script src="config.js"></script>
 <script src="script.js"></script>
 <script src="plan.js"></script>
+<script src="gate.js"></script>
 </body>
 </html>

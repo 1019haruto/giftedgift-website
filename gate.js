@@ -5,7 +5,7 @@
   const gateLoginCode = document.getElementById('gateLoginCode');
   const cards = document.querySelectorAll('.service-card[data-target]');
 
-  if (!overlay || !gateChoice || !gateLoginEmail || !gateLoginCode || cards.length === 0) {
+  if (!overlay || !gateChoice || !gateLoginEmail || !gateLoginCode) {
     return;
   }
 
