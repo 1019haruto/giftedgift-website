@@ -17,7 +17,6 @@ const contactForm = document.getElementById('contactForm');
 if (contactForm) {
   contactForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    const name = document.getElementById('contactName').value.trim();
     const email = document.getElementById('contactEmail').value.trim();
     const notes = document.getElementById('contactNotes').value.trim();
 
@@ -30,7 +29,7 @@ if (contactForm) {
         body: JSON.stringify({
           page: document.title,
           email: email,
-          categories: [{ name: '無料相談フォーム', fields: { 'お名前': name } }],
+          categories: [{ name: '無料相談フォーム', fields: {} }],
           notes: notes,
         }),
       }).catch(() => {
