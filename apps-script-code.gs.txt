@@ -46,7 +46,7 @@ function sendConfirmationEmail(email, code) {
     code + '\n\n' +
     '※このメールは送信専用です。ご返信いただいてもお答えできませんのでご了承ください。';
 
-  GmailApp.sendEmail(email, subject, body);
+  MailApp.sendEmail(email, subject, body);
 }
 
 function doGet(e) {
