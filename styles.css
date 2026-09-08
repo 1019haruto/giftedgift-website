@@ -269,10 +269,9 @@ img { max-width: 100%; display: block; }
   border-radius: 0;
   font-family: 'Yomogi', var(--font-body);
   font-style: italic;
-  font-size: 1.3rem;
+  font-size: 2rem;
   font-weight: 400;
   color: var(--sage-deep);
-  transform: rotate(-4deg);
 }
 
 .travel-copy h2 .en { font-size: 0.9rem; font-weight: 500; color: var(--sage-deep); margin-left: 8px; }
