@@ -74,6 +74,28 @@
   .admin-email-row-email { font-size: 0.95rem; font-weight: 700; color: var(--gold-deep); word-break: break-all; }
   .admin-email-row-meta { font-size: 0.78rem; color: var(--ink-soft); flex-shrink: 0; white-space: nowrap; }
   .admin-back-btn { margin-bottom: 16px; }
+
+  .admin-quick-panel { background: var(--cream-card); border: 1px solid var(--line); border-radius: 20px; padding: 20px 22px; margin: 24px 0; }
+  .admin-quick-panel h3 { font-size: 1rem; margin-bottom: 4px; }
+  .admin-quick-panel .admin-quick-sub { font-size: 0.78rem; color: var(--ink-soft); margin-bottom: 14px; }
+  .admin-quick-row {
+    display: block;
+    width: 100%;
+    text-align: left;
+    background: var(--cream);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+    font-family: inherit;
+    cursor: pointer;
+  }
+  .admin-quick-row:hover { background: #2A241D; }
+  .admin-quick-row:last-child { margin-bottom: 0; }
+  .admin-quick-top { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 4px; }
+  .admin-quick-email { font-size: 0.85rem; font-weight: 700; color: var(--gold-deep); word-break: break-all; }
+  .admin-quick-date { font-size: 0.75rem; color: var(--ink-soft); flex-shrink: 0; white-space: nowrap; }
+  .admin-quick-notes { font-size: 0.85rem; color: var(--ink); white-space: pre-wrap; }
 </style>
 </head>
 <body>
@@ -91,6 +113,8 @@
       <h1 style="font-size:1.3rem;">ご相談・依頼一覧</h1>
       <button type="button" class="btn btn-outline" id="reloadBtn">再読み込み</button>
     </header>
+
+    <div id="quickContactArea"></div>
 
     <div class="admin-toolbar">
       <input type="search" id="searchInput" placeholder="ページ・メールアドレス・内容で検索">
@@ -143,12 +167,58 @@
         }
         allItems = data || [];
         currentEmail = null;
+        renderQuickContacts(allItems);
         renderEmailList(allItems);
       })
       .catch(function () {
         document.getElementById('listArea').innerHTML =
           '<div class="admin-state admin-error">読み込みに失敗しました。Apps ScriptのURLやデプロイ設定をご確認ください。</div>';
       });
+  }
+
+  function isQuickContact(raw) {
+    var categories;
+    try { categories = JSON.parse(raw); } catch (e) { return false; }
+    if (!Array.isArray(categories)) return false;
+    return categories.some(function (cat) { return cat && cat.name === '無料相談フォーム'; });
+  }
+
+  function renderQuickContacts(items) {
+    var area = document.getElementById('quickContactArea');
+    var quickItems = items.filter(function (item) { return isQuickContact(item.categories); })
+      .sort(function (a, b) { return new Date(b.date || 0) - new Date(a.date || 0); });
+
+    if (quickItems.length === 0) {
+      area.innerHTML = '';
+      return;
+    }
+
+    area.innerHTML =
+      '<div class="admin-quick-panel">' +
+        '<h3>💬 簡易お問い合わせ（トップページのフォームより）</h3>' +
+        '<p class="admin-quick-sub">' + quickItems.length + '件 ・クリックでその方の詳細を表示します</p>' +
+        quickItems.map(function (item) {
+          var dateStr = item.date ? new Date(item.date).toLocaleString('ja-JP') : '';
+          return (
+            '<button type="button" class="admin-quick-row" data-email="' + escapeHtml(item.email || '') + '">' +
+              '<div class="admin-quick-top">' +
+                '<span class="admin-quick-email">' + escapeHtml(item.email || '（メールアドレスなし）') + '</span>' +
+                '<span class="admin-quick-date">' + escapeHtml(dateStr) + '</span>' +
+              '</div>' +
+              (item.notes ? '<div class="admin-quick-notes">' + escapeHtml(item.notes) + '</div>' : '') +
+            '</button>'
+          );
+        }).join('') +
+      '</div>';
+
+    Array.prototype.forEach.call(area.querySelectorAll('.admin-quick-row'), function (btn) {
+      btn.addEventListener('click', function () {
+        currentEmail = btn.dataset.email;
+        document.getElementById('searchInput').value = '';
+        renderEmailDetail(currentEmail);
+        document.getElementById('listArea').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
+    });
   }
 
   function renderEmailList(items) {
