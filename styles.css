@@ -286,6 +286,13 @@ img { max-width: 100%; display: block; }
 /* ---------- Flow ---------- */
 .flow { padding: 80px 0; }
 
+.flow-inner {
+  background: var(--cream-card);
+  border: 1px solid var(--line);
+  border-radius: 32px;
+  padding: 56px 40px;
+}
+
 .flow h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); }
 .flow-lead { color: var(--ink-soft); margin-bottom: 3em; }
 
@@ -422,6 +429,8 @@ img { max-width: 100%; display: block; }
 
   .travel-inner { grid-template-columns: 1fr; padding: 36px 28px; }
   .travel-photos { height: 300px; margin-top: 20px; }
+
+  .flow-inner { padding: 36px 24px; border-radius: 24px; }
 
   .audience-grid { grid-template-columns: 1fr; }
 
