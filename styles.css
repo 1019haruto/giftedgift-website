@@ -1,15 +1,15 @@
 /* ---------- Tokens ---------- */
 :root {
-  --cream: #FBF6EA;
-  --cream-card: #F4E9D3;
-  --ink: #2B2620;
-  --ink-soft: #6B6154;
-  --gold: #E8A33D;
-  --gold-deep: #CF8A22;
+  --cream: #14120F;
+  --cream-card: #211D18;
+  --ink: #F4EFE5;
+  --ink-soft: #B3A99A;
+  --gold: #F0B33D;
+  --gold-deep: #D99A2B;
   --sage: #6F8768;
-  --sage-deep: #56694F;
-  --sage-pale: #E7EEE1;
-  --line: rgba(43, 38, 32, 0.12);
+  --sage-deep: #7BC26E;
+  --sage-pale: #1E2A1B;
+  --line: rgba(255, 255, 255, 0.14);
 
   --font-display: "Zen Maru Gothic", sans-serif;
   --font-body: "Zen Kaku Gothic New", sans-serif;
@@ -71,11 +71,11 @@ img { max-width: 100%; display: block; }
 .btn-dark { background: var(--ink); color: var(--cream); }
 .btn-dark:hover { background: #000; }
 
-.btn-outline { background: #fff; color: var(--ink); border: 1px solid var(--line); }
-.btn-outline:hover { background: var(--cream-card); }
+.btn-outline { background: var(--cream-card); color: var(--ink); border: 1px solid var(--line); }
+.btn-outline:hover { background: #2A241D; }
 
-.btn-sage { background: var(--sage-deep); color: #fff; }
-.btn-sage:hover { background: #46563f; }
+.btn-sage { background: #4A7A42; color: #fff; }
+.btn-sage:hover { background: #3F6B38; }
 
 .btn-large { padding: 16px 34px; font-size: 1rem; width: 100%; }
 
@@ -83,7 +83,7 @@ img { max-width: 100%; display: block; }
 .site-header {
   position: sticky;
   top: 0;
-  background: rgba(251, 246, 234, 0.9);
+  background: rgba(20, 18, 15, 0.85);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
   z-index: 100;
@@ -178,10 +178,10 @@ img { max-width: 100%; display: block; }
   box-shadow: 0 16px 28px -20px rgba(43, 38, 32, 0.35);
 }
 
-.service-card--pink { background: #FCEEF1; --accent: #D9829A; }
-.service-card--teal { background: #E9F5F3; --accent: #3E9E92; }
-.service-card--gold { background: #FCF2E1; --accent: #D9A441; }
-.service-card--purple { background: #F3EEFA; --accent: #9B7FC4; }
+.service-card--pink { background: #2A1A1E; --accent: #E38FA8; }
+.service-card--teal { background: #12241F; --accent: #4FC2B0; }
+.service-card--gold { background: #2A2013; --accent: #E8B84F; }
+.service-card--purple { background: #201A2A; --accent: #B296DE; }
 
 .service-photo-wrap {
   position: relative;
@@ -261,14 +261,14 @@ img { max-width: 100%; display: block; }
   align-items: center;
 }
 
-.badge-light { position: static; display: inline-block; background: #fff; color: var(--sage-deep); margin-bottom: 1em; }
+.badge-light { position: static; display: inline-block; background: #fff; color: #3F6B38; margin-bottom: 1em; }
 
 .travel-copy h2 .en { font-size: 0.9rem; font-weight: 500; color: var(--sage-deep); margin-left: 8px; }
 
-.travel-copy p { color: #3F4A3B; }
+.travel-copy p { color: #C7D4BF; }
 
 .feature-list { list-style: none; margin: 1.2em 0 1.6em; padding: 0; display: flex; flex-direction: column; gap: 10px; }
-.feature-list li { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: #3F4A3B; }
+.feature-list li { display: flex; align-items: center; gap: 10px; font-size: 0.9rem; color: #C7D4BF; }
 .feature-icon { font-size: 1.1rem; }
 
 .travel-photos { position: relative; height: 400px; }
@@ -318,13 +318,13 @@ img { max-width: 100%; display: block; }
 
 .audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
 
-.audience-card { background: #fff; border-radius: 24px; overflow: hidden; border: 1px solid var(--line); }
+.audience-card { background: var(--cream-card); border-radius: 24px; overflow: hidden; border: 1px solid var(--line); }
 
 .audience-card img { width: 100%; height: 220px; object-fit: cover; }
 
 .audience-body { padding: 26px 26px 30px; }
 
-.badge-gold { position: static; display: inline-block; background: var(--gold); color: var(--ink); margin-bottom: 0.8em; }
+.badge-gold { position: static; display: inline-block; background: var(--gold); color: #2B2620; margin-bottom: 0.8em; }
 .badge-sage { position: static; display: inline-block; background: var(--sage-pale); color: var(--sage-deep); margin-bottom: 0.8em; }
 
 .audience-body h3 { font-size: 1.15rem; }
@@ -336,7 +336,7 @@ img { max-width: 100%; display: block; }
 .first-time-card {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background: #fff;
+  background: var(--cream-card);
   border: 1px solid var(--line);
   border-radius: 24px;
   overflow: hidden;
@@ -397,7 +397,7 @@ img { max-width: 100%; display: block; }
 .contact-form input::placeholder, .contact-form textarea::placeholder { color: var(--ink-soft); }
 
 /* ---------- Footer ---------- */
-.site-footer { background: var(--ink); color: #D8D2C8; padding: 44px 0; }
+.site-footer { background: #0A0908; color: #C9C2B4; padding: 44px 0; }
 
 .footer-inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; font-size: 0.85rem; }
 
@@ -468,7 +468,7 @@ img { max-width: 100%; display: block; }
 .gate-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(43, 38, 32, 0.55);
+  background: rgba(0, 0, 0, 0.65);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -481,7 +481,7 @@ img { max-width: 100%; display: block; }
 }
 
 .gate-modal {
-  background: var(--cream);
+  background: var(--cream-card);
   border-radius: 24px;
   padding: 40px 36px;
   max-width: 420px;
@@ -557,7 +557,7 @@ img { max-width: 100%; display: block; }
 .mypage-heading { font-size: 1.2rem; margin-bottom: 24px; }
 
 .proposal-card {
-  background: #fff;
+  background: var(--cream-card);
   border: 1px solid var(--line);
   border-radius: 20px;
   padding: 24px 26px;
@@ -597,9 +597,9 @@ img { max-width: 100%; display: block; }
   padding: 4px 12px;
   border-radius: 999px;
 }
-.status-badge--pending { background: #FDECC8; color: #8C6D2F; }
-.status-badge--done { background: #E7EEE1; color: var(--sage-deep); }
-.status-badge--progress { background: #EFE4CC; color: var(--ink-soft); }
+.status-badge--pending { background: #3A2E14; color: #F0C877; }
+.status-badge--done { background: var(--sage-pale); color: var(--sage-deep); }
+.status-badge--progress { background: #2E2818; color: var(--ink-soft); }
 
 .proposal-date { font-size: 0.78rem; color: var(--ink-soft); }
 .proposal-link { font-size: 0.85rem; font-weight: 700; color: var(--gold-deep); background: none; border: none; cursor: pointer; font-family: inherit; padding: 0; }

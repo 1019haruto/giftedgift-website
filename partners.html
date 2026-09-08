@@ -9,9 +9,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --cream:#FBF6EC; --paper:#F3E8D3; --paper-deep:#EADCC0; --ink:#3C362B; --ink-soft:#6B6154;
-    --gold:#F2A93D; --gold-deep:#D9861F; --sage:#7C9473; --sage-deep:#5F7554;
-    --line:rgba(60,54,43,0.14);
+    --cream:#14120F; --paper:#211D18; --paper-deep:#2A241D; --ink:#F4EFE5; --ink-soft:#B3A99A;
+    --gold:#F0B33D; --gold-deep:#D99A2B; --sage:#7C9473; --sage-deep:#7BC26E;
+    --line:rgba(255,255,255,0.14);
   }
   *{box-sizing:border-box;}
   body{margin:0; background:var(--cream); color:var(--ink); font-family:'Zen Kaku Gothic New',sans-serif; line-height:1.75;}
@@ -19,7 +19,7 @@
   a{color:inherit; text-decoration:none;}
   .wrap{max-width:1120px; margin:0 auto; padding:0 28px;}
 
-  header{position:sticky; top:0; z-index:20; background:rgba(251,246,236,0.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  header{position:sticky; top:0; z-index:20; background:rgba(20,18,15,0.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
   .nav{display:flex; align-items:center; justify-content:space-between; padding:14px 28px; max-width:1120px; margin:0 auto;}
   .back-link{font-size:0.88rem; font-weight:600; color:var(--ink-soft); display:flex; align-items:center; gap:6px;}
   .back-link:hover{color:var(--ink);}
@@ -40,13 +40,13 @@
 
   .partner-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:14px;}
   .partner-card{
-    background:#fff; border:1px solid var(--line); border-radius:16px; padding:18px 18px 16px;
+    background:var(--paper); border:1px solid var(--line); border-radius:16px; padding:18px 18px 16px;
     display:flex; flex-direction:column; gap:8px; transition:transform .15s ease, box-shadow .15s ease;
   }
   .partner-card:hover{transform:translateY(-2px); box-shadow:0 14px 26px -18px rgba(60,54,43,0.35);}
   .partner-name{font-weight:700; font-size:0.98rem;}
   .partner-desc{font-size:0.82rem; color:var(--ink-soft); flex:1;}
-  .partner-asp{font-size:0.72rem; color:var(--sage-deep); background:var(--sage-soft, #EAF0E6); display:inline-block; padding:2px 10px; border-radius:12px; align-self:flex-start;}
+  .partner-asp{font-size:0.72rem; color:var(--sage-deep); background:var(--sage-soft, #1E2A1B); display:inline-block; padding:2px 10px; border-radius:12px; align-self:flex-start;}
   .partner-link{
     margin-top:6px; font-size:0.82rem; font-weight:700; color:var(--gold-deep);
     display:flex; align-items:center; gap:6px;
