@@ -215,7 +215,7 @@ if (sendEmailBtn) {
 
     if (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.SUBMISSION_ENDPOINT &&
         SITE_CONFIG.SUBMISSION_ENDPOINT.indexOf('script.google.com') !== -1) {
-      const payload = Object.assign(collectRequestSummary(), { email: email });
+      const payload = Object.assign(collectRequestSummary(), { email: email, code: code });
       fetch(SITE_CONFIG.SUBMISSION_ENDPOINT, {
         method: 'POST',
         mode: 'no-cors',

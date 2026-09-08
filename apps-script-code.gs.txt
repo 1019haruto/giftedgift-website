@@ -29,7 +29,24 @@ function doPost(e) {
     data.notes || ''
   ]);
 
+  if (data.email && data.code) {
+    sendConfirmationEmail(data.email, data.code);
+  }
+
   return jsonOutput({ result: 'ok' });
+}
+
+function sendConfirmationEmail(email, code) {
+  var subject = '【GIFTED×GIFT】ご相談内容を受け付けました';
+  var body =
+    email + ' 様\n\n' +
+    'この度はGIFTED×GIFTへご相談いただき、誠にありがとうございます。\n' +
+    '内容を確認のうえ、担当より改めてご連絡させていただきます。\n\n' +
+    '▼確認コード（次回のマイページログインにご利用いただけます）\n' +
+    code + '\n\n' +
+    '※このメールは送信専用です。ご返信いただいてもお答えできませんのでご了承ください。';
+
+  GmailApp.sendEmail(email, subject, body);
 }
 
 function doGet(e) {
