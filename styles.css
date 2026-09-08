@@ -263,6 +263,15 @@ img { max-width: 100%; display: block; }
 
 .badge-light { position: static; display: inline-block; background: #fff; color: #3F6B38; margin-bottom: 1em; }
 
+.badge-handwritten {
+  font-family: 'Yomogi', var(--font-body);
+  font-size: 1.15rem;
+  font-weight: 400;
+  padding: 5px 16px;
+  border-radius: 8px;
+  transform: rotate(-4deg);
+}
+
 .travel-copy h2 .en { font-size: 0.9rem; font-weight: 500; color: var(--sage-deep); margin-left: 8px; }
 
 .travel-copy p { color: #C7D4BF; }
