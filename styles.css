@@ -115,6 +115,7 @@ img { max-width: 100%; display: block; }
   border-radius: 32px;
   background: var(--cream-card);
   overflow: hidden;
+  padding: 0;
 }
 
 .hero-copy {
