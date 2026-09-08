@@ -54,10 +54,13 @@
         <input type="checkbox" data-target="cat-cake"> ケーキ
       </label>
       <label class="category-chip">
-        <input type="checkbox" data-target="cat-stay"> ステイ
+        <input type="checkbox" data-target="cat-stay"> ホテル
       </label>
       <label class="category-chip">
         <input type="checkbox" data-target="cat-transport"> 移動手段
+      </label>
+      <label class="category-chip">
+        <input type="checkbox" data-target="cat-meal"> 食事
       </label>
       <label class="category-chip">
         <input type="checkbox" data-target="cat-recipient"> 贈る相手
@@ -151,9 +154,9 @@
       </div>
     </div>
 
-    <!-- ステイ -->
+    <!-- ホテル -->
     <div class="category-panel" id="cat-stay" hidden>
-      <h3>🏨 ステイ</h3>
+      <h3>🏨 ホテル</h3>
       <div class="field-grid">
         <label>希望価格（1泊あたり）
           <select>
@@ -201,6 +204,29 @@
         <label><input type="checkbox"> 車・レンタカー</label>
         <label><input type="checkbox"> バス</label>
         <label><input type="checkbox"> 船</label>
+      </div>
+    </div>
+
+    <!-- 食事 -->
+    <div class="category-panel" id="cat-meal" hidden>
+      <h3>🍽️ 食事</h3>
+      <div class="field-grid">
+        <label>希望価格（お一人あたり）
+          <select>
+            <option>¥3,000未満</option>
+            <option>¥3,000〜8,000</option>
+            <option>¥8,000〜15,000</option>
+            <option>¥15,000以上</option>
+          </select>
+        </label>
+        <label>希望ジャンル
+          <select>
+            <option>和食</option>
+            <option>フレンチ・イタリアン</option>
+            <option>カフェ・スイーツ</option>
+            <option>個室・記念日利用向け</option>
+          </select>
+        </label>
       </div>
     </div>
 
