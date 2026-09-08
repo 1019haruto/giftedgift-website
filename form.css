@@ -94,6 +94,13 @@ select, .field-grid input[type="text"] {
   color: #F3F6FA;
 }
 
+.field-grid input[type="text"]::placeholder,
+.notes-field textarea::placeholder,
+.panel-notes textarea::placeholder {
+  color: #A9B9CE;
+  opacity: 1;
+}
+
 .checkbox-row {
   display: flex;
   flex-wrap: wrap;
