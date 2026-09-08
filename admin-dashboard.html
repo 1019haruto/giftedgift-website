@@ -54,6 +54,10 @@
   .plan-row-remove { border: none; background: none; color: var(--ink-soft); cursor: pointer; font-size: 1rem; padding: 0 6px; }
   .admin-plan-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
 
+  .admin-shiori-panel { background: var(--cream); border-radius: 12px; padding: 16px; margin-top: 12px; border: 1px dashed var(--line); }
+  .admin-shiori-panel h4 { font-size: 0.92rem; margin-bottom: 12px; }
+  .admin-shiori-panel textarea { display: block; width: 100%; margin-top: 4px; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); font-family: inherit; background: var(--cream-card); color: var(--ink); resize: vertical; }
+
   .admin-email-row {
     display: flex;
     justify-content: space-between;
@@ -372,38 +376,85 @@
           '<button type="button" class="btn btn-outline plan-pdf-btn">PDF作成</button>' +
           '<button type="button" class="btn btn-primary plan-send-btn">マイギフトに送信</button>' +
         '</div>' +
+      '</div>' +
+      '<div class="admin-shiori-panel" hidden>' +
+        '<h4>🎒 旅のしおりカスタマイズ</h4>' +
+        '<label class="admin-plan-field">サブタイトル・キャッチコピー' +
+          '<input type="text" class="shiori-subtitle" placeholder="例：ふたりの記念日を彩る、特別な1泊2日">' +
+        '</label>' +
+        '<label class="admin-plan-field">持ち物・準備' +
+          '<textarea class="shiori-packing" rows="3" placeholder="例：カメラ、温泉用タオル、動きやすい靴　など"></textarea>' +
+        '</label>' +
+        '<label class="admin-plan-field">担当者からのメッセージ' +
+          '<textarea class="shiori-message" rows="3" placeholder="例：素敵な思い出になりますように、心を込めて準備いたしました。"></textarea>' +
+        '</label>' +
+        '<button type="button" class="btn btn-primary shiori-create-btn">しおりを作成する →</button>' +
       '</div>'
     );
   }
 
-  function openPlanPdf(title, email, schedule) {
+  function transportIcon(text) {
+    var t = text || '';
+    if (t.indexOf('飛行機') !== -1) return '✈️';
+    if (t.indexOf('新幹線') !== -1 || t.indexOf('電車') !== -1) return '🚄';
+    if (t.indexOf('バス') !== -1) return '🚌';
+    if (t.indexOf('船') !== -1) return '🛳️';
+    if (t.indexOf('車') !== -1 || t.indexOf('レンタカー') !== -1 || t.indexOf('タクシー') !== -1) return '🚗';
+    if (t.indexOf('徒歩') !== -1) return '🚶';
+    return '📍';
+  }
+
+  function openTravelShiori(title, subtitle, email, schedule, packing, message) {
     var rowsHtml = schedule.map(function (row) {
+      var metaParts = [];
+      if (row.transport) metaParts.push(row.transport);
+      if (row.notes) metaParts.push(row.notes);
       return (
-        '<tr>' +
-          '<td>' + escapeHtml(row.time || '') + '</td>' +
-          '<td>' + escapeHtml(row.place || '') + '</td>' +
-          '<td>' + escapeHtml(row.transport || '') + '</td>' +
-          '<td>' + escapeHtml(row.notes || '') + '</td>' +
-        '</tr>'
+        '<li>' +
+          '<span class="time">' + escapeHtml(row.time || '') + '</span>' +
+          '<div class="body">' +
+            '<div class="place">' + transportIcon(row.transport) + ' ' + escapeHtml(row.place || '') + '</div>' +
+            (metaParts.length ? '<div class="meta">' + escapeHtml(metaParts.join(' ・ ')) + '</div>' : '') +
+          '</div>' +
+        '</li>'
       );
     }).join('');
 
     var html =
       '<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">' +
       '<title>' + escapeHtml(title) + '</title>' +
+      '<link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">' +
       '<style>' +
-        'body{font-family:"Zen Kaku Gothic New",sans-serif;color:#2B2620;margin:40px;}' +
-        'h1{font-size:1.4rem;margin-bottom:4px;}' +
-        '.meta{color:#6B6154;font-size:0.85rem;margin-bottom:24px;}' +
-        'table{width:100%;border-collapse:collapse;}' +
-        'th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #ddd;font-size:0.9rem;}' +
-        'th{color:#6B6154;font-weight:700;}' +
-        '@media print{body{margin:20px;}}' +
+        '*{box-sizing:border-box;}' +
+        'body{font-family:"Zen Kaku Gothic New",sans-serif;color:#2B2620;margin:0;background:#fff;}' +
+        '.cover{background:linear-gradient(135deg,#F0B33D 0%,#F0BD68 100%);padding:64px 40px;text-align:center;-webkit-print-color-adjust:exact;print-color-adjust:exact;}' +
+        '.cover .label{font-size:0.78rem;letter-spacing:0.25em;text-transform:uppercase;opacity:0.75;margin-bottom:14px;}' +
+        '.cover h1{font-family:"Zen Maru Gothic",sans-serif;font-weight:900;font-size:2rem;margin:0 0 12px;}' +
+        '.cover .subtitle{font-size:1rem;}' +
+        '.content{padding:36px 44px 50px;max-width:720px;margin:0 auto;}' +
+        '.section-title{font-family:"Zen Maru Gothic",sans-serif;font-weight:700;font-size:1.05rem;border-left:5px solid #D99A2B;padding-left:12px;margin:30px 0 14px;}' +
+        '.timeline{list-style:none;padding:0;margin:0;}' +
+        '.timeline li{display:flex;gap:18px;padding:14px 4px;border-bottom:1px dashed #ddd;}' +
+        '.timeline .time{font-weight:700;color:#D99A2B;width:64px;flex-shrink:0;}' +
+        '.timeline .body{flex:1;}' +
+        '.timeline .place{font-weight:700;}' +
+        '.timeline .meta{font-size:0.85rem;color:#6B6154;margin-top:2px;}' +
+        '.message-box{background:#F4E9D3;border-radius:16px;padding:20px 24px;white-space:pre-wrap;line-height:1.8;font-size:0.92rem;}' +
+        '.footer{text-align:center;padding:36px 20px;font-size:0.8rem;color:#6B6154;}' +
+        '@media print{.cover{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}' +
       '</style></head><body>' +
-      '<h1>' + escapeHtml(title) + '</h1>' +
-      (email ? '<p class="meta">ご依頼者：' + escapeHtml(email) + '</p>' : '') +
-      '<table><thead><tr><th>時間</th><th>場所</th><th>移動手段</th><th>備考</th></tr></thead>' +
-      '<tbody>' + rowsHtml + '</tbody></table>' +
+      '<div class="cover">' +
+        '<div class="label">Travel Itinerary</div>' +
+        '<h1>' + escapeHtml(title) + '</h1>' +
+        (subtitle ? '<p class="subtitle">' + escapeHtml(subtitle) + '</p>' : '') +
+      '</div>' +
+      '<div class="content">' +
+        '<div class="section-title">📅 スケジュール</div>' +
+        '<ul class="timeline">' + rowsHtml + '</ul>' +
+        (packing ? '<div class="section-title">🎒 持ち物・準備</div><div class="message-box">' + escapeHtml(packing) + '</div>' : '') +
+        (message ? '<div class="section-title">💌 担当者より</div><div class="message-box">' + escapeHtml(message) + '</div>' : '') +
+      '</div>' +
+      '<div class="footer">GIFTED×GIFT' + (email ? ' — ' + escapeHtml(email) : '') + '</div>' +
       '</body></html>';
 
     var win = window.open('', '_blank');
@@ -415,7 +466,7 @@
     win.document.write(html);
     win.document.close();
     win.focus();
-    setTimeout(function () { win.print(); }, 200);
+    setTimeout(function () { win.print(); }, 300);
   }
 
   function planRowHtml() {
@@ -457,7 +508,13 @@
       e.target.closest('.plan-row').remove();
     });
 
+    var shioriPanel = panel.querySelector('.admin-shiori-panel');
+
     panel.querySelector('.plan-pdf-btn').addEventListener('click', function () {
+      shioriPanel.hidden = !shioriPanel.hidden;
+    });
+
+    shioriPanel.querySelector('.shiori-create-btn').addEventListener('click', function () {
       var title = panel.querySelector('.plan-title-input').value.trim();
       var statusEl = panel.querySelector('.plan-send-status');
       var schedule = collectSchedule(rowsBody);
@@ -471,7 +528,11 @@
         return;
       }
 
-      openPlanPdf(title, item && item.email, schedule);
+      var subtitle = shioriPanel.querySelector('.shiori-subtitle').value.trim();
+      var packing = shioriPanel.querySelector('.shiori-packing').value.trim();
+      var message = shioriPanel.querySelector('.shiori-message').value.trim();
+
+      openTravelShiori(title, subtitle, item && item.email, schedule, packing, message);
     });
 
     panel.querySelector('.plan-send-btn').addEventListener('click', function () {
