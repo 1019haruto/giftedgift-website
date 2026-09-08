@@ -368,9 +368,54 @@
       '</label>' +
       '<div class="admin-plan-actions">' +
         '<span class="plan-send-status" style="font-size:0.8rem;color:var(--ink-soft);"></span>' +
-        '<button type="button" class="btn btn-primary plan-send-btn">マイページに送信する</button>' +
+        '<div style="display:flex; gap:10px;">' +
+          '<button type="button" class="btn btn-outline plan-pdf-btn">PDF作成</button>' +
+          '<button type="button" class="btn btn-primary plan-send-btn">マイギフトに送信</button>' +
+        '</div>' +
       '</div>'
     );
+  }
+
+  function openPlanPdf(title, email, schedule) {
+    var rowsHtml = schedule.map(function (row) {
+      return (
+        '<tr>' +
+          '<td>' + escapeHtml(row.time || '') + '</td>' +
+          '<td>' + escapeHtml(row.place || '') + '</td>' +
+          '<td>' + escapeHtml(row.transport || '') + '</td>' +
+          '<td>' + escapeHtml(row.notes || '') + '</td>' +
+        '</tr>'
+      );
+    }).join('');
+
+    var html =
+      '<!DOCTYPE html><html lang="ja"><head><meta charset="UTF-8">' +
+      '<title>' + escapeHtml(title) + '</title>' +
+      '<style>' +
+        'body{font-family:"Zen Kaku Gothic New",sans-serif;color:#2B2620;margin:40px;}' +
+        'h1{font-size:1.4rem;margin-bottom:4px;}' +
+        '.meta{color:#6B6154;font-size:0.85rem;margin-bottom:24px;}' +
+        'table{width:100%;border-collapse:collapse;}' +
+        'th,td{text-align:left;padding:10px 12px;border-bottom:1px solid #ddd;font-size:0.9rem;}' +
+        'th{color:#6B6154;font-weight:700;}' +
+        '@media print{body{margin:20px;}}' +
+      '</style></head><body>' +
+      '<h1>' + escapeHtml(title) + '</h1>' +
+      (email ? '<p class="meta">ご依頼者：' + escapeHtml(email) + '</p>' : '') +
+      '<table><thead><tr><th>時間</th><th>場所</th><th>移動手段</th><th>備考</th></tr></thead>' +
+      '<tbody>' + rowsHtml + '</tbody></table>' +
+      '</body></html>';
+
+    var win = window.open('', '_blank');
+    if (!win) {
+      alert('ポップアップがブロックされました。ブラウザの設定でポップアップを許可してください。');
+      return;
+    }
+    win.document.open();
+    win.document.write(html);
+    win.document.close();
+    win.focus();
+    setTimeout(function () { win.print(); }, 200);
   }
 
   function planRowHtml() {
@@ -383,6 +428,19 @@
         '<td><button type="button" class="plan-row-remove">×</button></td>' +
       '</tr>'
     );
+  }
+
+  function collectSchedule(rowsBody) {
+    return Array.prototype.map.call(rowsBody.querySelectorAll('.plan-row'), function (row) {
+      return {
+        time: row.querySelector('.plan-time').value.trim(),
+        place: row.querySelector('.plan-place').value.trim(),
+        transport: row.querySelector('.plan-transport').value.trim(),
+        notes: row.querySelector('.plan-notes').value.trim(),
+      };
+    }).filter(function (row) {
+      return row.time || row.place || row.transport || row.notes;
+    });
   }
 
   function wirePlanPanel(panel, item) {
@@ -399,6 +457,23 @@
       e.target.closest('.plan-row').remove();
     });
 
+    panel.querySelector('.plan-pdf-btn').addEventListener('click', function () {
+      var title = panel.querySelector('.plan-title-input').value.trim();
+      var statusEl = panel.querySelector('.plan-send-status');
+      var schedule = collectSchedule(rowsBody);
+
+      if (!title) {
+        statusEl.textContent = 'プランタイトルを入力してください。';
+        return;
+      }
+      if (schedule.length === 0) {
+        statusEl.textContent = 'スケジュールを1行以上入力してください。';
+        return;
+      }
+
+      openPlanPdf(title, item && item.email, schedule);
+    });
+
     panel.querySelector('.plan-send-btn').addEventListener('click', function () {
       var title = panel.querySelector('.plan-title-input').value.trim();
       var status = panel.querySelector('.plan-status-select').value;
@@ -413,16 +488,7 @@
         return;
       }
 
-      var schedule = Array.prototype.map.call(rowsBody.querySelectorAll('.plan-row'), function (row) {
-        return {
-          time: row.querySelector('.plan-time').value.trim(),
-          place: row.querySelector('.plan-place').value.trim(),
-          transport: row.querySelector('.plan-transport').value.trim(),
-          notes: row.querySelector('.plan-notes').value.trim(),
-        };
-      }).filter(function (row) {
-        return row.time || row.place || row.transport || row.notes;
-      });
+      var schedule = collectSchedule(rowsBody);
 
       if (schedule.length === 0) {
         statusEl.textContent = 'スケジュールを1行以上入力してください。';
@@ -447,7 +513,7 @@
           status: status,
         }),
       }).then(function () {
-        statusEl.textContent = '送信しました。マイページに反映されます。';
+        statusEl.textContent = '送信しました。マイギフトに反映されます。';
       }).catch(function () {
         statusEl.textContent = '送信に失敗しました。時間をおいて再度お試しください。';
       });
