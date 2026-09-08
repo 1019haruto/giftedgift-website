@@ -299,6 +299,41 @@ img { max-width: 100%; display: block; }
 .check-list li { font-size: 0.88rem; color: var(--ink-soft); padding-left: 1.4em; position: relative; }
 .check-list li::before { content: "✓"; position: absolute; left: 0; color: var(--sage-deep); font-weight: 700; }
 
+.first-time-card {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.first-time-card:hover { transform: translateY(-3px); box-shadow: 0 16px 28px -20px rgba(43, 38, 32, 0.35); }
+.first-time-card img { width: 100%; height: 100%; min-height: 260px; object-fit: cover; display: block; }
+.first-time-body { padding: 32px 34px; display: flex; flex-direction: column; justify-content: center; gap: 10px; }
+.first-time-body h3 { font-size: 1.2rem; }
+.first-time-more { margin-top: 6px; font-size: 0.9rem; font-weight: 700; color: var(--gold-deep); }
+
+@media (max-width: 900px) {
+  .first-time-card { grid-template-columns: 1fr; }
+  .first-time-card img { height: 220px; min-height: 0; }
+}
+
+/* ---------- Testimonials ---------- */
+.testimonial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+
+.testimonial-card { background: var(--cream-card); border-radius: 20px; padding: 26px 24px; }
+
+.testimonial-quote { font-size: 0.92rem; color: var(--ink); margin: 0 0 16px; line-height: 1.75; }
+
+.testimonial-meta { font-size: 0.8rem; color: var(--ink-soft); font-weight: 700; }
+
+@media (max-width: 900px) {
+  .testimonial-grid { grid-template-columns: 1fr; }
+}
+
 /* ---------- Contact ---------- */
 .contact { padding: 20px 0 90px; }
 
