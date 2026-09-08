@@ -49,6 +49,14 @@ function collectRequestSummary() {
       .map((cb) => (cb.closest('label') ? cb.closest('label').textContent.trim() : cb.value));
     if (checked.length > 0) fields['選択項目'] = checked;
 
+    panel.querySelectorAll('textarea').forEach((textarea) => {
+      const value = textarea.value.trim();
+      if (!value) return;
+      const label = textarea.closest('label');
+      const labelText = label ? label.childNodes[0].textContent.trim() : (textarea.id || '備考');
+      fields[labelText] = value;
+    });
+
     summary.categories.push({ name: heading ? heading.textContent.trim() : '', fields });
   });
 
