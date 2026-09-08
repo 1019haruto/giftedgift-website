@@ -194,10 +194,10 @@
         <p class="contact-free">相談は無料です。</p>
       </div>
 
-      <form class="contact-form" onsubmit="event.preventDefault(); alert('送信ありがとうございます（デモ画面です）');">
-        <input type="text" placeholder="お名前" required>
-        <input type="email" placeholder="メールアドレス" required>
-        <textarea placeholder="ご相談内容（任意）" rows="3"></textarea>
+      <form class="contact-form" id="contactForm">
+        <input type="text" id="contactName" placeholder="お名前" required>
+        <input type="email" id="contactEmail" placeholder="メールアドレス" required>
+        <textarea id="contactNotes" placeholder="ご相談内容（任意）" rows="3"></textarea>
         <button type="submit" class="btn btn-dark btn-large">無料相談を予約する →</button>
       </form>
     </div>
@@ -260,6 +260,7 @@
   </div>
 </div>
 
+<script src="config.js"></script>
 <script src="script.js"></script>
 <script src="gate.js"></script>
 </body>
