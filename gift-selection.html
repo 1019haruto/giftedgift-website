@@ -45,6 +45,7 @@
       <label class="category-chip"><input type="checkbox" data-target="cat-goods"> 物品</label>
       <label class="category-chip"><input type="checkbox" data-target="cat-flower"> 花束</label>
       <label class="category-chip"><input type="checkbox" data-target="cat-cake"> ケーキ</label>
+      <label class="category-chip"><input type="checkbox" data-target="cat-recipient"> 贈る相手</label>
     </div>
 
     <p class="empty-hint" id="emptyHint">上のチェックボックスから、贈りたい内容を選んでください。</p>
@@ -125,6 +126,41 @@
           </select>
         </label>
       </div>
+    </div>
+
+    <!-- 贈る相手 -->
+    <div class="category-panel" id="cat-recipient" hidden>
+      <h3>👤 ギフトあげる相手ってどんな人？</h3>
+      <div class="field-grid">
+        <label>ご関係
+          <select>
+            <option>家族</option>
+            <option>恋人・パートナー</option>
+            <option>友人</option>
+            <option>職場関係</option>
+            <option>その他</option>
+          </select>
+        </label>
+        <label>年代
+          <select>
+            <option>10代</option>
+            <option>20代</option>
+            <option>30代</option>
+            <option>40代</option>
+            <option>50代以上</option>
+          </select>
+        </label>
+        <label>性別
+          <select>
+            <option>指定なし</option>
+            <option>女性</option>
+            <option>男性</option>
+          </select>
+        </label>
+      </div>
+      <label class="panel-notes">相手についての備考
+        <textarea rows="3" placeholder="好きなもの、苦手なもの、性格、エピソードなど自由にご記入ください"></textarea>
+      </label>
     </div>
 
     <div class="notes-field">
