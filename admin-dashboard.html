@@ -53,6 +53,27 @@
   .admin-plan-table input { width: 100%; padding: 7px 8px; border-radius: 6px; border: 1px solid var(--line); font-family: inherit; font-size: 0.85rem; background: var(--cream-card); color: var(--ink); }
   .plan-row-remove { border: none; background: none; color: var(--ink-soft); cursor: pointer; font-size: 1rem; padding: 0 6px; }
   .admin-plan-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
+
+  .admin-email-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    background: var(--cream-card);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 16px 20px;
+    margin-bottom: 10px;
+    font-family: inherit;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s ease;
+  }
+  .admin-email-row:hover { background: #2A241D; }
+  .admin-email-row-email { font-size: 0.95rem; font-weight: 700; color: var(--gold-deep); word-break: break-all; }
+  .admin-email-row-meta { font-size: 0.78rem; color: var(--ink-soft); flex-shrink: 0; white-space: nowrap; }
+  .admin-back-btn { margin-bottom: 16px; }
 </style>
 </head>
 <body>
@@ -85,6 +106,7 @@
 <script src="config.js"></script>
 <script>
   var allItems = [];
+  var currentEmail = null;
   var handledIds = JSON.parse(localStorage.getItem('gitedgift_admin_handled') || '[]');
 
   document.getElementById('adminLoginBtn').addEventListener('click', function () {
@@ -120,12 +142,76 @@
           return;
         }
         allItems = data || [];
-        renderList(allItems);
+        currentEmail = null;
+        renderEmailList(allItems);
       })
       .catch(function () {
         document.getElementById('listArea').innerHTML =
           '<div class="admin-state admin-error">読み込みに失敗しました。Apps ScriptのURLやデプロイ設定をご確認ください。</div>';
       });
+  }
+
+  function renderEmailList(items) {
+    var listArea = document.getElementById('listArea');
+    var groups = {};
+
+    items.forEach(function (item) {
+      var email = item.email || '（メールアドレスなし）';
+      if (!groups[email]) groups[email] = { email: email, count: 0, latest: item.date };
+      groups[email].count += 1;
+      if (item.date && (!groups[email].latest || new Date(item.date) > new Date(groups[email].latest))) {
+        groups[email].latest = item.date;
+      }
+    });
+
+    var rows = Object.keys(groups).map(function (key) { return groups[key]; })
+      .sort(function (a, b) { return new Date(b.latest || 0) - new Date(a.latest || 0); });
+
+    document.getElementById('countBadge').textContent = rows.length + '件';
+
+    if (rows.length === 0) {
+      listArea.innerHTML = '<div class="admin-state">まだご相談の送信はありません。</div>';
+      return;
+    }
+
+    listArea.innerHTML = rows.map(function (row) {
+      var dateStr = row.latest ? new Date(row.latest).toLocaleString('ja-JP') : '';
+      return (
+        '<button type="button" class="admin-email-row" data-email="' + escapeHtml(row.email) + '">' +
+          '<span class="admin-email-row-email">' + escapeHtml(row.email) + '</span>' +
+          '<span class="admin-email-row-meta">' + row.count + '件 ・最終 ' + escapeHtml(dateStr) + '</span>' +
+        '</button>'
+      );
+    }).join('');
+
+    Array.prototype.forEach.call(document.querySelectorAll('.admin-email-row'), function (btn) {
+      btn.addEventListener('click', function () {
+        currentEmail = btn.dataset.email;
+        document.getElementById('searchInput').value = '';
+        renderEmailDetail(currentEmail);
+      });
+    });
+  }
+
+  function attachBackButton() {
+    var backBtn = document.createElement('button');
+    backBtn.type = 'button';
+    backBtn.className = 'btn btn-outline admin-back-btn';
+    backBtn.textContent = '← メールアドレス一覧に戻る';
+    backBtn.addEventListener('click', function () {
+      currentEmail = null;
+      document.getElementById('searchInput').value = '';
+      renderEmailList(allItems);
+    });
+    document.getElementById('listArea').prepend(backBtn);
+  }
+
+  function renderEmailDetail(email) {
+    var filtered = allItems.filter(function (item) {
+      return (item.email || '（メールアドレスなし）') === email;
+    });
+    renderList(filtered);
+    attachBackButton();
   }
 
   function renderList(items) {
@@ -300,7 +386,24 @@
 
   document.getElementById('searchInput').addEventListener('input', function (e) {
     var q = e.target.value.trim().toLowerCase();
-    if (!q) { renderList(allItems); return; }
+
+    if (currentEmail) {
+      var scope = allItems.filter(function (item) {
+        return (item.email || '（メールアドレスなし）') === currentEmail;
+      });
+      var scopedFiltered = !q ? scope : scope.filter(function (item) {
+        return (
+          (item.page || '').toLowerCase().indexOf(q) !== -1 ||
+          (item.categories || '').toLowerCase().indexOf(q) !== -1 ||
+          (item.notes || '').toLowerCase().indexOf(q) !== -1
+        );
+      });
+      renderList(scopedFiltered);
+      attachBackButton();
+      return;
+    }
+
+    if (!q) { renderEmailList(allItems); return; }
     var filtered = allItems.filter(function (item) {
       return (
         (item.page || '').toLowerCase().indexOf(q) !== -1 ||
@@ -309,7 +412,7 @@
         (item.notes || '').toLowerCase().indexOf(q) !== -1
       );
     });
-    renderList(filtered);
+    renderEmailList(filtered);
   });
 
   var PARTNER_LINKS = {
