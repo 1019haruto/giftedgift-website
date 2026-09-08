@@ -30,9 +30,9 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #F6F1E7;
-  color: #2B2620;
-  border: 1px solid rgba(43, 38, 32, 0.14);
+  background: #1B2635;
+  color: #E7ECF3;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 999px;
   padding: 12px 20px;
   font-weight: 700;
@@ -51,7 +51,7 @@
 
 /* --- category panel --- */
 .category-panel {
-  background: #F6F1E7;
+  background: #1B2635;
   border-radius: 20px;
   padding: 28px 26px;
   margin-top: 18px;
@@ -63,7 +63,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #2B2620;
+  color: #E7ECF3;
 }
 
 .field-grid {
@@ -81,17 +81,17 @@
   font-weight: 700;
 }
 
-.field-grid label { color: #6B6154; }
+.field-grid label { color: #9FB0C4; }
 .notes-field label { color: var(--ink-soft); }
 
 select, .field-grid input[type="text"] {
   padding: 12px 14px;
   border-radius: 12px;
-  border: 1px solid rgba(43, 38, 32, 0.16);
-  background: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: #26344A;
   font-family: var(--font-body);
   font-size: 0.92rem;
-  color: #2B2620;
+  color: #E7ECF3;
 }
 
 .checkbox-row {
@@ -105,13 +105,13 @@ select, .field-grid input[type="text"] {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: #fff;
-  border: 1px solid rgba(43, 38, 32, 0.16);
+  background: #26344A;
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 999px;
   padding: 8px 16px;
   font-size: 0.85rem;
   font-weight: 500;
-  color: #2B2620;
+  color: #E7ECF3;
   cursor: pointer;
 }
 
@@ -125,9 +125,9 @@ select, .field-grid input[type="text"] {
 .panel-notes textarea {
   padding: 14px 16px;
   border-radius: 16px;
-  border: 1px solid rgba(43, 38, 32, 0.16);
-  background: #fff;
-  color: #2B2620;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: #26344A;
+  color: #E7ECF3;
   font-family: var(--font-body);
   font-size: 0.92rem;
   resize: vertical;
@@ -139,7 +139,7 @@ select, .field-grid input[type="text"] {
   gap: 8px;
   font-size: 0.85rem;
   font-weight: 700;
-  color: #6B6154;
+  color: #9FB0C4;
   margin-top: 18px;
 }
 
@@ -158,14 +158,14 @@ select, .field-grid input[type="text"] {
 }
 
 .confirm-content { margin: 20px 0; }
-.confirm-category { padding: 12px 0; border-bottom: 1px solid rgba(43, 38, 32, 0.12); }
+.confirm-category { padding: 12px 0; border-bottom: 1px solid rgba(255, 255, 255, 0.12); }
 .confirm-category:last-child { border-bottom: none; }
 .confirm-category-name { font-weight: 700; color: var(--gold-deep); margin-bottom: 8px; font-size: 0.95rem; }
 .confirm-field-row { display: flex; justify-content: space-between; gap: 16px; font-size: 0.88rem; padding: 4px 0; }
-.confirm-field-label { color: #6B6154; }
-.confirm-field-value { color: #2B2620; text-align: right; }
-.confirm-notes { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(43, 38, 32, 0.12); font-size: 0.88rem; }
-.confirm-notes strong { display: block; margin-bottom: 6px; color: #6B6154; }
+.confirm-field-label { color: #9FB0C4; }
+.confirm-field-value { color: #E7ECF3; text-align: right; }
+.confirm-notes { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(255, 255, 255, 0.12); font-size: 0.88rem; }
+.confirm-notes strong { display: block; margin-bottom: 6px; color: #9FB0C4; }
 .confirm-actions { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
 
 .issued-code {
@@ -173,7 +173,7 @@ select, .field-grid input[type="text"] {
   font-weight: 700;
   letter-spacing: 0.3em;
   color: var(--gold-deep);
-  background: var(--cream);
+  background: #26344A;
   border-radius: 16px;
   padding: 16px;
   text-align: center;
