@@ -270,6 +270,18 @@
     <button type="submit" class="btn btn-primary btn-large" style="width:auto;">この内容で相談する →</button>
   </form>
 
+  <div class="plan-form wrap" id="confirmStep" hidden>
+    <div class="category-panel">
+      <h3>📋 入力内容のご確認</h3>
+      <p>以下の内容でよろしければ「この内容で進む」を押してください。修正する場合は「内容を修正する」から戻れます。</p>
+      <div id="confirmContent" class="confirm-content"></div>
+      <div class="confirm-actions">
+        <button type="button" class="btn btn-outline" id="confirmBackBtn">← 内容を修正する</button>
+        <button type="button" class="btn btn-primary" id="confirmNextBtn">この内容で進む →</button>
+      </div>
+    </div>
+  </div>
+
   <div class="plan-form wrap" id="emailStep" hidden>
     <div class="category-panel">
       <h3>📧 メールアドレスのご入力</h3>

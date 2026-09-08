@@ -15,18 +15,81 @@ function updateEmptyHint() {
 }
 
 const planForm = document.getElementById('planForm');
+const confirmStep = document.getElementById('confirmStep');
+const confirmContent = document.getElementById('confirmContent');
 const emailStep = document.getElementById('emailStep');
 const doneStep = document.getElementById('doneStep');
+
+function escapeHtmlLocal(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function renderSummaryHtml(summary) {
+  const categoriesHtml = summary.categories
+    .filter((cat) => Object.keys(cat.fields).length > 0)
+    .map((cat) => {
+      const rows = Object.entries(cat.fields).map(([key, value]) => {
+        const displayValue = Array.isArray(value) ? value.join('、') : value;
+        return (
+          '<div class="confirm-field-row">' +
+            '<span class="confirm-field-label">' + escapeHtmlLocal(key) + '</span>' +
+            '<span class="confirm-field-value">' + escapeHtmlLocal(String(displayValue)) + '</span>' +
+          '</div>'
+        );
+      }).join('');
+      return (
+        '<div class="confirm-category">' +
+          '<div class="confirm-category-name">' + escapeHtmlLocal(cat.name) + '</div>' +
+          rows +
+        '</div>'
+      );
+    }).join('');
+
+  const notesHtml = summary.notes
+    ? '<div class="confirm-notes"><strong>こだわり・補足事項</strong><p>' + escapeHtmlLocal(summary.notes) + '</p></div>'
+    : '';
+
+  return categoriesHtml + notesHtml || '<p>選択された内容がありません。</p>';
+}
 
 if (planForm) {
   planForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    if (emailStep) {
+    if (confirmStep && confirmContent) {
+      confirmContent.innerHTML = renderSummaryHtml(collectRequestSummary());
+      planForm.hidden = true;
+      confirmStep.hidden = false;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (emailStep) {
       planForm.hidden = true;
       emailStep.hidden = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       alert('ご相談内容を受け付けました（デモ画面です）。');
+    }
+  });
+}
+
+const confirmBackBtn = document.getElementById('confirmBackBtn');
+if (confirmBackBtn) {
+  confirmBackBtn.addEventListener('click', () => {
+    confirmStep.hidden = true;
+    planForm.hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
+
+const confirmNextBtn = document.getElementById('confirmNextBtn');
+if (confirmNextBtn) {
+  confirmNextBtn.addEventListener('click', () => {
+    confirmStep.hidden = true;
+    if (emailStep) {
+      emailStep.hidden = false;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   });
 }

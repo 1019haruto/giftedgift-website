@@ -150,6 +150,17 @@ select, .field-grid input[type="text"] {
   .category-toggle { flex-direction: column; align-items: stretch; }
 }
 
+.confirm-content { margin: 20px 0; }
+.confirm-category { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.confirm-category:last-child { border-bottom: none; }
+.confirm-category-name { font-weight: 700; color: var(--gold-deep); margin-bottom: 8px; font-size: 0.95rem; }
+.confirm-field-row { display: flex; justify-content: space-between; gap: 16px; font-size: 0.88rem; padding: 4px 0; }
+.confirm-field-label { color: var(--ink-soft); }
+.confirm-field-value { color: var(--ink); text-align: right; }
+.confirm-notes { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 0.88rem; }
+.confirm-notes strong { display: block; margin-bottom: 6px; color: var(--ink-soft); }
+.confirm-actions { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
+
 .issued-code {
   font-size: 2rem;
   font-weight: 700;
