@@ -135,7 +135,7 @@ img { max-width: 100%; display: block; }
 
 .hero-note { font-size: 0.85rem; color: var(--ink-soft); }
 
-.hero-visual { position: relative; }
+.hero-visual { position: relative; cursor: pointer; }
 
 .hero-photo {
   position: absolute;
@@ -144,9 +144,13 @@ img { max-width: 100%; display: block; }
   height: 100%;
   display: block;
   object-fit: cover;
+  opacity: 0;
+  transition: opacity 1.2s ease;
   -webkit-mask-image: linear-gradient(to right, transparent, black 55%);
   mask-image: linear-gradient(to right, transparent, black 55%);
 }
+
+.hero-photo.is-active { opacity: 1; }
 
 /* ---------- Services ---------- */
 .services { padding: 80px 0 60px; }
@@ -402,8 +406,8 @@ img { max-width: 100%; display: block; }
 @media (max-width: 900px) {
   .hero-inner { grid-template-columns: 1fr; border-radius: 24px; }
   .hero-copy { padding: 28px; }
-  .hero-visual { order: -1; position: static; }
-  .hero-photo { position: static; height: auto; aspect-ratio: 4 / 3; -webkit-mask-image: none; mask-image: none; }
+  .hero-visual { order: -1; aspect-ratio: 4 / 3; }
+  .hero-photo { -webkit-mask-image: none; mask-image: none; }
 
   .travel-inner { grid-template-columns: 1fr; padding: 36px 28px; }
   .travel-photos { height: 260px; margin-top: 20px; }
