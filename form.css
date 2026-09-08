@@ -30,8 +30,9 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  background: var(--cream-card);
-  border: 1px solid var(--line);
+  background: #F6F1E7;
+  color: #2B2620;
+  border: 1px solid rgba(43, 38, 32, 0.14);
   border-radius: 999px;
   padding: 12px 20px;
   font-weight: 700;
@@ -50,7 +51,7 @@
 
 /* --- category panel --- */
 .category-panel {
-  background: var(--cream-card);
+  background: #F6F1E7;
   border-radius: 20px;
   padding: 28px 26px;
   margin-top: 18px;
@@ -62,6 +63,7 @@
   display: flex;
   align-items: center;
   gap: 8px;
+  color: #2B2620;
 }
 
 .field-grid {
@@ -77,17 +79,19 @@
   gap: 8px;
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--ink-soft);
 }
+
+.field-grid label { color: #6B6154; }
+.notes-field label { color: var(--ink-soft); }
 
 select, .field-grid input[type="text"] {
   padding: 12px 14px;
   border-radius: 12px;
-  border: 1px solid var(--line);
-  background: var(--cream);
+  border: 1px solid rgba(43, 38, 32, 0.16);
+  background: #fff;
   font-family: var(--font-body);
   font-size: 0.92rem;
-  color: var(--ink);
+  color: #2B2620;
 }
 
 .checkbox-row {
@@ -101,13 +105,13 @@ select, .field-grid input[type="text"] {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: var(--cream);
-  border: 1px solid var(--line);
+  background: #fff;
+  border: 1px solid rgba(43, 38, 32, 0.16);
   border-radius: 999px;
   padding: 8px 16px;
   font-size: 0.85rem;
   font-weight: 500;
-  color: var(--ink);
+  color: #2B2620;
   cursor: pointer;
 }
 
@@ -121,8 +125,9 @@ select, .field-grid input[type="text"] {
 .panel-notes textarea {
   padding: 14px 16px;
   border-radius: 16px;
-  border: 1px solid var(--line);
-  background: var(--cream);
+  border: 1px solid rgba(43, 38, 32, 0.16);
+  background: #fff;
+  color: #2B2620;
   font-family: var(--font-body);
   font-size: 0.92rem;
   resize: vertical;
@@ -134,9 +139,11 @@ select, .field-grid input[type="text"] {
   gap: 8px;
   font-size: 0.85rem;
   font-weight: 700;
-  color: var(--ink-soft);
+  color: #6B6154;
   margin-top: 18px;
 }
+
+.other-detail-input { margin-top: 8px; }
 
 .plan-form .btn { margin-top: 32px; }
 
@@ -151,14 +158,14 @@ select, .field-grid input[type="text"] {
 }
 
 .confirm-content { margin: 20px 0; }
-.confirm-category { padding: 12px 0; border-bottom: 1px solid var(--line); }
+.confirm-category { padding: 12px 0; border-bottom: 1px solid rgba(43, 38, 32, 0.12); }
 .confirm-category:last-child { border-bottom: none; }
 .confirm-category-name { font-weight: 700; color: var(--gold-deep); margin-bottom: 8px; font-size: 0.95rem; }
 .confirm-field-row { display: flex; justify-content: space-between; gap: 16px; font-size: 0.88rem; padding: 4px 0; }
-.confirm-field-label { color: var(--ink-soft); }
-.confirm-field-value { color: var(--ink); text-align: right; }
-.confirm-notes { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 0.88rem; }
-.confirm-notes strong { display: block; margin-bottom: 6px; color: var(--ink-soft); }
+.confirm-field-label { color: #6B6154; }
+.confirm-field-value { color: #2B2620; text-align: right; }
+.confirm-notes { margin-top: 16px; padding-top: 16px; border-top: 1px solid rgba(43, 38, 32, 0.12); font-size: 0.88rem; }
+.confirm-notes strong { display: block; margin-bottom: 6px; color: #6B6154; }
 .confirm-actions { display: flex; gap: 12px; margin-top: 24px; flex-wrap: wrap; }
 
 .issued-code {

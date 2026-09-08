@@ -14,6 +14,30 @@ function updateEmptyHint() {
   hint.hidden = anyChecked;
 }
 
+document.querySelectorAll('.field-grid select').forEach((select) => {
+  const hasOther = Array.from(select.options).some((opt) => opt.textContent.trim() === 'その他');
+  if (!hasOther) return;
+
+  const label = select.closest('label');
+  if (!label) return;
+
+  const otherInput = document.createElement('input');
+  otherInput.type = 'text';
+  otherInput.className = 'other-detail-input';
+  otherInput.placeholder = '具体的にご記入ください';
+  otherInput.hidden = true;
+  label.appendChild(otherInput);
+
+  const syncOtherInput = () => {
+    const isOther = select.value === 'その他';
+    otherInput.hidden = !isOther;
+    if (!isOther) otherInput.value = '';
+  };
+
+  select.addEventListener('change', syncOtherInput);
+  syncOtherInput();
+});
+
 const planForm = document.getElementById('planForm');
 const confirmStep = document.getElementById('confirmStep');
 const confirmContent = document.getElementById('confirmContent');
