@@ -3,7 +3,7 @@
 
 const SITE_CONFIG = {
   // 例: "https://script.google.com/macros/s/AKfycb.../exec"
-  SUBMISSION_ENDPOINT: "https://script.google.com/macros/s/AKfycbz5-oUG0eGHUNgc2ZK9wzPc_4Ljc5p7_RQpVlG8OpSqgXrs-dYK5gyxW3EpnXoy7dRXig/exec",
+  SUBMISSION_ENDPOINT: "https://script.google.com/macros/s/AKfycbzwttIqRin12N8pKyaSLH7Esi2br07XT-UfNm52y6dCs4eoeqgpLZFcSMgLDnhCqQYSXg/exec",
 
   // Apps Scriptコード内のSECRETと同じ文字列にしてください
   ADMIN_SECRET: "giftsecret26",
