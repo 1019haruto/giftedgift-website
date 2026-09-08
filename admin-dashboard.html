@@ -22,7 +22,13 @@
   .admin-page-tag { font-size: 0.75rem; font-weight: 700; color: var(--gold-deep); background: var(--cream-card); padding: 4px 12px; border-radius: 999px; }
   .admin-date { font-size: 0.78rem; color: var(--ink-soft); }
   .admin-email { font-size: 0.88rem; color: var(--gold-deep); margin-bottom: 8px; word-break: break-all; }
-  .admin-detail { font-size: 0.88rem; color: var(--ink); white-space: pre-wrap; background: var(--cream-card); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; }
+  .admin-detail { background: var(--cream-card); border-radius: 12px; padding: 4px 14px; margin-bottom: 8px; }
+  .admin-category { padding: 10px 0; }
+  .admin-category + .admin-category { border-top: 1px solid var(--line); }
+  .admin-category-name { font-size: 0.85rem; font-weight: 700; color: var(--gold-deep); margin-bottom: 6px; }
+  .admin-field-row { display: flex; justify-content: space-between; gap: 16px; font-size: 0.85rem; padding: 3px 0; }
+  .admin-field-label { color: var(--ink-soft); flex-shrink: 0; }
+  .admin-field-value { color: var(--ink); text-align: right; }
   .admin-notes { font-size: 0.85rem; color: var(--ink-soft); }
   .admin-check { display: flex; align-items: center; gap: 8px; font-size: 0.85rem; color: var(--ink-soft); margin-top: 10px; }
   .admin-state { text-align: center; color: var(--ink-soft); padding: 60px 20px; }
@@ -115,8 +121,7 @@
       var id = 'row-' + index + '-' + (item.date || '');
       var isHandled = handledIds.indexOf(id) !== -1;
       var dateStr = item.date ? new Date(item.date).toLocaleString('ja-JP') : '';
-      var categories = item.categories;
-      try { categories = JSON.stringify(JSON.parse(categories), null, 2); } catch (e) {}
+      var detailHtml = renderCategories(item.categories);
 
       return (
         '<div class="admin-card' + (isHandled ? ' is-handled' : '') + '">' +
@@ -125,7 +130,7 @@
             '<span class="admin-date">' + escapeHtml(dateStr) + '</span>' +
           '</div>' +
           '<div class="admin-email">' + escapeHtml(item.email || '') + '</div>' +
-          '<div class="admin-detail">' + escapeHtml(categories || '') + '</div>' +
+          (detailHtml ? '<div class="admin-detail">' + detailHtml + '</div>' : '') +
           (item.notes ? '<div class="admin-notes">こだわり・補足：' + escapeHtml(item.notes) + '</div>' : '') +
           '<label class="admin-check">' +
             '<input type="checkbox" class="admin-checkbox" data-id="' + id + '" ' + (isHandled ? 'checked' : '') + '>' +
@@ -162,6 +167,35 @@
     });
     renderList(filtered);
   });
+
+  function renderCategories(raw) {
+    var categories;
+    try { categories = JSON.parse(raw); } catch (e) { return ''; }
+    if (!Array.isArray(categories)) return '';
+
+    return categories
+      .filter(function (cat) { return cat && cat.fields && Object.keys(cat.fields).length > 0; })
+      .map(function (cat) {
+        var rows = Object.keys(cat.fields).map(function (key) {
+          var value = cat.fields[key];
+          if (Array.isArray(value)) value = value.join('、');
+          return (
+            '<div class="admin-field-row">' +
+              '<span class="admin-field-label">' + escapeHtml(key) + '</span>' +
+              '<span class="admin-field-value">' + escapeHtml(String(value)) + '</span>' +
+            '</div>'
+          );
+        }).join('');
+
+        return (
+          '<div class="admin-category">' +
+            '<div class="admin-category-name">' + escapeHtml(cat.name || '') + '</div>' +
+            rows +
+          '</div>'
+        );
+      })
+      .join('');
+  }
 
   function escapeHtml(str) {
     return String(str)
