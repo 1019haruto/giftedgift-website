@@ -34,6 +34,16 @@
   .admin-state { text-align: center; color: var(--ink-soft); padding: 60px 20px; }
   .admin-error { color: #b3452f; }
 
+  .admin-partner-panel { margin-bottom: 8px; }
+  .admin-partner-label { font-size: 0.78rem; color: var(--ink-soft); margin-bottom: 6px; }
+  .admin-partner-links { display: flex; flex-wrap: wrap; gap: 8px; }
+  .admin-partner-link {
+    font-size: 0.8rem; font-weight: 700; color: var(--gold-deep);
+    background: var(--cream-card); border-radius: 999px; padding: 6px 14px;
+    text-decoration: none;
+  }
+  .admin-partner-link:hover { background: var(--paper-deep, var(--cream-card)); }
+
   .admin-plan-panel { background: var(--cream-card); border-radius: 12px; padding: 16px; margin-top: 12px; }
   .admin-plan-field { display: block; font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 12px; }
   .admin-plan-field input, .admin-plan-field select { display: block; width: 100%; margin-top: 4px; padding: 8px 10px; border-radius: 8px; border: 1px solid var(--line); font-family: inherit; }
@@ -132,6 +142,7 @@
       var isHandled = handledIds.indexOf(id) !== -1;
       var dateStr = item.date ? new Date(item.date).toLocaleString('ja-JP') : '';
       var detailHtml = renderCategories(item.categories);
+      var partnerHtml = renderPartnerLinks(item.categories);
 
       return (
         '<div class="admin-card' + (isHandled ? ' is-handled' : '') + '">' +
@@ -141,6 +152,7 @@
           '</div>' +
           '<div class="admin-email">' + escapeHtml(item.email || '') + '</div>' +
           (detailHtml ? '<div class="admin-detail">' + detailHtml + '</div>' : '') +
+          partnerHtml +
           (item.notes ? '<div class="admin-notes">こだわり・補足：' + escapeHtml(item.notes) + '</div>' : '') +
           '<label class="admin-check">' +
             '<input type="checkbox" class="admin-checkbox" data-id="' + id + '" ' + (isHandled ? 'checked' : '') + '>' +
@@ -299,6 +311,80 @@
     });
     renderList(filtered);
   });
+
+  var PARTNER_LINKS = {
+    'ステイ': [
+      { name: '池の平ホテル（白樺湖）', url: 'https://px.a8.net/svt/ejp?a8mat=4BC3YK+CC5E2A+562W+5YJRM' },
+      { name: 'Agoda', url: 'https://px.a8.net/svt/ejp?a8mat=4BC3YJ+ATDIEQ+4X1W+NTRMQ' },
+      { name: 'エアトリ（海外航空券・ホテル）', url: 'https://px.a8.net/svt/ejp?a8mat=4BC3YJ+EWFKTU+2YGS+669JM' },
+    ],
+    '移動手段': [
+      { name: 'エアトリ（レンタカー）', url: 'https://px.a8.net/svt/ejp?a8mat=4BC3YJ+CMV6YA+AD2+2TAWKY' },
+      { name: 'エアトリ（夜行・高速バス）', url: 'https://px.a8.net/svt/ejp?a8mat=4BC3YJ+CYRV1U+AD2+3H18R6' },
+      { name: 'Omio（ヨーロッパ交通予約）', url: 'https://omio.sjv.io/c/1284660/846860/7385' },
+    ],
+    'アクティビティ': [
+      { name: 'らんらんツアー（沖縄）', url: 'https://px.a8.net/svt/ejp?a8mat=4BC36R+3UQ0QA+5R8A+631SY' },
+      { name: 'ニーズツアー', url: 'https://px.a8.net/svt/ejp?a8mat=4BC3YK+1BMP6A+AD2+2BETUQ' },
+      { name: '旅物語', url: 'https://px.a8.net/svt/ejp?a8mat=4BC36R+7CCHDE+15A4+1NJRXE' },
+    ],
+    '花束': [
+      { name: '胡蝶蘭専門店 ランノハナドットコム', url: 'https://px.a8.net/svt/ejp?a8mat=4BC36R+526NW2+4L8W+601S2' },
+      { name: 'Flower&Plants tette', url: 'https://px.a8.net/svt/ejp?a8mat=4BC3YK+ABII9E+5DVQ+5YJRM' },
+    ],
+    '添えるギフト': [
+      { name: '胡蝶蘭専門店 ランノハナドットコム', url: 'https://px.a8.net/svt/ejp?a8mat=4BC36R+526NW2+4L8W+601S2' },
+      { name: 'Flower&Plants tette', url: 'https://px.a8.net/svt/ejp?a8mat=4BC3YK+ABII9E+5DVQ+5YJRM' },
+    ],
+    '物品': [
+      { name: 'JTBショッピング', url: 'https://px.a8.net/svt/ejp?a8mat=4BC36R+9T22IA+3YCQ+61JSI' },
+      { name: 'よろずやマルシェ', url: 'https://px.a8.net/svt/ejp?a8mat=4BC36R+6RIB76+22DS+BZ8OY' },
+    ],
+  };
+
+  function findPartnerLinks(categoryName) {
+    var matched = [];
+    Object.keys(PARTNER_LINKS).forEach(function (keyword) {
+      if (categoryName.indexOf(keyword) !== -1) {
+        matched = matched.concat(PARTNER_LINKS[keyword]);
+      }
+    });
+    return matched;
+  }
+
+  function renderPartnerLinks(raw) {
+    var categories;
+    try { categories = JSON.parse(raw); } catch (e) { return ''; }
+    if (!Array.isArray(categories)) return '';
+
+    var seen = {};
+    var links = [];
+    categories.forEach(function (cat) {
+      var name = (cat && cat.name) || '';
+      findPartnerLinks(name).forEach(function (link) {
+        if (seen[link.url]) return;
+        seen[link.url] = true;
+        links.push(link);
+      });
+    });
+
+    if (links.length === 0) return '';
+
+    var buttons = links.map(function (link) {
+      return (
+        '<a class="admin-partner-link" href="' + escapeHtml(link.url) + '" target="_blank" rel="noopener sponsored">' +
+          escapeHtml(link.name) + ' ↗' +
+        '</a>'
+      );
+    }).join('');
+
+    return (
+      '<div class="admin-partner-panel">' +
+        '<div class="admin-partner-label">提携サイトで候補を探す</div>' +
+        '<div class="admin-partner-links">' + buttons + '</div>' +
+      '</div>'
+    );
+  }
 
   function renderCategories(raw) {
     var categories;
