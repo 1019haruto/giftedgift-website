@@ -17,8 +17,10 @@ function updateEmptyHint() {
 const planForm = document.getElementById('planForm');
 const confirmStep = document.getElementById('confirmStep');
 const confirmContent = document.getElementById('confirmContent');
+const upsellStep = document.getElementById('upsellStep');
 const emailStep = document.getElementById('emailStep');
 const doneStep = document.getElementById('doneStep');
+let selectedAddons = [];
 
 function escapeHtmlLocal(str) {
   return String(str)
@@ -87,10 +89,37 @@ const confirmNextBtn = document.getElementById('confirmNextBtn');
 if (confirmNextBtn) {
   confirmNextBtn.addEventListener('click', () => {
     confirmStep.hidden = true;
-    if (emailStep) {
+    if (upsellStep) {
+      upsellStep.hidden = false;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (emailStep) {
       emailStep.hidden = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
+  });
+}
+
+function proceedFromUpsellToEmail() {
+  upsellStep.hidden = true;
+  if (emailStep) {
+    emailStep.hidden = false;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+const upsellSkipBtn = document.getElementById('upsellSkipBtn');
+if (upsellSkipBtn) {
+  upsellSkipBtn.addEventListener('click', () => {
+    selectedAddons = [];
+    proceedFromUpsellToEmail();
+  });
+}
+
+const upsellNextBtn = document.getElementById('upsellNextBtn');
+if (upsellNextBtn) {
+  upsellNextBtn.addEventListener('click', () => {
+    selectedAddons = Array.from(document.querySelectorAll('.upsell-option:checked')).map((cb) => cb.value);
+    proceedFromUpsellToEmail();
   });
 }
 
@@ -130,6 +159,10 @@ function collectRequestSummary() {
 
     summary.categories.push({ name: heading ? heading.textContent.trim() : '', fields });
   });
+
+  if (selectedAddons.length > 0) {
+    summary.categories.push({ name: '🎁 追加オプション（ギフト＋α）', fields: { 選択項目: selectedAddons } });
+  }
 
   const notes = document.querySelector('.notes-field textarea');
   summary.notes = notes ? notes.value : '';

@@ -46,11 +46,45 @@
       <label class="category-chip"><input type="checkbox" data-target="cat-meal"> お食事</label>
       <label class="category-chip"><input type="checkbox" data-target="cat-transport"> 移動手段</label>
       <label class="category-chip"><input type="checkbox" data-target="cat-gift"> 添えるギフト</label>
-      <label class="category-chip"><input type="checkbox" data-target="cat-recipient"> 贈る相手</label>
       <label class="category-chip"><input type="checkbox" data-target="cat-self"> あなた自身</label>
     </div>
 
     <p class="empty-hint" id="emptyHint">上のチェックボックスから、組み合わせたい内容を選んでください。</p>
+
+    <!-- 贈る相手（必須） -->
+    <div class="category-panel" id="cat-recipient">
+      <h3>👤 ギフトあげる相手ってどんな人？ <span style="font-size:0.7rem; font-weight:700; color:#E38FA8;">※必須</span></h3>
+      <div class="field-grid">
+        <label>ご関係
+          <select>
+            <option>家族</option>
+            <option>恋人・パートナー</option>
+            <option>友人</option>
+            <option>職場関係</option>
+            <option>その他</option>
+          </select>
+        </label>
+        <label>年代
+          <select>
+            <option>10代</option>
+            <option>20代</option>
+            <option>30代</option>
+            <option>40代</option>
+            <option>50代以上</option>
+          </select>
+        </label>
+        <label>性別
+          <select>
+            <option>指定なし</option>
+            <option>女性</option>
+            <option>男性</option>
+          </select>
+        </label>
+      </div>
+      <label class="panel-notes">相手についての備考
+        <textarea rows="3" placeholder="好きなもの、苦手なもの、性格、エピソードなど自由にご記入ください" required></textarea>
+      </label>
+    </div>
 
     <div class="category-panel" id="cat-activity" hidden>
       <h3>🎡 アクティビティ</h3>
@@ -138,41 +172,6 @@
       </div>
     </div>
 
-    <!-- 贈る相手 -->
-    <div class="category-panel" id="cat-recipient" hidden>
-      <h3>👤 ギフトあげる相手ってどんな人？</h3>
-      <div class="field-grid">
-        <label>ご関係
-          <select>
-            <option>家族</option>
-            <option>恋人・パートナー</option>
-            <option>友人</option>
-            <option>職場関係</option>
-            <option>その他</option>
-          </select>
-        </label>
-        <label>年代
-          <select>
-            <option>10代</option>
-            <option>20代</option>
-            <option>30代</option>
-            <option>40代</option>
-            <option>50代以上</option>
-          </select>
-        </label>
-        <label>性別
-          <select>
-            <option>指定なし</option>
-            <option>女性</option>
-            <option>男性</option>
-          </select>
-        </label>
-      </div>
-      <label class="panel-notes">相手についての備考
-        <textarea rows="3" placeholder="好きなもの、苦手なもの、性格、エピソードなど自由にご記入ください"></textarea>
-      </label>
-    </div>
-
     <!-- あなた自身 -->
     <div class="category-panel" id="cat-self" hidden>
       <h3>🙋 あなた自身どんな人？</h3>
@@ -212,6 +211,23 @@
       <div class="confirm-actions">
         <button type="button" class="btn btn-outline" id="confirmBackBtn">← 内容を修正する</button>
         <button type="button" class="btn btn-primary" id="confirmNextBtn">この内容で進む →</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="plan-form wrap" id="upsellStep" hidden>
+    <div class="category-panel">
+      <h3>🎁 こちらも一緒にいかがでしょうか？</h3>
+      <p>ご希望の内容に合わせて、こんなオプションもご用意しています（複数選択可）。</p>
+      <div class="checkbox-row">
+        <label><input type="checkbox" class="upsell-option" value="手紙の代筆・清書"> 手紙の代筆・清書</label>
+        <label><input type="checkbox" class="upsell-option" value="ラッピング・のし"> ラッピング・のし</label>
+        <label><input type="checkbox" class="upsell-option" value="当日の写真・映像撮影"> 当日の写真・映像撮影</label>
+        <label><input type="checkbox" class="upsell-option" value="メッセージカード作成"> メッセージカード作成</label>
+      </div>
+      <div class="confirm-actions">
+        <button type="button" class="btn btn-outline" id="upsellSkipBtn">追加せず進む →</button>
+        <button type="button" class="btn btn-primary" id="upsellNextBtn">選んだ内容を追加して進む →</button>
       </div>
     </div>
   </div>
