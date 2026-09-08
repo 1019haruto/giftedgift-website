@@ -46,6 +46,7 @@
       <label class="category-chip"><input type="checkbox" data-target="cat-flower"> 花束</label>
       <label class="category-chip"><input type="checkbox" data-target="cat-cake"> ケーキ</label>
       <label class="category-chip"><input type="checkbox" data-target="cat-recipient"> 贈る相手</label>
+      <label class="category-chip"><input type="checkbox" data-target="cat-self"> あなた自身</label>
     </div>
 
     <p class="empty-hint" id="emptyHint">上のチェックボックスから、贈りたい内容を選んでください。</p>
@@ -160,6 +161,28 @@
       </div>
       <label class="panel-notes">相手についての備考
         <textarea rows="3" placeholder="好きなもの、苦手なもの、性格、エピソードなど自由にご記入ください"></textarea>
+      </label>
+    </div>
+
+    <!-- あなた自身 -->
+    <div class="category-panel" id="cat-self" hidden>
+      <h3>🙋 あなた自身どんな人？</h3>
+      <div class="field-grid">
+        <label>年齢
+          <select>
+            <option>10代</option>
+            <option>20代</option>
+            <option>30代</option>
+            <option>40代</option>
+            <option>50代以上</option>
+          </select>
+        </label>
+        <label>行きたい場所
+          <input type="text" placeholder="例：温泉地、海外、まだ行ったことのない場所など">
+        </label>
+      </div>
+      <label class="panel-notes">ワクワクすること・大切にしている考え方
+        <textarea rows="3" placeholder="趣味、好きなこと、価値観、最近ときめいたことなど自由にご記入ください"></textarea>
       </label>
     </div>
 

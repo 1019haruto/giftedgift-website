@@ -45,6 +45,14 @@ function collectRequestSummary() {
       fields[labelText] = select.value;
     });
 
+    panel.querySelectorAll('.field-grid input[type="text"]').forEach((input) => {
+      const value = input.value.trim();
+      if (!value) return;
+      const label = input.closest('label');
+      const labelText = label ? label.childNodes[0].textContent.trim() : (input.id || '入力項目');
+      fields[labelText] = value;
+    });
+
     const checked = Array.from(panel.querySelectorAll('.checkbox-row input[type="checkbox"]:checked'))
       .map((cb) => (cb.closest('label') ? cb.closest('label').textContent.trim() : cb.value));
     if (checked.length > 0) fields['選択項目'] = checked;
