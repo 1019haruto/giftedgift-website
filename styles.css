@@ -130,20 +130,7 @@ img { max-width: 100%; display: block; }
 
 .services h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); max-width: 22ch; margin-left: auto; margin-right: auto; }
 
-.service-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
-
-.service-card--full {
-  grid-column: 1 / -1;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  padding: 14px 20px;
-}
-.service-card--full .service-photo-wrap { flex: 0 0 130px; height: 80px; margin-bottom: 0; }
-.service-card--full .service-body { flex: 1; padding: 0; }
-.service-card--full h3 { margin-bottom: 0.2em; }
-.service-card--full p { padding-right: 50px; margin-bottom: 0; }
-.service-card--full .service-arrow { top: 50%; bottom: auto; transform: translateY(-50%); }
+.service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 
 .service-card {
   display: block;
@@ -358,8 +345,6 @@ img { max-width: 100%; display: block; }
   .hero-inner { grid-template-columns: 1fr; }
   .hero-visual { order: -1; }
 
-  .service-grid { grid-template-columns: repeat(2, 1fr); }
-
   .travel-inner { grid-template-columns: 1fr; padding: 36px 28px; }
   .travel-photos { height: 260px; margin-top: 20px; }
 
@@ -391,14 +376,14 @@ img { max-width: 100%; display: block; }
   }
   .site-nav.is-open { display: flex; }
 
-  .service-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .service-photo-wrap { height: 110px; margin-bottom: 22px; }
-  .service-card p { padding-right: 0; margin-bottom: 2.6em; }
-
-  .service-card--full { gap: 12px; padding: 10px 14px; }
-  .service-card--full .service-photo-wrap { flex: 0 0 80px; height: 60px; }
-  .service-card--full h3 { font-size: 0.95rem; }
-  .service-card--full p { font-size: 0.78rem; padding-right: 40px; }
+  .service-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .service-card { padding: 8px; }
+  .service-photo-wrap { height: 56px; margin-bottom: 14px; }
+  .service-icon-badge { width: 30px; height: 30px; font-size: 0.85rem; left: 8px; bottom: -14px; border-width: 2px; }
+  .service-ribbon { font-size: 0.55rem; padding: 2px 8px; top: 6px; left: 6px; }
+  .service-card h3 { font-size: 0.72rem; line-height: 1.3; margin-bottom: 0.3em; }
+  .service-card p { font-size: 0.62rem; line-height: 1.4; padding-right: 0; margin-bottom: 1.8em; }
+  .service-arrow { width: 22px; height: 22px; font-size: 0.7rem; right: 4px; bottom: 4px; }
 
   .footer-inner { flex-direction: column; align-items: flex-start; }
   .footer-meta { text-align: left; }
