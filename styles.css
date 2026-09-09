@@ -185,7 +185,14 @@ img { max-width: 100%; display: block; }
 /* ---------- Services ---------- */
 .services { padding: 80px 0 60px; }
 
-.services h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); max-width: 22ch; margin-left: auto; margin-right: auto; }
+.services-inner {
+  background: var(--cream-card);
+  border: 1px solid var(--line);
+  border-radius: 32px;
+  padding: 56px 40px;
+}
+
+.services h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); max-width: 22ch; margin-left: auto; margin-right: auto; margin-bottom: 36px; }
 
 .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 
@@ -535,6 +542,7 @@ img { max-width: 100%; display: block; }
   .photo--right { width: 100px; height: 130px; bottom: -30px; right: -12px; }
 
   .flow-inner { padding: 36px 24px; border-radius: 24px; }
+  .services-inner { padding: 36px 24px; border-radius: 24px; }
 
   .audience-grid { grid-template-columns: 1fr; }
 
