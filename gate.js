@@ -55,9 +55,6 @@
   const gateLogin = document.getElementById('gateLogin');
   if (gateLogin) gateLogin.addEventListener('click', () => showStep('loginEmail'));
 
-  const backToChoice1 = document.getElementById('backToChoice1');
-  if (backToChoice1) backToChoice1.addEventListener('click', () => showStep('choice'));
-
   const verifyCodeBtn = document.getElementById('verifyCodeBtn');
   if (verifyCodeBtn) {
     verifyCodeBtn.addEventListener('click', () => {

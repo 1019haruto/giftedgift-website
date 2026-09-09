@@ -652,7 +652,10 @@ img { max-width: 100%; display: block; }
   color: var(--ink-soft);
   font-size: 0.85rem;
   cursor: pointer;
+  text-decoration: none;
+  text-align: center;
 }
+.gate-back:hover { color: var(--ink); }
 
 .gate-link {
   display: block;
