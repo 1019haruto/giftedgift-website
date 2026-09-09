@@ -313,31 +313,29 @@ img { max-width: 100%; display: block; }
 .flow h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); }
 .flow-lead { color: var(--ink-soft); margin-bottom: 3em; }
 
-.flow-steps { display: flex; align-items: flex-start; justify-content: center; gap: 20px; flex-wrap: wrap; }
+.flow-steps { display: flex; align-items: center; justify-content: center; gap: 24px; flex-wrap: wrap; }
 
-.flow-step { max-width: 220px; text-align: center; }
+.flow-step { display: flex; align-items: center; gap: 16px; max-width: 280px; text-align: left; }
 
-.step-tag { display: block; font-size: 0.75rem; font-weight: 700; color: var(--gold-deep); margin-bottom: 0.6em; }
+.flow-step-text { flex: 1; }
+
+.step-tag { display: block; font-size: 0.75rem; font-weight: 700; color: var(--gold-deep); margin-bottom: 0.4em; }
 
 .step-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-  background: var(--cream-card);
-  border: 3px solid var(--gold-deep);
+  display: block;
+  width: 90px;
+  height: 90px;
+  border-radius: 16px;
   overflow: hidden;
+  flex-shrink: 0;
   font-size: 1.4rem;
-  margin-bottom: 0.8em;
 }
 
 .step-icon img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
 .flow-step p { font-size: 0.86rem; color: var(--ink-soft); }
 
-.step-arrow { color: var(--line); font-size: 1.4rem; padding-top: 60px; }
+.step-arrow { color: var(--line); font-size: 1.4rem; }
 
 /* ---------- Audience ---------- */
 .audience { padding: 20px 0 80px; }
