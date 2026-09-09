@@ -356,7 +356,7 @@ img { max-width: 100%; display: block; }
 
 .audience h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); margin-bottom: 44px; }
 
-.audience-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+.audience-grid { display: grid; grid-template-columns: 1fr; gap: 22px; max-width: 640px; margin: 0 auto; }
 
 .audience-card { background: var(--cream-card); border-radius: 24px; overflow: hidden; border: 1px solid var(--line); }
 
