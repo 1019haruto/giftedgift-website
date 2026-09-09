@@ -323,8 +323,8 @@ img { max-width: 100%; display: block; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 76px;
-  height: 76px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   background: var(--cream-card);
   border: 3px solid var(--gold-deep);
