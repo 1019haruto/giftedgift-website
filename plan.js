@@ -46,6 +46,7 @@ const emailStep = document.getElementById('emailStep');
 const doneStep = document.getElementById('doneStep');
 let selectedAddons = [];
 let submittedEmail = '';
+let submittedToken = '';
 
 function escapeHtmlLocal(str) {
   return String(str)
@@ -205,6 +206,7 @@ if (sendEmailBtn) {
     }
     const code = String(Math.floor(100000 + Math.random() * 900000));
     submittedEmail = email;
+    submittedToken = Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
     const confirmedEmail = document.getElementById('confirmedEmail');
     const issuedCode = document.getElementById('issuedCode');
     if (confirmedEmail) confirmedEmail.textContent = email + ' 宛にお送りする内容としてお預かりしました。';
@@ -217,7 +219,7 @@ if (sendEmailBtn) {
 
     if (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.SUBMISSION_ENDPOINT &&
         SITE_CONFIG.SUBMISSION_ENDPOINT.indexOf('script.google.com') !== -1) {
-      const payload = Object.assign(collectRequestSummary(), { email: email, code: code });
+      const payload = Object.assign(collectRequestSummary(), { email: email, code: code, token: submittedToken });
       fetch(SITE_CONFIG.SUBMISSION_ENDPOINT, {
         method: 'POST',
         mode: 'no-cors',
@@ -241,7 +243,7 @@ if (lineSendBtn) {
       }
       return;
     }
-    if (!submittedEmail) return;
+    if (!submittedToken) return;
 
     lineSendBtn.disabled = true;
     lineSendBtn.textContent = 'LINEアプリに移動しています…';
@@ -250,7 +252,7 @@ if (lineSendBtn) {
       '?response_type=code' +
       '&client_id=' + encodeURIComponent(SITE_CONFIG.LINE_LOGIN_CHANNEL_ID) +
       '&redirect_uri=' + encodeURIComponent(SITE_CONFIG.LINE_LOGIN_REDIRECT_URI) +
-      '&state=' + encodeURIComponent(submittedEmail) +
+      '&state=' + encodeURIComponent(submittedToken) +
       '&scope=' + encodeURIComponent('profile openid') +
       '&bot_prompt=aggressive';
 

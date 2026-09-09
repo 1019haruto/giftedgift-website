@@ -26,7 +26,8 @@ function doPost(e) {
     data.page || '',
     data.email || '',
     JSON.stringify(data.categories || [], null, 0),
-    data.notes || ''
+    data.notes || '',
+    data.token || ''
   ]);
 
   if (data.email && data.code) {
@@ -120,7 +121,7 @@ function jsonOutput(obj) {
 // ▼LINE連携（スクリプトプロパティに以下4つのキーを設定してください。コード内には書きません）▼
 // LINE_LOGIN_CHANNEL_ID / LINE_LOGIN_CHANNEL_SECRET / LINE_LOGIN_REDIRECT_URI / LINE_MSG_ACCESS_TOKEN
 
-function handleLineCallback(code, email) {
+function handleLineCallback(code, token) {
   var props = PropertiesService.getScriptProperties();
   var loginChannelId = props.getProperty('LINE_LOGIN_CHANNEL_ID');
   var loginChannelSecret = props.getProperty('LINE_LOGIN_CHANNEL_SECRET');
@@ -129,6 +130,26 @@ function handleLineCallback(code, email) {
 
   if (!loginChannelId || !loginChannelSecret || !redirectUri || !msgAccessToken) {
     return lineResultPage('LINE連携の設定が未完了です（スクリプトプロパティを確認してください）。');
+  }
+
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  var rows = sheet.getDataRange().getValues();
+  var rowIndex = -1;
+
+  for (var i = 0; i < rows.length; i++) {
+    if (rows[i][5] && String(rows[i][5]) === String(token)) {
+      rowIndex = i;
+      break;
+    }
+  }
+
+  if (rowIndex === -1) {
+    return lineResultPage('該当するご相談内容が見つかりませんでした。');
+  }
+
+  // 同じ相談内容につき、LINEへの送信は1回だけに制限する（戻る/進むによる再実行対策）
+  if (rows[rowIndex][6]) {
+    return lineResultPage('この内容はすでにLINEへ送信済みです。');
   }
 
   var tokenRes = UrlFetchApp.fetch('https://api.line.me/oauth2/v2.1/token', {
@@ -149,7 +170,7 @@ function handleLineCallback(code, email) {
   }
 
   var userId = decodeLineUserId(tokenData.id_token);
-  var summaryText = buildLineSummaryText(email);
+  var summaryText = buildLineSummaryTextFromRow(rows[rowIndex]);
 
   UrlFetchApp.fetch('https://api.line.me/v2/bot/message/push', {
     method: 'post',
@@ -162,6 +183,8 @@ function handleLineCallback(code, email) {
     muteHttpExceptions: true
   });
 
+  sheet.getRange(rowIndex + 1, 7).setValue(new Date());
+
   return lineResultPage('ご相談内容をLINEに送信しました。LINEアプリのトークをご確認ください。');
 }
 
@@ -172,24 +195,11 @@ function decodeLineUserId(idToken) {
   return JSON.parse(decoded).sub;
 }
 
-function buildLineSummaryText(email) {
-  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
-  var rows = sheet.getDataRange().getValues();
-  var target = null;
-
-  for (var i = rows.length - 1; i >= 1; i--) {
-    if (String(rows[i][2]).toLowerCase() === String(email).toLowerCase()) {
-      target = rows[i];
-      break;
-    }
-  }
-
-  if (!target) return 'GIFTED×GIFTへのご相談ありがとうございます。';
-
-  var page = target[1];
-  var notes = target[4];
+function buildLineSummaryTextFromRow(row) {
+  var page = row[1];
+  var notes = row[4];
   var categories = [];
-  try { categories = JSON.parse(target[3]); } catch (err) { categories = []; }
+  try { categories = JSON.parse(row[3]); } catch (err) { categories = []; }
 
   var lines = ['【GIFTED×GIFT】ご相談内容を受け付けました', '', 'ページ：' + page, ''];
 
