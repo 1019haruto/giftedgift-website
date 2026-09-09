@@ -59,14 +59,15 @@ function doGet(e) {
     var email = (e.parameter.email || '').toLowerCase();
     if (!email) return jsonOutput({ error: 'email required' });
 
-    var planSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(PLAN_SHEET_NAME);
     var items = [];
 
+    var planSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(PLAN_SHEET_NAME);
     if (planSheet) {
       var planRows = planSheet.getDataRange().getValues();
       for (var p = 0; p < planRows.length; p++) {
         if (String(planRows[p][1]).toLowerCase() === email) {
           items.push({
+            type: 'plan',
             date: planRows[p][0],
             email: planRows[p][1],
             title: planRows[p][2],
@@ -76,8 +77,28 @@ function doGet(e) {
           });
         }
       }
-      items.reverse();
     }
+
+    // ご依頼いただいた内容そのものも「対応中」として一覧に表示する
+    var subSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+    if (subSheet) {
+      var subRows = subSheet.getDataRange().getValues();
+      for (var s = 0; s < subRows.length; s++) {
+        if (String(subRows[s][2]).toLowerCase() === email) {
+          items.push({
+            type: 'request',
+            date: subRows[s][0],
+            email: subRows[s][2],
+            page: subRows[s][1],
+            categories: subRows[s][3],
+            notes: subRows[s][4],
+            status: '対応中'
+          });
+        }
+      }
+    }
+
+    items.sort(function (a, b) { return new Date(b.date) - new Date(a.date); });
 
     return jsonOutput(items);
   }

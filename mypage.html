@@ -9,6 +9,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@500;700;900&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="form.css">
 </head>
 <body>
 
@@ -102,8 +103,12 @@
 
   function statusClass(status) {
     if (status === '確定済み') return 'status-badge--done';
-    if (status === '調整中') return 'status-badge--progress';
+    if (status === '調整中' || status === '対応中') return 'status-badge--progress';
     return 'status-badge--pending';
+  }
+
+  function cleanPageLabel(str) {
+    return String(str || '').replace(/\s*｜\s*GIFTED×GIFT\s*$/, '');
   }
 
   function escapeHtml(str) {
@@ -131,11 +136,43 @@
     }).join('');
 
     return (
-      '<table class="proposal-schedule" hidden>' +
+      '<table class="proposal-schedule proposal-detail" hidden>' +
         '<thead><tr><th>時間</th><th>場所</th><th>移動手段</th><th>備考</th></tr></thead>' +
         '<tbody>' + body + '</tbody>' +
       '</table>'
     );
+  }
+
+  function renderRequestContent(raw, notes) {
+    var categories;
+    try { categories = JSON.parse(raw); } catch (e) { categories = []; }
+    if (!Array.isArray(categories)) categories = [];
+
+    var categoriesHtml = categories.map(function (cat) {
+      var fields = cat.fields || {};
+      var rows = Object.keys(fields).map(function (key) {
+        var value = fields[key];
+        if (Array.isArray(value)) value = value.join('、');
+        return (
+          '<div class="confirm-field-row">' +
+            '<span class="confirm-field-label">' + escapeHtml(key) + '</span>' +
+            '<span class="confirm-field-value">' + escapeHtml(String(value)) + '</span>' +
+          '</div>'
+        );
+      }).join('');
+      return (
+        '<div class="confirm-category">' +
+          '<div class="confirm-category-name">' + escapeHtml(cat.name || '') + '</div>' +
+          rows +
+        '</div>'
+      );
+    }).join('');
+
+    var notesHtml = notes
+      ? '<div class="confirm-notes"><strong>こだわり・補足事項</strong><p>' + escapeHtml(notes) + '</p></div>'
+      : '';
+
+    return '<div class="confirm-content proposal-detail" hidden>' + categoriesHtml + notesHtml + '</div>';
   }
 
   function renderPlans(items) {
@@ -146,14 +183,16 @@
 
     planList.innerHTML = items.map(function (item) {
       var dateStr = item.date ? new Date(item.date).toLocaleDateString('ja-JP', { month: 'numeric', day: 'numeric' }) : '';
-      var scheduleHtml = renderSchedule(item.schedule);
+      var isRequest = item.type === 'request';
+      var detailHtml = isRequest ? renderRequestContent(item.categories, item.notes) : renderSchedule(item.schedule);
+      var title = isRequest ? 'ご相談内容' : (item.title || '');
 
       return (
         '<div class="proposal-card">' +
           '<div class="proposal-main">' +
-            '<span class="proposal-tag">' + escapeHtml(item.page || '') + '</span>' +
-            '<h3>' + escapeHtml(item.title || '') + '</h3>' +
-            scheduleHtml +
+            '<span class="proposal-tag">' + escapeHtml(cleanPageLabel(item.page)) + '</span>' +
+            '<h3>' + escapeHtml(title) + '</h3>' +
+            detailHtml +
           '</div>' +
           '<div class="proposal-side">' +
             '<span class="status-badge ' + statusClass(item.status) + '">' + escapeHtml(item.status || 'ご提案中') + '</span>' +
@@ -168,10 +207,10 @@
       link.addEventListener('click', function (e) {
         e.preventDefault();
         var card = link.closest('.proposal-card');
-        var table = card.querySelector('.proposal-schedule');
-        if (table) {
-          table.hidden = !table.hidden;
-          link.textContent = table.hidden ? '詳細を見る →' : '閉じる ↑';
+        var detail = card.querySelector('.proposal-detail');
+        if (detail) {
+          detail.hidden = !detail.hidden;
+          link.textContent = detail.hidden ? '詳細を見る →' : '閉じる ↑';
         }
       });
     });
