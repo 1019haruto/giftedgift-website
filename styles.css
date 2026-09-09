@@ -160,7 +160,8 @@ img { max-width: 100%; display: block; }
 .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 
 .service-card {
-  display: block;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   text-align: left;
   font-family: inherit;
@@ -189,6 +190,7 @@ img { max-width: 100%; display: block; }
   overflow: hidden;
   height: 150px;
   margin-bottom: 16px;
+  flex-shrink: 0;
 }
 
 .service-photo {
