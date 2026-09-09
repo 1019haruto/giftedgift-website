@@ -1,0 +1,7 @@
+User-agent: *
+Disallow: /admin.html
+Disallow: /admin-dashboard.html
+Disallow: /mypage.html
+Allow: /
+
+Sitemap: https://1019haruto.github.io/giftedgift-website/sitemap.xml
