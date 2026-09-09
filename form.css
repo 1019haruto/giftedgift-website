@@ -186,3 +186,23 @@ select, .field-grid input[type="text"] {
   text-align: center;
   margin: 16px 0;
 }
+
+.done-actions { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+
+.btn-line {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 999px;
+  border: none;
+  background: #06C755;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.btn-line:hover { background: #05B34C; }
+.btn-line:disabled { opacity: 0.6; cursor: default; }
+
+.done-actions-note { margin-top: 10px; color: #B9C6D9; font-size: 0.9rem; }

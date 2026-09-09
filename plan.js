@@ -45,6 +45,7 @@ const upsellStep = document.getElementById('upsellStep');
 const emailStep = document.getElementById('emailStep');
 const doneStep = document.getElementById('doneStep');
 let selectedAddons = [];
+let submittedEmail = '';
 
 function escapeHtmlLocal(str) {
   return String(str)
@@ -203,6 +204,7 @@ if (sendEmailBtn) {
       return;
     }
     const code = String(Math.floor(100000 + Math.random() * 900000));
+    submittedEmail = email;
     const confirmedEmail = document.getElementById('confirmedEmail');
     const issuedCode = document.getElementById('issuedCode');
     if (confirmedEmail) confirmedEmail.textContent = email + ' 宛にお送りする内容としてお預かりしました。';
@@ -225,6 +227,34 @@ if (sendEmailBtn) {
         // 送信に失敗しても、お客様には既に完了画面を表示済みのため何もしない
       });
     }
+  });
+}
+
+const lineSendBtn = document.getElementById('lineSendBtn');
+if (lineSendBtn) {
+  lineSendBtn.addEventListener('click', () => {
+    const lineSendNote = document.getElementById('lineSendNote');
+    if (typeof SITE_CONFIG === 'undefined' || !SITE_CONFIG.LINE_LOGIN_CHANNEL_ID || !SITE_CONFIG.LINE_LOGIN_REDIRECT_URI) {
+      if (lineSendNote) {
+        lineSendNote.hidden = false;
+        lineSendNote.textContent = 'LINE連携の設定が未完了のため、送信できません。';
+      }
+      return;
+    }
+    if (!submittedEmail) return;
+
+    lineSendBtn.disabled = true;
+    lineSendBtn.textContent = 'LINEアプリに移動しています…';
+
+    const authUrl = 'https://access.line.me/oauth2/v2.1/authorize' +
+      '?response_type=code' +
+      '&client_id=' + encodeURIComponent(SITE_CONFIG.LINE_LOGIN_CHANNEL_ID) +
+      '&redirect_uri=' + encodeURIComponent(SITE_CONFIG.LINE_LOGIN_REDIRECT_URI) +
+      '&state=' + encodeURIComponent(submittedEmail) +
+      '&scope=' + encodeURIComponent('profile openid') +
+      '&bot_prompt=aggressive';
+
+    window.location.href = authUrl;
   });
 }
 

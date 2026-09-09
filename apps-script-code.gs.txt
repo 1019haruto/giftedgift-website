@@ -50,6 +50,10 @@ function sendConfirmationEmail(email, code) {
 }
 
 function doGet(e) {
+  if (e.parameter.code && e.parameter.state) {
+    return handleLineCallback(e.parameter.code, e.parameter.state);
+  }
+
   if (e.parameter.action === 'myplans') {
     var email = (e.parameter.email || '').toLowerCase();
     if (!email) return jsonOutput({ error: 'email required' });
@@ -111,4 +115,104 @@ function jsonOutput(obj) {
   return ContentService
     .createTextOutput(JSON.stringify(obj))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+// ▼LINE連携（スクリプトプロパティに以下4つのキーを設定してください。コード内には書きません）▼
+// LINE_LOGIN_CHANNEL_ID / LINE_LOGIN_CHANNEL_SECRET / LINE_LOGIN_REDIRECT_URI / LINE_MSG_ACCESS_TOKEN
+
+function handleLineCallback(code, email) {
+  var props = PropertiesService.getScriptProperties();
+  var loginChannelId = props.getProperty('LINE_LOGIN_CHANNEL_ID');
+  var loginChannelSecret = props.getProperty('LINE_LOGIN_CHANNEL_SECRET');
+  var redirectUri = props.getProperty('LINE_LOGIN_REDIRECT_URI');
+  var msgAccessToken = props.getProperty('LINE_MSG_ACCESS_TOKEN');
+
+  if (!loginChannelId || !loginChannelSecret || !redirectUri || !msgAccessToken) {
+    return lineResultPage('LINE連携の設定が未完了です（スクリプトプロパティを確認してください）。');
+  }
+
+  var tokenRes = UrlFetchApp.fetch('https://api.line.me/oauth2/v2.1/token', {
+    method: 'post',
+    payload: {
+      grant_type: 'authorization_code',
+      code: code,
+      redirect_uri: redirectUri,
+      client_id: loginChannelId,
+      client_secret: loginChannelSecret
+    },
+    muteHttpExceptions: true
+  });
+
+  var tokenData = JSON.parse(tokenRes.getContentText());
+  if (!tokenData.id_token) {
+    return lineResultPage('LINEとの連携に失敗しました。もう一度お試しください。');
+  }
+
+  var userId = decodeLineUserId(tokenData.id_token);
+  var summaryText = buildLineSummaryText(email);
+
+  UrlFetchApp.fetch('https://api.line.me/v2/bot/message/push', {
+    method: 'post',
+    contentType: 'application/json',
+    headers: { Authorization: 'Bearer ' + msgAccessToken },
+    payload: JSON.stringify({
+      to: userId,
+      messages: [{ type: 'text', text: summaryText }]
+    }),
+    muteHttpExceptions: true
+  });
+
+  return lineResultPage('ご相談内容をLINEに送信しました。LINEアプリのトークをご確認ください。');
+}
+
+function decodeLineUserId(idToken) {
+  var payload = idToken.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+  while (payload.length % 4) payload += '=';
+  var decoded = Utilities.newBlob(Utilities.base64Decode(payload)).getDataAsString();
+  return JSON.parse(decoded).sub;
+}
+
+function buildLineSummaryText(email) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName(SHEET_NAME);
+  var rows = sheet.getDataRange().getValues();
+  var target = null;
+
+  for (var i = rows.length - 1; i >= 1; i--) {
+    if (String(rows[i][2]).toLowerCase() === String(email).toLowerCase()) {
+      target = rows[i];
+      break;
+    }
+  }
+
+  if (!target) return 'GIFTED×GIFTへのご相談ありがとうございます。';
+
+  var page = target[1];
+  var notes = target[4];
+  var categories = [];
+  try { categories = JSON.parse(target[3]); } catch (err) { categories = []; }
+
+  var lines = ['【GIFTED×GIFT】ご相談内容を受け付けました', '', 'ページ：' + page, ''];
+
+  categories.forEach(function (cat) {
+    lines.push('■ ' + cat.name);
+    var fields = cat.fields || {};
+    Object.keys(fields).forEach(function (key) {
+      var value = fields[key];
+      if (Array.isArray(value)) value = value.join('、');
+      lines.push(key + '：' + value);
+    });
+    lines.push('');
+  });
+
+  if (notes) lines.push('補足：' + notes);
+
+  return lines.join('\n');
+}
+
+function lineResultPage(message) {
+  return HtmlService.createHtmlOutput(
+    '<html><body style="font-family:sans-serif; text-align:center; padding:60px 20px; color:#333;">' +
+    '<h2>' + message + '</h2>' +
+    '</body></html>'
+  );
 }
