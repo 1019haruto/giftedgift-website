@@ -31,13 +31,13 @@
     card.addEventListener('click', () => openGate(card.dataset.target));
   });
 
-  const navMyGift = document.getElementById('navMyGift');
-  if (navMyGift) {
-    navMyGift.addEventListener('click', () => {
+  const myGiftTriggers = document.querySelectorAll('#navMyGift, #floatingMyGift');
+  myGiftTriggers.forEach((btn) => {
+    btn.addEventListener('click', () => {
       overlay.hidden = false;
       showStep('loginEmail');
     });
-  }
+  });
 
   const gateClose = document.getElementById('gateClose');
   if (gateClose) gateClose.addEventListener('click', closeGate);

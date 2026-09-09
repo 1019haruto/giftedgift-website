@@ -101,6 +101,29 @@ img { max-width: 100%; display: block; }
 .nav-cta { background: var(--ink); color: var(--cream); padding: 9px 20px; border-radius: 999px; font-weight: 700; border: none; font: inherit; font-weight: 700; cursor: pointer; }
 .nav-cta:hover { background: var(--gold-deep); }
 
+.floating-mygift-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 500;
+  background: var(--gold-deep);
+  color: #2B2620;
+  padding: 14px 26px;
+  border-radius: 999px;
+  border: none;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.5);
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+.floating-mygift-btn:hover { background: var(--gold); transform: translateY(-2px); }
+
+@media (max-width: 640px) {
+  .floating-mygift-btn { right: 16px; bottom: 16px; padding: 12px 20px; font-size: 0.85rem; }
+}
+
 .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
 .nav-toggle span { width: 22px; height: 2px; background: var(--ink); }
 
