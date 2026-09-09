@@ -198,6 +198,10 @@ img { max-width: 100%; display: block; }
   display: block;
 }
 
+.service-photo--alpha {
+  object-position: center 75%;
+}
+
 .service-ribbon {
   position: absolute;
   top: -14px;
