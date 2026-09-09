@@ -335,7 +335,7 @@ img { max-width: 100%; display: block; }
 
 .flow-step p { font-size: 0.86rem; color: var(--ink-soft); }
 
-.step-arrow { color: var(--line); font-size: 1.4rem; }
+.step-arrow { color: var(--gold-deep); font-size: 2rem; font-weight: 700; }
 
 /* ---------- Audience ---------- */
 .audience { padding: 20px 0 80px; }
