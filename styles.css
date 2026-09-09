@@ -106,14 +106,21 @@ img { max-width: 100%; display: block; }
   right: 48px;
   bottom: 48px;
   z-index: 500;
+  width: 108px;
+  height: 108px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.4;
   background: var(--gold-deep);
   color: #2B2620;
-  padding: 18px 32px;
-  border-radius: 999px;
+  padding: 0;
+  border-radius: 50%;
   border: none;
   font: inherit;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
   cursor: pointer;
   box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.5);
   transition: transform 0.15s ease, background 0.15s ease;
@@ -121,7 +128,7 @@ img { max-width: 100%; display: block; }
 .floating-mygift-btn:hover { background: var(--gold); transform: translateY(-2px); }
 
 @media (max-width: 640px) {
-  .floating-mygift-btn { right: 20px; bottom: 20px; padding: 14px 24px; font-size: 0.85rem; }
+  .floating-mygift-btn { right: 20px; bottom: 20px; width: 88px; height: 88px; font-size: 0.72rem; }
 }
 
 .nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 6px; }
