@@ -192,7 +192,14 @@ img { max-width: 100%; display: block; }
   padding: 56px 40px;
 }
 
-.services h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); max-width: 22ch; margin-left: auto; margin-right: auto; margin-bottom: 36px; }
+.services-title {
+  display: inline-block;
+  font-size: clamp(1.4rem, 3vw, 1.8rem);
+  margin-bottom: 36px;
+  padding: 10px 24px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
 
 .service-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
 
