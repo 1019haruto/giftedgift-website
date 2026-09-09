@@ -197,7 +197,8 @@ img { max-width: 100%; display: block; }
   font-size: clamp(1.4rem, 3vw, 1.8rem);
   margin-bottom: 36px;
   padding: 10px 24px;
-  border: 1px solid var(--line);
+  background: var(--sage-deep);
+  color: #fff;
   border-radius: 8px;
 }
 
