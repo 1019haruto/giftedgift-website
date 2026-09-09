@@ -2,7 +2,7 @@
 
 var SHEET_NAME = 'Submissions';
 var PLAN_SHEET_NAME = 'Plans';
-var SECRET = 'giftsecret26'; // ← 必ず自分だけの文字列に変更してください（config.jsのADMIN_SECRETと同じにする）
+var SECRET = 'a7eenGndxwL_4LstTwx8UQdu'; // ← 管理者ページ(admin-dashboard.html)を開くときに入力するパスワードと同じ文字列にしてください
 
 function doPost(e) {
   var data = JSON.parse(e.postData.contents);

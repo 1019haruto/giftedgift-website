@@ -5,8 +5,9 @@ const SITE_CONFIG = {
   // 例: "https://script.google.com/macros/s/AKfycb.../exec"
   SUBMISSION_ENDPOINT: "https://script.google.com/macros/s/AKfycbzwttIqRin12N8pKyaSLH7Esi2br07XT-UfNm52y6dCs4eoeqgpLZFcSMgLDnhCqQYSXg/exec",
 
-  // Apps Scriptコード内のSECRETと同じ文字列にしてください
-  ADMIN_SECRET: "giftsecret26",
+  // 管理者パスワードはここには書きません（公開ファイルなので誰でも読めてしまいます）。
+  // admin-dashboard.html で入力したパスワードをそのままApps Scriptに送って認証します。
+  // Apps Script側のSECRETは admin-dashboard.html で入力する値と同じにしてください。
 
   // LINEログインチャネルのチャネルID（チャネルシークレットではありません。これは公開情報です）
   LINE_LOGIN_CHANNEL_ID: "2011523364",

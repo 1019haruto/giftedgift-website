@@ -135,14 +135,16 @@
 <script>
   var allItems = [];
   var currentEmail = null;
+  var adminKey = null;
   var handledIds = JSON.parse(localStorage.getItem('gitedgift_admin_handled') || '[]');
 
   document.getElementById('adminLoginBtn').addEventListener('click', function () {
     var input = document.getElementById('adminPassword').value.trim();
-    if (input !== SITE_CONFIG.ADMIN_SECRET) {
-      alert('パスワードが違います。');
+    if (!input) {
+      alert('パスワードを入力してください。');
       return;
     }
+    adminKey = input;
     document.getElementById('adminGate').style.display = 'none';
     document.getElementById('adminDashboard').style.display = 'block';
     loadSubmissions();
@@ -159,14 +161,14 @@
       return;
     }
 
-    var url = SITE_CONFIG.SUBMISSION_ENDPOINT + '?key=' + encodeURIComponent(SITE_CONFIG.ADMIN_SECRET);
+    var url = SITE_CONFIG.SUBMISSION_ENDPOINT + '?key=' + encodeURIComponent(adminKey || '');
 
     fetch(url)
       .then(function (res) { return res.json(); })
       .then(function (data) {
         if (data && data.error) {
           document.getElementById('listArea').innerHTML =
-            '<div class="admin-state admin-error">認証エラー：config.js の ADMIN_SECRET と、Apps Script側の SECRET が一致しているか確認してください。</div>';
+            '<div class="admin-state admin-error">認証エラー：パスワードが正しくありません。ページを再読み込みして、Apps Script側のSECRETと同じパスワードを入力してください。</div>';
           return;
         }
         allItems = data || [];
