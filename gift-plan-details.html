@@ -181,23 +181,15 @@
 
     <div class="gate-step" id="gateLoginEmail" hidden>
       <h3>ログイン</h3>
-      <p>ご登録のメールアドレスに確認コードをお送りします。</p>
+      <p>ご登録のメールアドレスと確認コードを入力してください。</p>
       <label class="gate-field">メールアドレス
         <input type="email" id="loginEmailInput" placeholder="example@mail.com">
       </label>
-      <button type="button" class="btn btn-primary" id="sendCodeBtn">コードを送信する</button>
-      <button type="button" class="gate-back" id="backToChoice1">← 戻る</button>
-    </div>
-
-    <div class="gate-step" id="gateLoginCode" hidden>
-      <h3>確認コードを入力</h3>
-      <p id="codeSentTo"></p>
       <label class="gate-field">確認コード（6桁）
         <input type="text" id="loginCodeInput" maxlength="6" inputmode="numeric" placeholder="123456">
       </label>
       <button type="button" class="btn btn-primary" id="verifyCodeBtn">ログイン</button>
-      <a href="#" class="gate-link" id="resendCodeLink">コードが届かない・お忘れの方はこちら</a>
-      <button type="button" class="gate-back" id="backToChoice2">← 戻る</button>
+      <button type="button" class="gate-back" id="backToChoice1">← 戻る</button>
     </div>
   </div>
 </div>

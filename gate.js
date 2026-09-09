@@ -2,14 +2,13 @@
   const overlay = document.getElementById('gateOverlay');
   const gateChoice = document.getElementById('gateChoice');
   const gateLoginEmail = document.getElementById('gateLoginEmail');
-  const gateLoginCode = document.getElementById('gateLoginCode');
   const cards = document.querySelectorAll('.service-card[data-target]');
 
-  if (!overlay || !gateChoice || !gateLoginEmail || !gateLoginCode) {
+  if (!overlay || !gateChoice || !gateLoginEmail) {
     return;
   }
 
-  const steps = { choice: gateChoice, loginEmail: gateLoginEmail, loginCode: gateLoginCode };
+  const steps = { choice: gateChoice, loginEmail: gateLoginEmail };
   let targetUrl = 'index.html';
 
   function showStep(name) {
@@ -59,48 +58,22 @@
   const backToChoice1 = document.getElementById('backToChoice1');
   if (backToChoice1) backToChoice1.addEventListener('click', () => showStep('choice'));
 
-  const backToChoice2 = document.getElementById('backToChoice2');
-  if (backToChoice2) backToChoice2.addEventListener('click', () => showStep('choice'));
-
-  const sendCodeBtn = document.getElementById('sendCodeBtn');
-  if (sendCodeBtn) {
-    sendCodeBtn.addEventListener('click', () => {
+  const verifyCodeBtn = document.getElementById('verifyCodeBtn');
+  if (verifyCodeBtn) {
+    verifyCodeBtn.addEventListener('click', () => {
       const emailInput = document.getElementById('loginEmailInput');
       const email = emailInput ? emailInput.value.trim() : '';
       if (!email) {
         alert('メールアドレスを入力してください。');
         return;
       }
-      const codeSentTo = document.getElementById('codeSentTo');
-      if (codeSentTo) {
-        codeSentTo.textContent =
-          email + ' 宛に確認コードを送信しました（デモ画面のため実際には送信されません）。';
-      }
-      showStep('loginCode');
-    });
-  }
-
-  const resendCodeLink = document.getElementById('resendCodeLink');
-  if (resendCodeLink) {
-    resendCodeLink.addEventListener('click', (e) => {
-      e.preventDefault();
-      alert('確認コードを再送しました（デモ画面です）。');
-    });
-  }
-
-  const verifyCodeBtn = document.getElementById('verifyCodeBtn');
-  if (verifyCodeBtn) {
-    verifyCodeBtn.addEventListener('click', () => {
       const codeInput = document.getElementById('loginCodeInput');
       const code = codeInput ? codeInput.value.trim() : '';
       if (code.length !== 6) {
         alert('6桁のコードを入力してください。');
         return;
       }
-      const emailInput = document.getElementById('loginEmailInput');
-      if (emailInput && emailInput.value.trim()) {
-        localStorage.setItem('gitedgift_user_email', emailInput.value.trim());
-      }
+      localStorage.setItem('gitedgift_user_email', email);
       closeGate();
       window.location.href = 'mypage.html';
     });
