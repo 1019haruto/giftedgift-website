@@ -135,7 +135,7 @@ img { max-width: 100%; display: block; }
 .nav-toggle span { width: 22px; height: 2px; background: var(--ink); }
 
 /* ---------- Hero ---------- */
-.hero { padding: 72px 0 60px; }
+.hero { padding: 72px 0 30px; }
 
 .hero-inner {
   display: grid;
@@ -183,7 +183,7 @@ img { max-width: 100%; display: block; }
 .hero-photo.is-active { opacity: 1; }
 
 /* ---------- Services ---------- */
-.services { padding: 80px 0 60px; }
+.services { padding: 30px 0 60px; }
 
 .services-inner {
   background: var(--cream-card);
