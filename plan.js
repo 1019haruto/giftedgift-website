@@ -4,8 +4,88 @@ document.querySelectorAll('.category-chip input[type="checkbox"]').forEach((chec
     if (panel) panel.hidden = !checkbox.checked;
     checkbox.closest('.category-chip').classList.toggle('is-active', checkbox.checked);
     updateEmptyHint();
+    updatePlanPreview();
   });
 });
+
+/* ---------- mood / relationship choice cards ---------- */
+function wireChoiceCards(containerId, selectId) {
+  const container = document.getElementById(containerId);
+  const select = document.getElementById(selectId);
+  if (!container || !select) return;
+
+  container.querySelectorAll('.choice-card').forEach((card) => {
+    card.addEventListener('click', () => {
+      container.querySelectorAll('.choice-card').forEach((c) => c.classList.remove('is-selected'));
+      card.classList.add('is-selected');
+      select.value = card.dataset.value;
+      updatePlanPreview();
+    });
+  });
+}
+
+wireChoiceCards('moodCards', 'moodSelect');
+wireChoiceCards('relationshipCards', 'relationshipSelect');
+
+/* ---------- live "YOUR PLAN" preview ---------- */
+const ADDON_TIMELINE = [
+  { target: 'cat-transport', icon: '🚗', label: '移動' },
+  { target: 'cat-flower', icon: '🌷', label: '花束をお渡し' },
+  { target: 'cat-meal', icon: '🍽️', label: 'お食事' },
+  { target: 'cat-cake', icon: '🍰', label: 'ケーキでお祝い' },
+  { target: 'cat-goods', icon: '🎁', label: 'ギフトをお渡し' },
+  { target: 'cat-stay', icon: '🏨', label: '宿泊でゆっくり' },
+];
+
+function updatePlanPreview() {
+  const previewEmpty = document.getElementById('previewEmpty');
+  const previewBody = document.getElementById('previewBody');
+  const previewMoodEn = document.getElementById('previewMoodEn');
+  const previewMoodCopy = document.getElementById('previewMoodCopy');
+  const previewWith = document.getElementById('previewWith');
+  const previewTimeline = document.getElementById('previewTimeline');
+  if (!previewEmpty || !previewBody) return;
+
+  const moodCard = document.querySelector('#moodCards .choice-card.is-selected');
+  const relCard = document.querySelector('#relationshipCards .choice-card.is-selected');
+  const checkedAddons = Array.from(document.querySelectorAll('.category-chip input[type="checkbox"]:checked'))
+    .map((cb) => cb.dataset.target);
+
+  const hasAnything = moodCard || relCard || checkedAddons.length > 0;
+
+  if (!hasAnything) {
+    previewEmpty.hidden = false;
+    previewBody.hidden = true;
+    return;
+  }
+
+  previewEmpty.hidden = true;
+  previewBody.hidden = false;
+
+  if (moodCard) {
+    previewMoodEn.textContent = moodCard.dataset.en || 'YOUR PLAN';
+    previewMoodCopy.textContent = moodCard.dataset.copy || '';
+  } else {
+    previewMoodEn.textContent = 'YOUR PLAN';
+    previewMoodCopy.textContent = 'あなたたちの時間を、一緒に考えています。';
+  }
+
+  if (relCard) {
+    previewWith.hidden = false;
+    previewWith.textContent = relCard.dataset.value + 'との時間';
+  } else {
+    previewWith.hidden = true;
+  }
+
+  if (previewTimeline) {
+    previewTimeline.innerHTML = ADDON_TIMELINE
+      .filter((item) => checkedAddons.includes(item.target))
+      .map((item) => (
+        '<li><span class="plan-preview-timeline-icon">' + item.icon + '</span><span>' + item.label + '</span></li>'
+      ))
+      .join('');
+  }
+}
 
 function updateEmptyHint() {
   const hint = document.getElementById('emptyHint');
@@ -261,3 +341,4 @@ if (lineSendBtn) {
 }
 
 updateEmptyHint();
+updatePlanPreview();

@@ -36,7 +36,55 @@
   .plan-hero-photo { height: 200px; }
 }
 
+/* --- concept strip --- */
+.plan-concept {
+  text-align: center;
+  padding: 36px 0 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.plan-concept-eyebrow {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.3rem;
+  letter-spacing: 0.08em;
+  color: var(--ink);
+  margin-bottom: 0.5em;
+}
+
+.plan-concept-eyebrow span { color: var(--gold-deep); }
+
+.plan-concept-lead {
+  color: var(--ink-soft);
+  font-size: 1rem;
+  line-height: 1.9;
+  margin: 0;
+}
+
+/* --- builder layout (form + live preview) --- */
+.plan-builder {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 36px;
+  align-items: start;
+  padding: 20px 0 90px;
+}
+
 .plan-form { padding: 20px 0 90px; }
+.plan-builder .plan-form { padding: 0; }
+
+@media (max-width: 900px) {
+  .plan-builder { grid-template-columns: 1fr; padding: 12px 0 70px; gap: 28px; }
+  .plan-preview { order: -1; position: static; }
+}
+
+.plan-form-footnote {
+  color: var(--ink-soft);
+  font-size: 0.86rem;
+  line-height: 1.8;
+  max-width: 52ch;
+  margin: 28px 0 0;
+}
 
 /* --- category selector chips --- */
 .category-toggle-note {
@@ -79,6 +127,153 @@
   border-color: var(--sage);
   color: var(--sage-deep);
 }
+
+/* --- mood / relationship choice cards --- */
+.visually-hidden-field {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.choice-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.choice-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  background: #35496A;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 16px;
+  padding: 18px 12px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #F3F6FA;
+  cursor: pointer;
+  text-align: center;
+  transition: background 0.15s ease, border-color 0.15s ease, transform 0.15s ease;
+}
+
+.choice-card:hover { transform: translateY(-2px); }
+
+.choice-card-icon { font-size: 1.6rem; line-height: 1; }
+
+.choice-card.is-selected {
+  background: var(--sage-pale);
+  border-color: var(--sage-deep);
+  color: var(--sage-deep);
+}
+
+/* --- addon tiles ("何を添えますか") --- */
+.addon-section { margin-top: 28px; }
+
+.addon-heading {
+  font-size: 1.1rem;
+  color: #F3F6FA;
+  margin-bottom: 0.4em;
+}
+
+.addon-note {
+  color: var(--ink-soft);
+  font-size: 0.85rem;
+  margin-bottom: 16px;
+}
+
+.addon-tile {
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px;
+  border-radius: 16px;
+}
+
+.addon-tile input { position: absolute; opacity: 0; width: 0; height: 0; }
+
+.addon-tile-icon { font-size: 1.5rem; line-height: 1; }
+
+/* --- live plan preview --- */
+.plan-preview {
+  position: sticky;
+  top: 24px;
+  background: linear-gradient(160deg, #26374F 0%, #1B2740 100%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 20px;
+  padding: 26px 22px;
+}
+
+.plan-preview-eyebrow {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 0.8rem;
+  letter-spacing: 0.16em;
+  color: var(--gold-deep);
+  margin-bottom: 1em;
+}
+
+.plan-preview-empty p {
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+  line-height: 1.8;
+}
+
+.plan-preview-empty-sub { font-size: 0.82rem; opacity: 0.8; }
+
+.plan-preview-mood-en {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.5rem;
+  letter-spacing: 0.06em;
+  color: #F3F6FA;
+  margin-bottom: 0.3em;
+}
+
+.plan-preview-mood-copy {
+  color: #B9C6D9;
+  font-size: 0.9rem;
+  line-height: 1.7;
+}
+
+.plan-preview-with {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 6px 14px;
+  background: var(--sage-pale);
+  color: var(--sage-deep);
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.plan-preview-timeline {
+  list-style: none;
+  margin: 20px 0 0;
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.plan-preview-timeline li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 0.88rem;
+  color: #F3F6FA;
+}
+
+.plan-preview-timeline li:last-child { border-bottom: none; }
+
+.plan-preview-timeline-icon { font-size: 1.1rem; }
 
 /* --- category panel --- */
 .category-panel {
