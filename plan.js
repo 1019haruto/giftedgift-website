@@ -28,6 +28,14 @@ wireChoiceCards('moodCards', 'moodSelect');
 wireChoiceCards('relationshipCards', 'relationshipSelect');
 wireChoiceCards('topicCards', 'topicSelect');
 
+const previewToggleBtn = document.getElementById('previewToggle');
+if (previewToggleBtn) {
+  previewToggleBtn.addEventListener('click', () => {
+    previewExpanded = !previewExpanded;
+    updatePlanPreview();
+  });
+}
+
 /* ---------- live "YOUR PLAN" preview ---------- */
 const ADDON_TIMELINE = [
   { target: 'cat-transport', icon: '🚗', label: '移動' },
@@ -38,13 +46,18 @@ const ADDON_TIMELINE = [
   { target: 'cat-stay', icon: '🏨', label: '宿泊でゆっくり' },
 ];
 
+let previewExpanded = false;
+
 function updatePlanPreview() {
+  const planPreview = document.getElementById('planPreview');
   const previewEmpty = document.getElementById('previewEmpty');
   const previewBody = document.getElementById('previewBody');
   const previewMoodEn = document.getElementById('previewMoodEn');
   const previewMoodCopy = document.getElementById('previewMoodCopy');
   const previewWith = document.getElementById('previewWith');
   const previewTimeline = document.getElementById('previewTimeline');
+  const previewToggle = document.getElementById('previewToggle');
+  const previewCount = document.getElementById('previewCount');
   if (!previewEmpty || !previewBody) return;
 
   const moodCard = document.querySelector('#moodCards .choice-card.is-selected');
@@ -52,7 +65,13 @@ function updatePlanPreview() {
   const checkedAddons = Array.from(document.querySelectorAll('.category-chip input[type="checkbox"]:checked'))
     .map((cb) => cb.dataset.target);
 
-  const hasAnything = moodCard || relCard || checkedAddons.length > 0;
+  const count = (moodCard ? 1 : 0) + (relCard ? 1 : 0) + checkedAddons.length;
+  const hasAnything = count > 0;
+
+  if (previewToggle) previewToggle.hidden = !hasAnything;
+  if (previewCount) previewCount.textContent = String(count);
+  if (planPreview) planPreview.classList.toggle('is-expanded', previewExpanded);
+  if (previewToggle) previewToggle.classList.toggle('is-expanded', previewExpanded);
 
   if (!hasAnything) {
     previewEmpty.hidden = false;

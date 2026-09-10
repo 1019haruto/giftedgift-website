@@ -283,16 +283,24 @@
   </form>
 
   <aside class="plan-preview" id="planPreview" aria-live="polite">
-    <p class="plan-preview-eyebrow">YOUR GIFT</p>
+    <div class="plan-preview-head">
+      <p class="plan-preview-eyebrow">YOUR GIFT</p>
+      <button type="button" class="plan-preview-count" id="previewToggle" hidden>
+        <span>🛍️ <span id="previewCount">0</span>件選択中</span>
+        <span class="plan-preview-count-chevron" id="previewChevron">▼</span>
+      </button>
+    </div>
     <div class="plan-preview-empty" id="previewEmpty">
       <p>ここに、あなたの贈り物が<br>少しずつ浮かび上がっていきます。</p>
       <p class="plan-preview-empty-sub">左のカードから選んでみてください。</p>
     </div>
     <div class="plan-preview-body" id="previewBody" hidden>
-      <p class="plan-preview-mood-en" id="previewMoodEn">YOUR GIFT</p>
-      <p class="plan-preview-mood-copy" id="previewMoodCopy">あなたの贈り物を、一緒に考えています。</p>
-      <p class="plan-preview-with" id="previewWith" hidden></p>
-      <ul class="plan-preview-timeline" id="previewTimeline"></ul>
+      <div class="plan-preview-body-detail">
+        <p class="plan-preview-mood-en" id="previewMoodEn">YOUR GIFT</p>
+        <p class="plan-preview-mood-copy" id="previewMoodCopy">あなたの贈り物を、一緒に考えています。</p>
+        <p class="plan-preview-with" id="previewWith" hidden></p>
+        <ul class="plan-preview-timeline" id="previewTimeline"></ul>
+      </div>
     </div>
   </aside>
   </div>
