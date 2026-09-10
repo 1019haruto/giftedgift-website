@@ -171,6 +171,104 @@
       </label>
     </div>
 
+    <!-- 場所 -->
+    <div class="category-panel" id="cat-location">
+      <h3>📍 場所</h3>
+      <div class="field-grid">
+        <label>都道府県（複数選択可）
+          <select multiple size="8" class="select-multiple">
+            <option>どこでも可（全国対応）</option>
+            <option>北海道</option>
+            <option>青森県</option>
+            <option>岩手県</option>
+            <option>宮城県</option>
+            <option>秋田県</option>
+            <option>山形県</option>
+            <option>福島県</option>
+            <option>茨城県</option>
+            <option>栃木県</option>
+            <option>群馬県</option>
+            <option>埼玉県</option>
+            <option>千葉県</option>
+            <option>東京都</option>
+            <option>神奈川県</option>
+            <option>新潟県</option>
+            <option>富山県</option>
+            <option>石川県</option>
+            <option>福井県</option>
+            <option>山梨県</option>
+            <option>長野県</option>
+            <option>岐阜県</option>
+            <option>静岡県</option>
+            <option>愛知県</option>
+            <option>三重県</option>
+            <option>滋賀県</option>
+            <option>京都府</option>
+            <option>大阪府</option>
+            <option>兵庫県</option>
+            <option>奈良県</option>
+            <option>和歌山県</option>
+            <option>鳥取県</option>
+            <option>島根県</option>
+            <option>岡山県</option>
+            <option>広島県</option>
+            <option>山口県</option>
+            <option>徳島県</option>
+            <option>香川県</option>
+            <option>愛媛県</option>
+            <option>高知県</option>
+            <option>福岡県</option>
+            <option>佐賀県</option>
+            <option>長崎県</option>
+            <option>熊本県</option>
+            <option>大分県</option>
+            <option>宮崎県</option>
+            <option>鹿児島県</option>
+            <option>沖縄県</option>
+          </select>
+        </label>
+        <label>市町村・どこでも
+          <input type="text" placeholder="例：渋谷区、横浜市／指定がなければ「どこでも」とご記入ください">
+        </label>
+      </div>
+    </div>
+
+    <!-- 日時 -->
+    <div class="category-panel" id="cat-datetime">
+      <h3>🗓️ 日時</h3>
+      <div class="field-grid">
+        <label>第1希望日
+          <input type="date">
+        </label>
+        <label>第2希望日
+          <input type="date">
+        </label>
+        <label>第3希望日
+          <input type="date">
+        </label>
+      </div>
+      <p class="panel-subheading">集合の時間帯</p>
+      <div class="choice-cards" id="timeOfDayCards">
+        <button type="button" class="choice-card" data-value="朝">
+          <span class="choice-card-icon">🌅</span><span class="choice-card-label">朝</span>
+        </button>
+        <button type="button" class="choice-card" data-value="昼">
+          <span class="choice-card-icon">☀️</span><span class="choice-card-label">昼</span>
+        </button>
+        <button type="button" class="choice-card" data-value="夜">
+          <span class="choice-card-icon">🌙</span><span class="choice-card-label">夜</span>
+        </button>
+      </div>
+      <label class="visually-hidden-field">集合の時間帯
+        <select id="timeOfDaySelect">
+          <option value="">未選択</option>
+          <option>朝</option>
+          <option>昼</option>
+          <option>夜</option>
+        </select>
+      </label>
+    </div>
+
     <div class="addon-section">
       <h3 class="addon-heading">🎁 その時間に、何を添えますか？</h3>
       <p class="addon-note">選んだ分だけ、右側のプランにも追加されていきます（複数選択できます）。</p>

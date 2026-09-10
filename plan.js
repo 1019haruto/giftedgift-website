@@ -27,6 +27,7 @@ function wireChoiceCards(containerId, selectId) {
 wireChoiceCards('moodCards', 'moodSelect');
 wireChoiceCards('relationshipCards', 'relationshipSelect');
 wireChoiceCards('topicCards', 'topicSelect');
+wireChoiceCards('timeOfDayCards', 'timeOfDaySelect');
 
 const previewToggleBtn = document.getElementById('previewToggle');
 if (previewToggleBtn) {
@@ -262,10 +263,15 @@ function collectRequestSummary() {
     panel.querySelectorAll('select').forEach((select) => {
       const label = select.closest('label');
       const labelText = label ? label.childNodes[0].textContent.trim() : (select.id || '選択項目');
-      fields[labelText] = select.value;
+      if (select.multiple) {
+        const values = Array.from(select.selectedOptions).map((opt) => opt.value);
+        if (values.length > 0) fields[labelText] = values;
+      } else {
+        fields[labelText] = select.value;
+      }
     });
 
-    panel.querySelectorAll('.field-grid input[type="text"]').forEach((input) => {
+    panel.querySelectorAll('.field-grid input[type="text"], .field-grid input[type="date"]').forEach((input) => {
       const value = input.value.trim();
       if (!value) return;
       const label = input.closest('label');

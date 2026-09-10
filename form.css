@@ -342,7 +342,7 @@
 .field-grid label { color: #B9C6D9; }
 .notes-field label { color: var(--ink-soft); }
 
-select, .field-grid input[type="text"] {
+select, .field-grid input[type="text"], .field-grid input[type="date"] {
   padding: 12px 14px;
   border-radius: 12px;
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -350,6 +350,25 @@ select, .field-grid input[type="text"] {
   font-family: var(--font-body);
   font-size: 0.92rem;
   color: #F3F6FA;
+}
+
+.field-grid input[type="date"] { color-scheme: dark; }
+
+.select-multiple {
+  min-height: 180px;
+  padding: 6px;
+}
+
+.select-multiple option {
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+
+.panel-subheading {
+  margin: 20px 0 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #B9C6D9;
 }
 
 .field-grid input[type="text"]::placeholder,
