@@ -1,5 +1,13 @@
 /* ---------- Plan / Form pages ---------- */
 
+.side-label-desktop { display: inline; }
+.side-label-mobile { display: none; }
+
+@media (max-width: 900px) {
+  .side-label-desktop { display: none; }
+  .side-label-mobile { display: inline; }
+}
+
 .back-link {
   display: inline-flex;
   align-items: center;
