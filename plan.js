@@ -29,6 +29,28 @@ wireChoiceCards('relationshipCards', 'relationshipSelect');
 wireChoiceCards('topicCards', 'topicSelect');
 wireChoiceCards('timeOfDayCards', 'timeOfDaySelect');
 
+/* ---------- 都道府県 dropdown ---------- */
+const prefectureToggle = document.getElementById('prefectureToggle');
+const prefecturePanel = document.getElementById('prefecturePanel');
+const prefectureSummary = document.getElementById('prefectureSummary');
+if (prefectureToggle && prefecturePanel && prefectureSummary) {
+  prefectureToggle.addEventListener('click', () => {
+    prefecturePanel.hidden = !prefecturePanel.hidden;
+    prefectureToggle.classList.toggle('is-open', !prefecturePanel.hidden);
+  });
+
+  function updatePrefectureSummary() {
+    const checked = Array.from(prefecturePanel.querySelectorAll('input[type="checkbox"]:checked')).map((cb) => cb.value);
+    if (checked.length === 0) prefectureSummary.textContent = 'どこでも可';
+    else if (checked.length <= 2) prefectureSummary.textContent = checked.join('、');
+    else prefectureSummary.textContent = checked.length + '件選択中';
+  }
+
+  prefecturePanel.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+    cb.addEventListener('change', updatePrefectureSummary);
+  });
+}
+
 const previewToggleBtn = document.getElementById('previewToggle');
 if (previewToggleBtn) {
   previewToggleBtn.addEventListener('click', () => {
@@ -279,9 +301,11 @@ function collectRequestSummary() {
       fields[labelText] = value;
     });
 
-    const checked = Array.from(panel.querySelectorAll('.checkbox-row input[type="checkbox"]:checked'))
-      .map((cb) => (cb.closest('label') ? cb.closest('label').textContent.trim() : cb.value));
-    if (checked.length > 0) fields['選択項目'] = checked;
+    panel.querySelectorAll('.checkbox-row').forEach((row) => {
+      const checked = Array.from(row.querySelectorAll('input[type="checkbox"]:checked'))
+        .map((cb) => (cb.closest('label') ? cb.closest('label').textContent.trim() : cb.value));
+      if (checked.length > 0) fields[row.dataset.fieldLabel || '選択項目'] = checked;
+    });
 
     panel.querySelectorAll('textarea').forEach((textarea) => {
       const value = textarea.value.trim();

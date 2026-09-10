@@ -331,6 +331,7 @@
 }
 
 .field-grid label,
+.field-grid .field-label,
 .notes-field label {
   display: flex;
   flex-direction: column;
@@ -339,7 +340,7 @@
   font-weight: 700;
 }
 
-.field-grid label { color: #B9C6D9; }
+.field-grid label, .field-grid .field-label { color: #B9C6D9; }
 .notes-field label { color: var(--ink-soft); }
 
 select, .field-grid input[type="text"], .field-grid input[type="date"] {
@@ -354,15 +355,40 @@ select, .field-grid input[type="text"], .field-grid input[type="date"] {
 
 .field-grid input[type="date"] { color-scheme: dark; }
 
-.select-multiple {
-  min-height: 180px;
-  padding: 6px;
+.location-dropdown { position: relative; }
+
+.location-dropdown-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #35496A;
+  font-family: var(--font-body);
+  font-size: 0.92rem;
+  color: #F3F6FA;
+  cursor: pointer;
+  text-align: left;
 }
 
-.select-multiple option {
-  padding: 8px 10px;
-  border-radius: 8px;
+.location-dropdown-chevron { font-size: 0.7em; color: #B9C6D9; transition: transform 0.15s ease; flex-shrink: 0; }
+.location-dropdown-toggle.is-open .location-dropdown-chevron { transform: rotate(180deg); }
+
+.location-dropdown-panel {
+  margin-top: 10px;
+  padding: 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #2A3B54;
+  max-height: 260px;
+  overflow-y: auto;
 }
+
+/* .checkbox-row sets display:flex, which beats the [hidden] UA rule — force it explicitly */
+.location-dropdown-panel[hidden] { display: none; }
 
 .panel-subheading {
   margin: 20px 0 12px;
