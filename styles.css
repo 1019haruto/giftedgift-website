@@ -629,8 +629,10 @@ img { max-width: 100%; display: block; }
 
   .contact-panel { grid-template-columns: 1fr; padding: 36px 28px; }
 
-  .flow-steps { flex-direction: column; align-items: center; }
+  .flow-steps { flex-direction: column; align-items: stretch; gap: 32px; }
   .step-arrow { display: none; }
+  .flow-step { max-width: none; gap: 20px; align-items: flex-start; }
+  .step-icon { width: 110px; height: 110px; }
 
   /* --- mobile front-page redesign --- */
   .mobile-only { display: block; }
