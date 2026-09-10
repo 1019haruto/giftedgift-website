@@ -687,6 +687,15 @@ img { max-width: 100%; display: block; }
 .mypage-hero h1 { font-size: clamp(1.6rem, 3.4vw, 2.2rem); }
 .mypage-hero p { color: var(--ink-soft); }
 
+.mypage-hero .section-label {
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  color: var(--gold-deep);
+  letter-spacing: 0.02em;
+  margin-bottom: 0.3em;
+}
+
 .mypage-list { padding: 20px 0 60px; }
 
 .mypage-heading { font-size: 1.2rem; margin-bottom: 24px; }
