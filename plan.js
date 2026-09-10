@@ -26,6 +26,7 @@ function wireChoiceCards(containerId, selectId) {
 
 wireChoiceCards('moodCards', 'moodSelect');
 wireChoiceCards('relationshipCards', 'relationshipSelect');
+wireChoiceCards('topicCards', 'topicSelect');
 
 /* ---------- live "YOUR PLAN" preview ---------- */
 const ADDON_TIMELINE = [
@@ -71,8 +72,10 @@ function updatePlanPreview() {
   }
 
   if (relCard) {
+    const relContainer = document.getElementById('relationshipCards');
+    const suffix = (relContainer && relContainer.dataset.suffix) || 'へ';
     previewWith.hidden = false;
-    previewWith.textContent = relCard.dataset.value + 'との時間';
+    previewWith.textContent = relCard.dataset.value + suffix;
   } else {
     previewWith.hidden = true;
   }

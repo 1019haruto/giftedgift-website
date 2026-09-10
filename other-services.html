@@ -35,27 +35,47 @@
   <section class="plan-hero plan-hero--split wrap">
     <div class="plan-hero-text">
       <a href="index.html" class="back-link">← トップページに戻る</a>
-      <h1>ギフト＋α</h1>
-      <p>贈答マナーのご相談や、当日の撮影など、その他のご相談はこちらから承ります。</p>
+      <h1>贈り物のまわりのことも、<br>まとめてご相談ください。</h1>
+      <p>贈答マナーのご相談や、当日の撮影など、ギフトそのもの以外のお困りごとはこちらから承ります。</p>
     </div>
     <div class="plan-hero-photo">
       <img src="images/gift-plus-alpha.jpg" alt="">
     </div>
   </section>
 
+  <section class="plan-concept wrap">
+    <p class="plan-concept-eyebrow">GIFT <span>+</span> α</p>
+    <p class="plan-concept-lead">贈り物だけでは、まだ足りない。<br>マナーも、記録も、贈り分けも、まとめてご相談ください。</p>
+  </section>
+
   <form class="plan-form wrap" id="planForm">
 
     <div class="category-panel">
-      <h3>📝 ご相談内容</h3>
-      <div class="field-grid">
-        <label>ご希望の内容
-          <select>
-            <option>贈答マナー・のし・表書きの相談</option>
-            <option>当日の撮影・記録</option>
-            <option>予算設計・贈り分けの相談</option>
-            <option>その他</option>
-          </select>
-        </label>
+      <h3>📝 ご相談内容 <span style="font-size:0.7rem; font-weight:700; color:#E38FA8;">※必須</span></h3>
+      <div class="choice-cards" id="topicCards">
+        <button type="button" class="choice-card" data-value="贈答マナー・のし・表書きの相談">
+          <span class="choice-card-icon">📜</span><span class="choice-card-label">贈答マナー・のし・表書き</span>
+        </button>
+        <button type="button" class="choice-card" data-value="当日の撮影・記録">
+          <span class="choice-card-icon">📸</span><span class="choice-card-label">当日の撮影・記録</span>
+        </button>
+        <button type="button" class="choice-card" data-value="予算設計・贈り分けの相談">
+          <span class="choice-card-icon">🧮</span><span class="choice-card-label">予算設計・贈り分け</span>
+        </button>
+        <button type="button" class="choice-card" data-value="その他">
+          <span class="choice-card-icon">✨</span><span class="choice-card-label">その他</span>
+        </button>
+      </div>
+      <label class="visually-hidden-field">ご希望の内容
+        <select id="topicSelect">
+          <option value="">未選択</option>
+          <option>贈答マナー・のし・表書きの相談</option>
+          <option>当日の撮影・記録</option>
+          <option>予算設計・贈り分けの相談</option>
+          <option>その他</option>
+        </select>
+      </label>
+      <div class="field-grid" style="margin-top:18px;">
         <label>ご予算の目安
           <select>
             <option>特に決まっていない</option>
@@ -68,9 +88,9 @@
     </div>
 
     <div class="category-panel">
-      <h3>🎉 ギフトをあげるために… <span style="font-size:0.7rem; font-weight:700; color:#E38FA8;">※必須</span></h3>
+      <h3>📅 場面 <span style="font-size:0.7rem; font-weight:700; color:#E38FA8;">※必須</span></h3>
       <div class="field-grid">
-        <label>どのような目的
+        <label>どのような場面
           <select>
             <option>誕生日</option>
             <option>記念日・結婚記念日</option>
@@ -80,38 +100,43 @@
             <option>その他</option>
           </select>
         </label>
-        <label>どんな祝い方
-          <select>
-            <option>サプライズにしたい</option>
-            <option>ふたり・少人数で静かに過ごしたい</option>
-            <option>大勢で盛大にお祝いしたい</option>
-            <option>特にこだわりはない</option>
-          </select>
-        </label>
-        <label>全体のご予算
-          <select>
-            <option>¥10,000未満</option>
-            <option>¥10,000〜30,000</option>
-            <option>¥30,000〜50,000</option>
-            <option>¥50,000〜100,000</option>
-            <option>¥100,000以上</option>
-          </select>
-        </label>
       </div>
     </div>
 
     <div class="category-panel">
-      <h3>👤 ギフトあげる相手ってどんな人？ <span style="font-size:0.7rem; font-weight:700; color:#E38FA8;">※必須</span></h3>
-      <div class="field-grid">
-        <label>ご関係
-          <select>
-            <option>家族</option>
-            <option>恋人・パートナー</option>
-            <option>友人</option>
-            <option>職場関係</option>
-            <option>その他</option>
-          </select>
-        </label>
+      <h3>👤 相手について <span style="font-size:0.7rem; font-weight:700; color:#E38FA8;">※必須</span></h3>
+      <div class="choice-cards" id="relationshipCards">
+        <button type="button" class="choice-card" data-value="恋人・パートナー">
+          <span class="choice-card-icon">💑</span><span class="choice-card-label">恋人・パートナー</span>
+        </button>
+        <button type="button" class="choice-card" data-value="家族">
+          <span class="choice-card-icon">👪</span><span class="choice-card-label">家族</span>
+        </button>
+        <button type="button" class="choice-card" data-value="友人">
+          <span class="choice-card-icon">🧑‍🤝‍🧑</span><span class="choice-card-label">友人</span>
+        </button>
+        <button type="button" class="choice-card" data-value="両親">
+          <span class="choice-card-icon">👴</span><span class="choice-card-label">両親</span>
+        </button>
+        <button type="button" class="choice-card" data-value="職場関係・お世話になった人">
+          <span class="choice-card-icon">💼</span><span class="choice-card-label">職場関係・お世話になった人</span>
+        </button>
+        <button type="button" class="choice-card" data-value="その他">
+          <span class="choice-card-icon">✨</span><span class="choice-card-label">その他</span>
+        </button>
+      </div>
+      <label class="visually-hidden-field">ご関係
+        <select id="relationshipSelect">
+          <option value="">未選択</option>
+          <option>恋人・パートナー</option>
+          <option>家族</option>
+          <option>友人</option>
+          <option>両親</option>
+          <option>職場関係・お世話になった人</option>
+          <option>その他</option>
+        </select>
+      </label>
+      <div class="field-grid" style="margin-top:18px;">
         <label>年代
           <select>
             <option>10代</option>
@@ -189,7 +214,7 @@
 
   <div class="plan-form wrap" id="doneStep" hidden>
     <div class="category-panel">
-      <h3>ご相談ありがとうございます</h3>
+      <h3>ここから、一緒に仕上げます。</h3>
       <p>
         この度はGIFTED×GIFTへご相談いただき、誠にありがとうございます。<br>
         内容を確認のうえ、担当より改めてご連絡させていただきます。

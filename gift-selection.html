@@ -35,31 +35,56 @@
   <section class="plan-hero plan-hero--split wrap">
     <div class="plan-hero-text">
       <a href="index.html" class="back-link">← トップページに戻る</a>
-      <h1>ギフト</h1>
-      <p>贈りたい種類にチェックを入れると、条件を入力できます。複数選択も可能です。</p>
+      <h1>大切な人に、<br>想いをかたちにして贈りませんか？</h1>
+      <p>「ギフト」は、贈りたい気持ちから一緒に考える、モノ選びのご相談です。選んでいくたびに、右側にあなたの贈り物が少しずつ形になっていきます。</p>
     </div>
     <div class="plan-hero-photo">
       <img src="images/gift-card.jpg" alt="">
     </div>
   </section>
 
-  <form class="plan-form wrap" id="planForm">
+  <div class="plan-builder wrap">
+  <form class="plan-form" id="planForm">
 
-    <p class="category-toggle-note">※条件や情報が多いほど、ご要望に沿ったプランに仕上がります！</p>
+    <p class="category-toggle-note">※選ぶたびに、右側にあなたの贈り物ができていきます。</p>
 
-    <div class="category-toggle">
-      <label class="category-chip"><input type="checkbox" data-target="cat-goods"> 物品</label>
-      <label class="category-chip"><input type="checkbox" data-target="cat-flower"> 花束</label>
-      <label class="category-chip"><input type="checkbox" data-target="cat-cake"> ケーキ</label>
+    <!-- どんな贈り物にしたいか（必須） -->
+    <div class="category-panel" id="cat-mood">
+      <h3>💭 まず、どんな贈り物にしたいですか？ <span style="font-size:0.7rem; font-weight:700; color:#E38FA8;">※必須</span></h3>
+      <div class="choice-cards" id="moodCards">
+        <button type="button" class="choice-card" data-value="忘れられない贈り物" data-en="UNFORGETTABLE" data-copy="何気ない日を、一生の思い出に。">
+          <span class="choice-card-icon">🌟</span><span class="choice-card-label">忘れられない贈り物</span>
+        </button>
+        <button type="button" class="choice-card" data-value="さりげない贈り物" data-en="GENTLE" data-copy="言葉にしなくても、伝わるように。">
+          <span class="choice-card-icon">🌿</span><span class="choice-card-label">さりげない贈り物</span>
+        </button>
+        <button type="button" class="choice-card" data-value="驚かせる贈り物" data-en="SURPRISE" data-copy="いつもの日を、少しだけ特別な日に。">
+          <span class="choice-card-icon">🎉</span><span class="choice-card-label">驚かせる贈り物</span>
+        </button>
+        <button type="button" class="choice-card" data-value="一緒に喜べる贈り物" data-en="TOGETHER" data-copy="同じ気持ちを、分かち合えるように。">
+          <span class="choice-card-icon">🎈</span><span class="choice-card-label">一緒に喜べる贈り物</span>
+        </button>
+        <button type="button" class="choice-card" data-value="感謝を伝える贈り物" data-en="THANK YOU" data-copy="言葉だけでは伝えきれない想いを、ひとつの贈り物に。">
+          <span class="choice-card-icon">💌</span><span class="choice-card-label">感謝を伝える贈り物</span>
+        </button>
+      </div>
+      <label class="visually-hidden-field">贈りたい気持ち
+        <select id="moodSelect">
+          <option value="">未選択</option>
+          <option>忘れられない贈り物</option>
+          <option>さりげない贈り物</option>
+          <option>驚かせる贈り物</option>
+          <option>一緒に喜べる贈り物</option>
+          <option>感謝を伝える贈り物</option>
+        </select>
+      </label>
     </div>
 
-    <p class="empty-hint" id="emptyHint">上のチェックボックスから、贈りたい内容を選んでください。</p>
-
-    <!-- ギフトの目的（必須） -->
+    <!-- 場面とご予算（必須） -->
     <div class="category-panel" id="cat-purpose">
-      <h3>🎉 ギフトをあげるために… <span style="font-size:0.7rem; font-weight:700; color:#E38FA8;">※必須</span></h3>
+      <h3>📅 場面とご予算 <span style="font-size:0.7rem; font-weight:700; color:#E38FA8;">※必須</span></h3>
       <div class="field-grid">
-        <label>どのような目的
+        <label>どのような場面
           <select>
             <option>誕生日</option>
             <option>記念日・結婚記念日</option>
@@ -67,14 +92,6 @@
             <option>昇進・卒業などのお祝い</option>
             <option>お礼・感謝</option>
             <option>その他</option>
-          </select>
-        </label>
-        <label>どんな祝い方
-          <select>
-            <option>サプライズにしたい</option>
-            <option>ふたり・少人数で静かに過ごしたい</option>
-            <option>大勢で盛大にお祝いしたい</option>
-            <option>特にこだわりはない</option>
           </select>
         </label>
         <label>全体のご予算
@@ -89,19 +106,42 @@
       </div>
     </div>
 
-    <!-- 贈る相手（必須） -->
+    <!-- 誰に贈るか（必須） -->
     <div class="category-panel" id="cat-recipient">
-      <h3>👤 ギフトあげる相手ってどんな人？ <span style="font-size:0.7rem; font-weight:700; color:#E38FA8;">※必須</span></h3>
-      <div class="field-grid">
-        <label>ご関係
-          <select>
-            <option>家族</option>
-            <option>恋人・パートナー</option>
-            <option>友人</option>
-            <option>職場関係</option>
-            <option>その他</option>
-          </select>
-        </label>
+      <h3>👤 誰に、贈りますか？ <span style="font-size:0.7rem; font-weight:700; color:#E38FA8;">※必須</span></h3>
+      <div class="choice-cards" id="relationshipCards" data-suffix="への贈り物">
+        <button type="button" class="choice-card" data-value="恋人・パートナー">
+          <span class="choice-card-icon">💑</span><span class="choice-card-label">恋人・パートナー</span>
+        </button>
+        <button type="button" class="choice-card" data-value="家族">
+          <span class="choice-card-icon">👪</span><span class="choice-card-label">家族</span>
+        </button>
+        <button type="button" class="choice-card" data-value="友人">
+          <span class="choice-card-icon">🧑‍🤝‍🧑</span><span class="choice-card-label">友人</span>
+        </button>
+        <button type="button" class="choice-card" data-value="両親">
+          <span class="choice-card-icon">👴</span><span class="choice-card-label">両親</span>
+        </button>
+        <button type="button" class="choice-card" data-value="職場関係・お世話になった人">
+          <span class="choice-card-icon">💼</span><span class="choice-card-label">職場関係・お世話になった人</span>
+        </button>
+        <button type="button" class="choice-card" data-value="その他">
+          <span class="choice-card-icon">✨</span><span class="choice-card-label">その他</span>
+        </button>
+      </div>
+      <label class="visually-hidden-field">ご関係
+        <select id="relationshipSelect">
+          <option value="">未選択</option>
+          <option>恋人・パートナー</option>
+          <option>家族</option>
+          <option>友人</option>
+          <option>両親</option>
+          <option>職場関係・お世話になった人</option>
+          <option>その他</option>
+        </select>
+      </label>
+
+      <div class="field-grid" style="margin-top:18px;">
         <label>年代
           <select>
             <option>10代</option>
@@ -122,6 +162,23 @@
       <label class="panel-notes">相手についての備考
         <textarea rows="3" placeholder="好きなもの、苦手なもの、性格、エピソードなど自由にご記入ください"></textarea>
       </label>
+    </div>
+
+    <div class="addon-section">
+      <h3 class="addon-heading">🎁 どんなギフトを贈りますか？</h3>
+      <p class="addon-note">選んだ分だけ、右側のプランにも追加されていきます（複数選択できます）。</p>
+      <div class="category-toggle">
+        <label class="category-chip addon-tile">
+          <input type="checkbox" data-target="cat-goods"><span class="addon-tile-icon">🎁</span><span>物品</span>
+        </label>
+        <label class="category-chip addon-tile">
+          <input type="checkbox" data-target="cat-flower"><span class="addon-tile-icon">🌷</span><span>花束</span>
+        </label>
+        <label class="category-chip addon-tile">
+          <input type="checkbox" data-target="cat-cake"><span class="addon-tile-icon">🍰</span><span>ケーキ</span>
+        </label>
+      </div>
+      <p class="empty-hint" id="emptyHint">上から、贈りたい内容を選んでください。</p>
     </div>
 
     <div class="category-panel" id="cat-goods" hidden>
@@ -221,8 +278,24 @@
       </label>
     </div>
 
+    <p class="plan-form-footnote">まだ決まっていないことがあっても大丈夫です。大切にしたいことをもとに、私たちが贈り物のかたちから一緒に考えます。</p>
     <button type="submit" class="btn btn-primary btn-large" style="width:auto;">この内容で相談する →</button>
   </form>
+
+  <aside class="plan-preview" id="planPreview" aria-live="polite">
+    <p class="plan-preview-eyebrow">YOUR GIFT</p>
+    <div class="plan-preview-empty" id="previewEmpty">
+      <p>ここに、あなたの贈り物が<br>少しずつ浮かび上がっていきます。</p>
+      <p class="plan-preview-empty-sub">左のカードから選んでみてください。</p>
+    </div>
+    <div class="plan-preview-body" id="previewBody" hidden>
+      <p class="plan-preview-mood-en" id="previewMoodEn">YOUR GIFT</p>
+      <p class="plan-preview-mood-copy" id="previewMoodCopy">あなたの贈り物を、一緒に考えています。</p>
+      <p class="plan-preview-with" id="previewWith" hidden></p>
+      <ul class="plan-preview-timeline" id="previewTimeline"></ul>
+    </div>
+  </aside>
+  </div>
 
   <div class="plan-form wrap" id="confirmStep" hidden>
     <div class="category-panel">
@@ -265,7 +338,7 @@
 
   <div class="plan-form wrap" id="doneStep" hidden>
     <div class="category-panel">
-      <h3>ご相談ありがとうございます</h3>
+      <h3>ここから、一緒に仕上げます。</h3>
       <p>
         この度はGIFTED×GIFTへご相談いただき、誠にありがとうございます。<br>
         内容を確認のうえ、担当より改めてご連絡させていただきます。
