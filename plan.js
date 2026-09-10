@@ -290,6 +290,7 @@ if (sendEmailBtn) {
     const code = String(Math.floor(100000 + Math.random() * 900000));
     submittedEmail = email;
     submittedToken = Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
+    localStorage.setItem('gitedgift_user_email', email);
     const confirmedEmail = document.getElementById('confirmedEmail');
     const issuedCode = document.getElementById('issuedCode');
     if (confirmedEmail) confirmedEmail.textContent = email + ' 宛にお送りする内容としてお預かりしました。';
