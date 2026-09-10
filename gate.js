@@ -30,7 +30,7 @@
     card.addEventListener('click', () => openGate(card.dataset.target));
   });
 
-  const myGiftTriggers = document.querySelectorAll('#navMyGift, #floatingMyGift');
+  const myGiftTriggers = document.querySelectorAll('#navMyGift, #floatingMyGift, #tabBarMyGift');
   myGiftTriggers.forEach((btn) => {
     btn.addEventListener('click', () => {
       overlay.hidden = false;

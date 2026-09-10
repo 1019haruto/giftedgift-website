@@ -21,6 +21,8 @@
 
 html { scroll-behavior: smooth; }
 
+main section[id] { scroll-margin-top: 80px; }
+
 body {
   margin: 0;
   font-family: var(--font-body);
@@ -96,10 +98,13 @@ img { max-width: 100%; display: block; }
 .brand-name { font-family: var(--font-display); font-weight: 900; font-size: 1rem; }
 .brand-x { color: var(--gold-deep); }
 
+.header-right { display: flex; align-items: center; gap: 20px; }
+
 .site-nav { display: flex; align-items: center; gap: 26px; font-size: 0.9rem; font-weight: 500; }
 
-.nav-cta { background: var(--ink); color: var(--cream); padding: 9px 20px; border-radius: 999px; font-weight: 700; border: none; font: inherit; font-weight: 700; cursor: pointer; }
+.nav-cta { display: inline-flex; align-items: center; gap: 6px; background: var(--ink); color: var(--cream); padding: 9px 20px; border-radius: 999px; font-weight: 700; border: none; font: inherit; font-weight: 700; cursor: pointer; white-space: nowrap; }
 .nav-cta:hover { background: var(--gold-deep); }
+.nav-cta-heart { color: var(--gold-deep); }
 
 .floating-mygift-btn {
   position: fixed;
@@ -538,10 +543,12 @@ img { max-width: 100%; display: block; }
 .footer-tagline { color: var(--gold); font-size: 0.8rem; }
 
 /* ---------- Responsive ---------- */
+.mobile-only { display: none; }
+
 @media (max-width: 900px) {
   .hero-inner { grid-template-columns: 1fr; border-radius: 24px; }
-  .hero-copy { padding: 28px; }
-  .hero-visual { order: -1; height: 220px; }
+  .hero-copy { padding: 28px 28px 24px; }
+  .hero-visual { height: 320px; margin: 0 20px 20px; border-radius: 20px; overflow: hidden; }
   .hero-photo { -webkit-mask-image: none; mask-image: none; }
 
   .travel-inner { grid-template-columns: 1fr; padding: 36px 28px; }
@@ -558,9 +565,144 @@ img { max-width: 100%; display: block; }
 
   .flow-steps { flex-direction: column; align-items: center; }
   .step-arrow { display: none; }
+
+  /* --- mobile front-page redesign --- */
+  .mobile-only { display: block; }
+
+  body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+
+  .floating-mygift-btn { display: none; }
+
+  /* PICK UP spotlight card */
+  .pickup-feature { padding: 28px 20px 8px; }
+
+  .pickup-badge {
+    display: inline-block;
+    background: var(--gold);
+    color: #2B2620;
+    font-weight: 900;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    padding: 5px 14px;
+    border-radius: 999px;
+    margin-bottom: 10px;
+  }
+
+  .pickup-card {
+    position: relative;
+    display: block;
+    background: var(--cream-card);
+    border: 1px solid var(--line);
+    border-radius: 24px;
+    overflow: hidden;
+  }
+
+  .pickup-photo { height: 200px; }
+  .pickup-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+  .pickup-body { padding: 20px 24px 26px; }
+  .pickup-body h3 { font-family: var(--font-display); font-weight: 900; font-size: 1.4rem; margin-bottom: 0.4em; }
+  .pickup-body p { color: var(--ink-soft); font-size: 0.88rem; line-height: 1.7; margin: 0; padding-right: 40px; }
+
+  .pickup-arrow {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--gold-deep);
+    color: #2B2620;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+
+  /* services: horizontal scroll, hide the duplicate ギフト×プラン card */
+  .service-card--pickup-dupe { display: none; }
+
+  .service-grid {
+    display: flex;
+    grid-template-columns: none;
+    gap: 14px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding-bottom: 4px;
+    margin: 0 -4px;
+  }
+
+  .service-card {
+    flex: 0 0 68%;
+    scroll-snap-align: start;
+  }
+
+  /* 人気のプラン・事例 teaser + prominent CTA */
+  .voices-teaser, .quick-cta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 20px auto 0;
+    padding: 18px 20px;
+    border-radius: 18px;
+    cursor: pointer;
+  }
+
+  .voices-teaser {
+    background: var(--cream-card);
+    border: 1px solid var(--line);
+    color: var(--ink);
+  }
+
+  .voices-teaser-icon, .quick-cta-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .voices-teaser-body, .quick-cta-body { display: flex; flex-direction: column; gap: 2px; flex: 1; }
+  .voices-teaser-body strong, .quick-cta-body strong { font-size: 0.95rem; }
+  .voices-teaser-body span, .quick-cta-body span { font-size: 0.8rem; color: var(--ink-soft); }
+  .voices-teaser-arrow { color: var(--gold-deep); font-weight: 700; flex-shrink: 0; }
+
+  .quick-cta {
+    background: linear-gradient(135deg, var(--gold) 0%, #F0BD68 100%);
+    color: #2B2620;
+  }
+  .quick-cta-body span { color: #4a3f26; }
+
+  /* bottom tab bar */
+  .tab-bar {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 400;
+    display: flex;
+    background: rgba(20, 18, 15, 0.92);
+    backdrop-filter: blur(10px);
+    border-top: 1px solid var(--line);
+    padding: 8px 4px calc(8px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .tab-bar-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    background: none;
+    border: none;
+    color: var(--ink-soft);
+    font-family: var(--font-body);
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 4px;
+    cursor: pointer;
+  }
+
+  .tab-bar-icon { font-size: 1.2rem; }
 }
 
 @media (max-width: 640px) {
+  .header-right { gap: 12px; }
+  .nav-cta { padding: 8px 14px; font-size: 0.82rem; }
+
   .wrap { padding: 0 20px; }
 
   .nav-toggle { display: flex; }
@@ -580,13 +722,7 @@ img { max-width: 100%; display: block; }
   }
   .site-nav.is-open { display: flex; }
 
-  .service-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .service-card { padding: 8px; }
-  .service-photo-wrap { height: 56px; margin-bottom: 10px; }
-  .service-ribbon { font-size: 0.55rem; padding: 4px 10px; top: -8px; left: -8px; }
-  .service-card h3 { font-size: 0.72rem; line-height: 1.3; margin-bottom: 0.3em; }
-  .service-card p { font-size: 0.62rem; line-height: 1.4; padding-right: 0; margin-bottom: 1.8em; }
-  .service-arrow { width: 22px; height: 22px; font-size: 0.7rem; right: 4px; bottom: 4px; }
+  .service-card { flex-basis: 74%; }
 
   .footer-inner { flex-direction: column; align-items: flex-start; }
   .footer-meta { text-align: left; }

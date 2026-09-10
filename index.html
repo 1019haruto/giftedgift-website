@@ -19,17 +19,18 @@
       <span class="brand-name">GIFTED<span class="brand-x">×</span>GIFT</span>
     </a>
 
-    <button class="nav-toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false">
-      <span></span><span></span><span></span>
-    </button>
-
-    <nav class="site-nav" id="siteNav">
-      <a href="#services">サービス</a>
-      <a href="#travel">ギフト×プラン</a>
-      <a href="#flow">ご利用の流れ</a>
-      <a href="#about">初めてご利用の方へ</a>
-      <button type="button" class="nav-cta" id="navMyGift">マイギフト</button>
-    </nav>
+    <div class="header-right">
+      <nav class="site-nav" id="siteNav">
+        <a href="#services">サービス</a>
+        <a href="#travel">ギフト×プラン</a>
+        <a href="#flow">ご利用の流れ</a>
+        <a href="#about">初めてご利用の方へ</a>
+      </nav>
+      <button type="button" class="nav-cta" id="navMyGift"><span class="nav-cta-heart">♡</span> マイギフト</button>
+      <button class="nav-toggle" id="navToggle" aria-label="メニューを開く" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </div>
 </header>
 
@@ -55,6 +56,18 @@
     </div>
   </section>
 
+  <section class="pickup-feature mobile-only wrap">
+    <span class="pickup-badge">PICK UP</span>
+    <a href="gift-travel.html" class="pickup-card">
+      <div class="pickup-photo"><img src="images/gift-plan.jpg" alt=""></div>
+      <div class="pickup-body">
+        <h3>GIFT <span class="brand-x">×</span> PLAN</h3>
+        <p>贈り物から、特別な時間まで。大切な人と過ごす、あなただけのプランを。</p>
+      </div>
+      <span class="pickup-arrow">→</span>
+    </a>
+  </section>
+
   <section id="services" class="services">
     <div class="wrap">
       <div class="services-inner">
@@ -71,7 +84,7 @@
           </div>
         </button>
 
-        <button type="button" class="service-card service-card--pink" data-target="gift-travel.html">
+        <button type="button" class="service-card service-card--pink service-card--pickup-dupe" data-target="gift-travel.html">
           <span class="service-ribbon">おすすめ</span>
           <div class="service-photo-wrap">
             <img src="images/gift-plan.jpg" alt="" class="service-photo">
@@ -97,6 +110,23 @@
       </div>
     </div>
   </section>
+
+  <a href="first-time.html#voices" class="voices-teaser mobile-only wrap">
+    <span class="voices-teaser-icon">💬</span>
+    <span class="voices-teaser-body">
+      <strong>人気のプラン・事例</strong>
+      <span>実際にご相談いただいたプランの一例をご紹介します。</span>
+    </span>
+    <span class="voices-teaser-arrow">→</span>
+  </a>
+
+  <a href="#contact" class="quick-cta mobile-only wrap">
+    <span class="quick-cta-icon">💌</span>
+    <span class="quick-cta-body">
+      <strong>まずはお気軽にご相談ください</strong>
+      <span>あなたの想いに合わせたプランを一緒に考えます。</span>
+    </span>
+  </a>
 
   <section id="travel" class="travel-feature">
     <div class="wrap travel-inner">
@@ -262,6 +292,21 @@
 </div>
 
 <button type="button" class="floating-mygift-btn" id="floatingMyGift">マイギフト<br>（ログイン）</button>
+
+<nav class="tab-bar mobile-only" aria-label="モバイルナビゲーション">
+  <a href="#top" class="tab-bar-item">
+    <span class="tab-bar-icon">🏠</span><span>ホーム</span>
+  </a>
+  <a href="#services" class="tab-bar-item">
+    <span class="tab-bar-icon">✨</span><span>サービス</span>
+  </a>
+  <button type="button" class="tab-bar-item" id="tabBarMyGift">
+    <span class="tab-bar-icon">♡</span><span>マイギフト</span>
+  </button>
+  <a href="#contact" class="tab-bar-item">
+    <span class="tab-bar-icon">💬</span><span>相談する</span>
+  </a>
+</nav>
 
 <script src="config.js"></script>
 <script src="script.js"></script>
