@@ -741,6 +741,9 @@ img { max-width: 100%; display: block; }
   .nav-cta { padding: 8px 14px; font-size: 0.82rem; }
 
   .wrap { padding: 0 20px; }
+  .header-inner { padding: 14px 20px; }
+  .travel-inner { padding: 36px 24px; }
+  .contact-panel { padding: 36px 24px; }
 
   .nav-toggle { display: flex; }
 
