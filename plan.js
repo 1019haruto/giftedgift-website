@@ -51,6 +51,147 @@ if (prefectureToggle && prefecturePanel && prefectureSummary) {
   });
 }
 
+/* ---------- 国内・海外 toggle ---------- */
+const domesticOverseasSelect = document.getElementById('domesticOverseasSelect');
+const prefectureField = document.getElementById('prefectureField');
+const regionField = document.getElementById('regionField');
+const countryField = document.getElementById('countryField');
+const cityField = document.getElementById('cityField');
+
+function updateLocationMode() {
+  const isOverseas = domesticOverseasSelect && domesticOverseasSelect.value === '海外';
+  if (prefectureField) prefectureField.hidden = isOverseas;
+  if (regionField) regionField.hidden = !isOverseas;
+  if (countryField) countryField.hidden = !isOverseas;
+  if (cityField) cityField.classList.toggle('is-full-row', isOverseas);
+
+  if (isOverseas && prefecturePanel) {
+    prefecturePanel.querySelectorAll('input[type="checkbox"]:checked').forEach((cb) => { cb.checked = false; });
+    if (typeof updatePrefectureSummary === 'function') updatePrefectureSummary();
+  } else if (!isOverseas) {
+    if (regionPanel) {
+      regionPanel.querySelectorAll('input[type="checkbox"]:checked').forEach((cb) => { cb.checked = false; });
+      if (typeof updateRegionSummary === 'function') updateRegionSummary();
+    }
+    checkedCountries.clear();
+    updateCountrySummary();
+    renderCountryList();
+  }
+}
+
+if (domesticOverseasSelect) {
+  domesticOverseasSelect.addEventListener('change', updateLocationMode);
+}
+
+/* ---------- 地域・州 dropdown ---------- */
+const regionToggle = document.getElementById('regionToggle');
+const regionPanel = document.getElementById('regionPanel');
+const regionSummary = document.getElementById('regionSummary');
+if (regionToggle && regionPanel && regionSummary) {
+  regionToggle.addEventListener('click', () => {
+    regionPanel.hidden = !regionPanel.hidden;
+    regionToggle.classList.toggle('is-open', !regionPanel.hidden);
+  });
+
+  var updateRegionSummary = function updateRegionSummary() {
+    const checked = Array.from(regionPanel.querySelectorAll('input[type="checkbox"]:checked')).map((cb) => cb.value);
+    if (checked.length === 0) regionSummary.textContent = '未選択';
+    else if (checked.length <= 2) regionSummary.textContent = checked.join('、');
+    else regionSummary.textContent = checked.length + '件選択中';
+  };
+
+  regionPanel.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+    cb.addEventListener('change', () => {
+      updateRegionSummary();
+      syncCountriesToSelectedRegions();
+      renderCountryList();
+    });
+  });
+}
+
+/* ---------- 国（検索付き）dropdown ---------- */
+const COUNTRIES_BY_REGION = {
+  'アジア': ['中国', '韓国', '台湾', '香港', 'タイ', 'ベトナム', 'シンガポール', 'マレーシア', 'インドネシア', 'フィリピン', 'インド', 'カンボジア', 'ラオス', 'ミャンマー', 'モンゴル', 'ネパール', 'スリランカ'],
+  'ヨーロッパ': ['フランス', 'イタリア', 'スペイン', 'ドイツ', 'イギリス', 'ポルトガル', 'オランダ', 'ベルギー', 'スイス', 'オーストリア', 'ギリシャ', 'チェコ', 'ハンガリー', 'ポーランド', 'デンマーク', 'スウェーデン', 'ノルウェー', 'フィンランド', 'アイスランド', 'クロアチア', 'アイルランド'],
+  '北米': ['アメリカ', 'カナダ', 'メキシコ'],
+  '中南米': ['ブラジル', 'アルゼンチン', 'ペルー', 'チリ', 'コロンビア', 'キューバ', 'コスタリカ'],
+  '中東': ['アラブ首長国連邦', 'サウジアラビア', 'トルコ', 'イスラエル', 'ヨルダン', 'カタール', 'オマーン'],
+  'アフリカ': ['エジプト', 'モロッコ', '南アフリカ', 'ケニア', 'タンザニア', 'チュニジア'],
+  'オセアニア': ['オーストラリア', 'ニュージーランド', 'フィジー', 'グアム', 'パラオ', 'ニューカレドニア'],
+};
+
+const countryToggle = document.getElementById('countryToggle');
+const countryPanel = document.getElementById('countryPanel');
+const countrySummary = document.getElementById('countrySummary');
+const countrySearchInput = document.getElementById('countrySearchInput');
+const countryCheckboxList = document.getElementById('countryCheckboxList');
+const countryEmptyHint = document.getElementById('countryEmptyHint');
+const checkedCountries = new Set();
+
+function getSelectedRegions() {
+  return regionPanel ? Array.from(regionPanel.querySelectorAll('input[type="checkbox"]:checked')).map((cb) => cb.value) : [];
+}
+
+function updateCountrySummary() {
+  if (!countrySummary) return;
+  const checked = Array.from(checkedCountries);
+  if (checked.length === 0) countrySummary.textContent = '未選択';
+  else if (checked.length <= 2) countrySummary.textContent = checked.join('、');
+  else countrySummary.textContent = checked.length + '件選択中';
+}
+
+function syncCountriesToSelectedRegions() {
+  const available = new Set(getSelectedRegions().flatMap((region) => COUNTRIES_BY_REGION[region] || []));
+  Array.from(checkedCountries).forEach((country) => {
+    if (!available.has(country)) checkedCountries.delete(country);
+  });
+  updateCountrySummary();
+}
+
+function renderCountryList() {
+  if (!countryCheckboxList) return;
+  const selectedRegions = getSelectedRegions();
+  const searchTerm = countrySearchInput ? countrySearchInput.value.trim() : '';
+  const candidates = selectedRegions.flatMap((region) => COUNTRIES_BY_REGION[region] || []);
+
+  if (candidates.length === 0) {
+    countryCheckboxList.innerHTML = '';
+    if (countryEmptyHint) countryEmptyHint.hidden = false;
+    return;
+  }
+  if (countryEmptyHint) countryEmptyHint.hidden = true;
+
+  const filtered = candidates.filter((country) => !searchTerm || country.includes(searchTerm) || checkedCountries.has(country));
+
+  countryCheckboxList.innerHTML = filtered.length
+    ? filtered.map((country) => (
+        '<label><input type="checkbox" value="' + country + '"' + (checkedCountries.has(country) ? ' checked' : '') + '> ' + country + '</label>'
+      )).join('')
+    : '<p class="location-empty-hint">該当する国が見つかりません</p>';
+
+  countryCheckboxList.querySelectorAll('input[type="checkbox"]').forEach((cb) => {
+    cb.addEventListener('change', () => {
+      if (cb.checked) checkedCountries.add(cb.value);
+      else checkedCountries.delete(cb.value);
+      updateCountrySummary();
+    });
+  });
+}
+
+if (countryToggle && countryPanel) {
+  countryToggle.addEventListener('click', () => {
+    countryPanel.hidden = !countryPanel.hidden;
+    countryToggle.classList.toggle('is-open', !countryPanel.hidden);
+  });
+}
+if (countrySearchInput) {
+  countrySearchInput.addEventListener('input', renderCountryList);
+}
+
+renderCountryList();
+
+if (domesticOverseasSelect) updateLocationMode();
+
 const previewToggleBtn = document.getElementById('previewToggle');
 if (previewToggleBtn) {
   previewToggleBtn.addEventListener('click', () => {
@@ -149,7 +290,7 @@ document.querySelectorAll('.field-grid select').forEach((select) => {
   const otherInput = document.createElement('input');
   otherInput.type = 'text';
   otherInput.className = 'other-detail-input';
-  otherInput.placeholder = '具体的にご記入ください';
+  otherInput.placeholder = select.dataset.otherPlaceholder || '具体的にご記入ください';
   otherInput.hidden = true;
   label.appendChild(otherInput);
 

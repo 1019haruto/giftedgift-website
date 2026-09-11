@@ -45,7 +45,10 @@
   </section>
 
   <section class="mypage-list wrap">
-    <h2 class="mypage-heading">ご提案・ギフト一覧</h2>
+    <div class="mypage-heading-row">
+      <h2 class="mypage-heading">ご提案・ギフト一覧</h2>
+      <a href="https://line.me/R/ti/p/@430uoiak" class="btn btn-line" target="_blank" rel="noopener">内容変更や内容の個別相談はこちら→</a>
+    </div>
 
     <div id="emailGate" class="proposal-email-gate" hidden>
       <p>ご相談時にご入力いただいたメールアドレスを入力してください。</p>
@@ -67,10 +70,9 @@
         <p>贈りたい相手や機会が新しくできたら、こちらからお気軽にご依頼ください。</p>
       </div>
       <div class="mypage-cta-links">
-        <a href="gift-selection.html" class="btn btn-outline">ギフト選定</a>
+        <a href="gift-selection.html" class="btn btn-outline">ギフト</a>
         <a href="gift-travel.html" class="btn btn-outline">ギフト×プラン</a>
-        <a href="one-day-plan.html" class="btn btn-outline">1Dayプラン</a>
-        <a href="other-services.html" class="btn btn-primary">その他のご相談</a>
+        <a href="other-services.html" class="btn btn-primary">ギフト＋α</a>
       </div>
     </div>
   </section>
@@ -221,6 +223,15 @@
     });
   }
 
+  function showLoadError(message, email) {
+    planList.innerHTML =
+      '<div class="mypage-state">' + escapeHtml(message) +
+        ' <button type="button" class="proposal-link" id="myPlansRetry">再試行</button>' +
+      '</div>';
+    var retryBtn = document.getElementById('myPlansRetry');
+    if (retryBtn) retryBtn.addEventListener('click', function () { loadPlans(email); });
+  }
+
   function loadPlans(email) {
     planList.innerHTML = '<div class="mypage-state">読み込み中です…</div>';
 
@@ -231,11 +242,23 @@
     }
 
     var url = SITE_CONFIG.SUBMISSION_ENDPOINT + '?action=myplans&email=' + encodeURIComponent(email);
-    fetch(url)
-      .then(function (res) { return res.json(); })
+    var controller = ('AbortController' in window) ? new AbortController() : null;
+    var timeoutId = controller ? setTimeout(function () { controller.abort(); }, 20000) : null;
+
+    fetch(url, controller ? { signal: controller.signal } : {})
+      .then(function (res) {
+        if (timeoutId) clearTimeout(timeoutId);
+        if (!res.ok) throw new Error('http-status-' + res.status);
+        return res.json();
+      })
       .then(function (data) { renderPlans(data || []); })
-      .catch(function () {
-        planList.innerHTML = '<div class="mypage-state">読み込みに失敗しました。時間をおいて再度お試しください。</div>';
+      .catch(function (err) {
+        if (timeoutId) clearTimeout(timeoutId);
+        console.error('マイギフトの読み込みに失敗しました:', err);
+        var message = (err && err.name === 'AbortError')
+          ? '読み込みに時間がかかりすぎたため中断しました。通信環境をご確認のうえ再度お試しください。'
+          : '読み込みに失敗しました。時間をおいて再度お試しください。';
+        showLoadError(message, email);
       });
   }
 

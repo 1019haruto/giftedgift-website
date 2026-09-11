@@ -876,7 +876,21 @@ img { max-width: 100%; display: block; }
 
 .mypage-list { padding: 20px 0 60px; }
 
-.mypage-heading { font-size: 1.2rem; margin-bottom: 24px; }
+.mypage-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+
+.mypage-heading { font-size: 1.2rem; margin-bottom: 0; }
+
+@media (max-width: 640px) {
+  .mypage-heading-row { align-items: stretch; }
+  .mypage-heading-row .btn-line { text-align: center; }
+}
 
 .proposal-card {
   background: var(--cream-card);

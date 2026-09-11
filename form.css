@@ -338,6 +338,29 @@
   gap: 16px;
 }
 
+.field-grid-3col { grid-template-columns: repeat(3, 1fr); }
+
+@media (max-width: 640px) {
+  .field-grid-3col { grid-template-columns: 1fr; }
+}
+
+.field-grid-3col .is-full-row { grid-column: 1 / -1; }
+
+.location-search-input {
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 10px;
+  position: sticky;
+  top: 0;
+}
+
+.location-empty-hint {
+  color: #B9C6D9;
+  font-size: 0.85rem;
+  font-weight: 400;
+  margin: 4px 0;
+}
+
 .field-grid label,
 .field-grid .field-label,
 .notes-field label {

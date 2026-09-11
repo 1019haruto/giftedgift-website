@@ -174,8 +174,14 @@
     <!-- 場所 -->
     <div class="category-panel" id="cat-location">
       <h3>📍 場所</h3>
-      <div class="field-grid">
-        <div class="field-label">都道府県（複数選択可）
+      <div class="field-grid field-grid-3col">
+        <label>国内・海外
+          <select id="domesticOverseasSelect">
+            <option value="国内">国内</option>
+            <option value="海外">海外</option>
+          </select>
+        </label>
+        <div class="field-label" id="prefectureField">都道府県（複数選択可）
           <div class="location-dropdown">
             <button type="button" class="location-dropdown-toggle" id="prefectureToggle">
               <span id="prefectureSummary">どこでも可</span>
@@ -232,7 +238,37 @@
             </div>
           </div>
         </div>
-        <label>市町村・どこでも
+        <div class="field-label" id="regionField" hidden>地域・州（複数選択可）
+          <div class="location-dropdown">
+            <button type="button" class="location-dropdown-toggle" id="regionToggle">
+              <span id="regionSummary">未選択</span>
+              <span class="location-dropdown-chevron">▼</span>
+            </button>
+            <div class="location-dropdown-panel checkbox-row" id="regionPanel" data-field-label="地域・州" hidden>
+              <label><input type="checkbox" value="アジア"> アジア</label>
+              <label><input type="checkbox" value="ヨーロッパ"> ヨーロッパ</label>
+              <label><input type="checkbox" value="北米"> 北米</label>
+              <label><input type="checkbox" value="中南米"> 中南米</label>
+              <label><input type="checkbox" value="中東"> 中東</label>
+              <label><input type="checkbox" value="アフリカ"> アフリカ</label>
+              <label><input type="checkbox" value="オセアニア"> オセアニア</label>
+            </div>
+          </div>
+        </div>
+        <div class="field-label" id="countryField" hidden>国（複数選択可・検索可）
+          <div class="location-dropdown">
+            <button type="button" class="location-dropdown-toggle" id="countryToggle">
+              <span id="countrySummary">未選択</span>
+              <span class="location-dropdown-chevron">▼</span>
+            </button>
+            <div class="location-dropdown-panel" id="countryPanel" hidden>
+              <input type="text" id="countrySearchInput" class="location-search-input" placeholder="国名で検索（例：フランス）" autocomplete="off">
+              <div class="checkbox-row" id="countryCheckboxList" data-field-label="国"></div>
+              <p class="location-empty-hint" id="countryEmptyHint" hidden>地域・州を選択すると候補が表示されます</p>
+            </div>
+          </div>
+        </div>
+        <label id="cityField">市町村・どこでも
           <input type="text" placeholder="例：渋谷区、横浜市／指定がなければ「どこでも」とご記入ください">
         </label>
       </div>
@@ -314,13 +350,14 @@
           </select>
         </label>
         <label>希望ジャンル
-          <select>
+          <select data-other-placeholder="例：クラッカー、バルーンなど自由にご記入ください">
             <option>ファッション小物</option>
             <option>雑貨・インテリア</option>
             <option>コスメ・美容</option>
             <option>食品・グルメ</option>
             <option>家電・ガジェット</option>
             <option>本・アート</option>
+            <option>その他</option>
           </select>
         </label>
       </div>
