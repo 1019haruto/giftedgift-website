@@ -344,8 +344,6 @@
   .field-grid-3col { grid-template-columns: 1fr; }
 }
 
-.field-grid-3col .is-full-row { grid-column: 1 / -1; }
-
 .location-search-input {
   width: 100%;
   box-sizing: border-box;
@@ -373,6 +371,9 @@
 
 .field-grid label, .field-grid .field-label { color: #B9C6D9; }
 .notes-field label { color: var(--ink-soft); }
+
+/* .field-grid label/.field-label set display:flex, which beats the [hidden] UA rule — force it explicitly */
+.field-grid label[hidden], .field-grid .field-label[hidden] { display: none; }
 
 select, .field-grid input[type="text"], .field-grid input[type="date"] {
   padding: 12px 14px;

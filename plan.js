@@ -61,14 +61,20 @@ const cityField = document.getElementById('cityField');
 function updateLocationMode() {
   const isOverseas = domesticOverseasSelect && domesticOverseasSelect.value === '海外';
   if (prefectureField) prefectureField.hidden = isOverseas;
+  if (cityField) cityField.hidden = isOverseas;
   if (regionField) regionField.hidden = !isOverseas;
   if (countryField) countryField.hidden = !isOverseas;
-  if (cityField) cityField.classList.toggle('is-full-row', isOverseas);
 
-  if (isOverseas && prefecturePanel) {
-    prefecturePanel.querySelectorAll('input[type="checkbox"]:checked').forEach((cb) => { cb.checked = false; });
-    if (typeof updatePrefectureSummary === 'function') updatePrefectureSummary();
-  } else if (!isOverseas) {
+  if (isOverseas) {
+    if (prefecturePanel) {
+      prefecturePanel.querySelectorAll('input[type="checkbox"]:checked').forEach((cb) => { cb.checked = false; });
+      if (typeof updatePrefectureSummary === 'function') updatePrefectureSummary();
+    }
+    if (cityField) {
+      const cityInput = cityField.querySelector('input[type="text"]');
+      if (cityInput) cityInput.value = '';
+    }
+  } else {
     if (regionPanel) {
       regionPanel.querySelectorAll('input[type="checkbox"]:checked').forEach((cb) => { cb.checked = false; });
       if (typeof updateRegionSummary === 'function') updateRegionSummary();
