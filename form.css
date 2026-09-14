@@ -516,7 +516,10 @@ select, .field-grid input[type="text"], .field-grid input[type="date"] {
   .addon-section .addon-tile-icon { font-size: 1.3rem; }
   .addon-section .addon-tile span:last-child { font-size: 0.78rem; }
 
-  #cat-self .field-grid { grid-template-columns: 3fr 7fr; gap: 10px; }
+  #cat-self .field-grid { grid-template-columns: minmax(0, 3fr) minmax(0, 7fr); gap: 10px; }
+  #cat-self .field-grid label { min-width: 0; }
+  #cat-self .field-grid select,
+  #cat-self .field-grid input[type="text"] { width: 100%; box-sizing: border-box; min-width: 0; }
 }
 
 .confirm-content { margin: 20px 0; }
