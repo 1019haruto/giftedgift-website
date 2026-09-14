@@ -83,7 +83,6 @@
 
 @media (max-width: 900px) {
   .plan-builder { grid-template-columns: 1fr; padding: 12px 0 70px; gap: 28px; }
-  .plan-preview { order: -1; position: static; }
 }
 
 .plan-form-footnote {
@@ -259,7 +258,7 @@
   .plan-preview-count { display: inline-flex; }
   #planPreview:not(.is-expanded) .plan-preview-body-detail { display: none; }
 
-  .plan-preview { padding: 16px 18px; }
+  .plan-preview { order: -1; position: static; padding: 16px 18px; }
   .plan-preview-head { margin-bottom: 0.5em; }
   .plan-preview-empty p { font-size: 0.82rem; line-height: 1.5; margin: 0 0 0.3em; }
   .plan-preview-empty-sub { font-size: 0.76rem; }
