@@ -493,6 +493,11 @@ select, .field-grid input[type="text"], .field-grid input[type="date"] {
   #relationshipCards .choice-card-label { font-size: 0.72rem; line-height: 1.3; }
 
   #cat-recipient .field-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+  #moodCards { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  #moodCards .choice-card { padding: 12px 6px; }
+  #moodCards .choice-card-icon { font-size: 1.3rem; }
+  #moodCards .choice-card-label { font-size: 0.72rem; line-height: 1.3; }
 }
 
 .confirm-content { margin: 20px 0; }
