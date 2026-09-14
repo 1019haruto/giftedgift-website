@@ -29,6 +29,19 @@ wireChoiceCards('relationshipCards', 'relationshipSelect');
 wireChoiceCards('topicCards', 'topicSelect');
 wireChoiceCards('timeOfDayCards', 'timeOfDaySelect');
 
+/* ---------- 第2・第3希望日を段階的に表示 ---------- */
+function revealDateFieldOnInput(dateInputId, nextFieldId) {
+  const dateInput = document.getElementById(dateInputId);
+  const nextField = document.getElementById(nextFieldId);
+  if (!dateInput || !nextField) return;
+  dateInput.addEventListener('change', () => {
+    if (dateInput.value) nextField.hidden = false;
+  });
+}
+
+revealDateFieldOnInput('dateChoice1', 'dateChoice2Field');
+revealDateFieldOnInput('dateChoice2', 'dateChoice3Field');
+
 /* ---------- 都道府県 dropdown ---------- */
 const prefectureToggle = document.getElementById('prefectureToggle');
 const prefecturePanel = document.getElementById('prefecturePanel');

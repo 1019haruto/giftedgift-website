@@ -258,6 +258,11 @@
 @media (max-width: 900px) {
   .plan-preview-count { display: inline-flex; }
   #planPreview:not(.is-expanded) .plan-preview-body-detail { display: none; }
+
+  .plan-preview { padding: 16px 18px; }
+  .plan-preview-head { margin-bottom: 0.5em; }
+  .plan-preview-empty p { font-size: 0.82rem; line-height: 1.5; margin: 0 0 0.3em; }
+  .plan-preview-empty-sub { font-size: 0.76rem; }
 }
 
 .plan-preview-empty p {
@@ -477,6 +482,10 @@ select, .field-grid input[type="text"], .field-grid input[type="date"] {
 @media (max-width: 640px) {
   .category-toggle { flex-direction: column; align-items: stretch; }
   .plan-hero { padding: 40px 20px 16px; }
+
+  #timeOfDayCards { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  #timeOfDayCards .choice-card { padding: 14px 6px; }
+  #timeOfDayCards .choice-card-label { font-size: 0.8rem; }
 }
 
 .confirm-content { margin: 20px 0; }
