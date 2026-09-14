@@ -85,8 +85,7 @@ img { max-width: 100%; display: block; }
 .site-header {
   position: sticky;
   top: 0;
-  background: rgba(20, 18, 15, 0.85);
-  backdrop-filter: blur(10px);
+  background: var(--cream);
   border-bottom: 1px solid var(--line);
   z-index: 100;
 }
