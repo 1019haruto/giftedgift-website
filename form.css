@@ -507,6 +507,8 @@ select, .field-grid input[type="text"], .field-grid input[type="date"] {
   .addon-section .addon-tile { padding: 12px 6px; }
   .addon-section .addon-tile-icon { font-size: 1.3rem; }
   .addon-section .addon-tile span:last-child { font-size: 0.78rem; }
+
+  #cat-self .field-grid { grid-template-columns: 3fr 7fr; gap: 10px; }
 }
 
 .confirm-content { margin: 20px 0; }
