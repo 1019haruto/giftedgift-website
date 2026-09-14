@@ -82,7 +82,7 @@
 .plan-builder .plan-form { padding: 0; }
 
 @media (max-width: 900px) {
-  .plan-builder { grid-template-columns: 1fr; padding: 12px 0 70px; gap: 28px; }
+  .plan-builder { grid-template-columns: minmax(0, 1fr); padding: 12px 20px 70px; gap: 28px; }
 }
 
 .plan-form-footnote {
