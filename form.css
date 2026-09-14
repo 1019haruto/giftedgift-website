@@ -486,6 +486,13 @@ select, .field-grid input[type="text"], .field-grid input[type="date"] {
   #timeOfDayCards { grid-template-columns: repeat(3, 1fr); gap: 8px; }
   #timeOfDayCards .choice-card { padding: 14px 6px; }
   #timeOfDayCards .choice-card-label { font-size: 0.8rem; }
+
+  #relationshipCards { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  #relationshipCards .choice-card { padding: 12px 6px; }
+  #relationshipCards .choice-card-icon { font-size: 1.3rem; }
+  #relationshipCards .choice-card-label { font-size: 0.72rem; line-height: 1.3; }
+
+  #cat-recipient .field-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
 }
 
 .confirm-content { margin: 20px 0; }
