@@ -258,7 +258,16 @@
   .plan-preview-count { display: inline-flex; }
   #planPreview:not(.is-expanded) .plan-preview-body-detail { display: none; }
 
-  .plan-preview { order: -1; position: sticky; top: 58px; width: 100%; box-sizing: border-box; padding: 16px 18px; }
+  .plan-preview {
+    order: -1;
+    position: sticky;
+    top: 58px;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 16px 18px;
+    transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+  }
   .plan-preview-head { margin-bottom: 0.5em; }
   .plan-preview-empty p { font-size: 0.82rem; line-height: 1.5; margin: 0 0 0.3em; }
   .plan-preview-empty-sub { font-size: 0.76rem; }

@@ -89,6 +89,7 @@ img { max-width: 100%; display: block; }
   box-shadow: 0 1px 0 0 var(--line);
   z-index: 100;
   transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
 }
 
 .header-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 0; }
