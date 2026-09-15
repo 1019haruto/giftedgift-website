@@ -185,6 +185,7 @@ const doneStep = document.getElementById('doneStep');
 let selectedAddons = [];
 let submittedEmail = '';
 let submittedToken = '';
+let submittedCode = '';
 
 function escapeHtmlLocal(str) {
   return String(str)
@@ -351,6 +352,7 @@ if (sendEmailBtn) {
     }
     const code = String(Math.floor(100000 + Math.random() * 900000));
     submittedEmail = email;
+    submittedCode = code;
     submittedToken = Date.now().toString(36) + Math.random().toString(36).slice(2, 10);
     localStorage.setItem('gitedgift_user_email', email);
     const confirmedEmail = document.getElementById('confirmedEmail');
@@ -378,31 +380,36 @@ if (sendEmailBtn) {
   });
 }
 
+const LINE_OFFICIAL_ACCOUNT_ID = '@430uoiak';
+
+function buildLineMessageText() {
+  const summary = collectRequestSummary();
+  const lines = ['【GIFTED×GIFT】ご相談内容', ''];
+
+  if (submittedCode) lines.push('確認コード: ' + submittedCode, '');
+
+  summary.categories.forEach((cat) => {
+    const fieldEntries = Object.entries(cat.fields);
+    if (fieldEntries.length === 0) return;
+    lines.push(cat.name);
+    fieldEntries.forEach(([key, value]) => {
+      const displayValue = Array.isArray(value) ? value.join('、') : value;
+      lines.push('・' + key + ': ' + displayValue);
+    });
+    lines.push('');
+  });
+
+  if (summary.notes) lines.push('こだわり・補足事項', summary.notes, '');
+
+  return lines.join('\n').trim();
+}
+
 const lineSendBtn = document.getElementById('lineSendBtn');
 if (lineSendBtn) {
   lineSendBtn.addEventListener('click', () => {
-    const lineSendNote = document.getElementById('lineSendNote');
-    if (typeof SITE_CONFIG === 'undefined' || !SITE_CONFIG.LINE_LOGIN_CHANNEL_ID || !SITE_CONFIG.LINE_LOGIN_REDIRECT_URI) {
-      if (lineSendNote) {
-        lineSendNote.hidden = false;
-        lineSendNote.textContent = 'LINE連携の設定が未完了のため、送信できません。';
-      }
-      return;
-    }
-    if (!submittedToken) return;
-
-    lineSendBtn.disabled = true;
-    lineSendBtn.textContent = 'LINEアプリに移動しています…';
-
-    const authUrl = 'https://access.line.me/oauth2/v2.1/authorize' +
-      '?response_type=code' +
-      '&client_id=' + encodeURIComponent(SITE_CONFIG.LINE_LOGIN_CHANNEL_ID) +
-      '&redirect_uri=' + encodeURIComponent(SITE_CONFIG.LINE_LOGIN_REDIRECT_URI) +
-      '&state=' + encodeURIComponent(submittedToken) +
-      '&scope=' + encodeURIComponent('profile openid') +
-      '&bot_prompt=aggressive';
-
-    window.location.href = authUrl;
+    const message = buildLineMessageText();
+    const lineUrl = 'https://line.me/R/oaMessage/' + LINE_OFFICIAL_ACCOUNT_ID + '/?' + encodeURIComponent(message);
+    window.location.href = lineUrl;
   });
 }
 
