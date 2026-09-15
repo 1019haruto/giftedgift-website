@@ -230,11 +230,11 @@ if (planForm) {
       confirmContent.innerHTML = renderSummaryHtml(collectRequestSummary());
       planForm.hidden = true;
       confirmStep.hidden = false;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      confirmStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else if (emailStep) {
       planForm.hidden = true;
       emailStep.hidden = false;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      emailStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
       alert('ご相談内容を受け付けました（デモ画面です）。');
     }
@@ -246,7 +246,7 @@ if (confirmBackBtn) {
   confirmBackBtn.addEventListener('click', () => {
     confirmStep.hidden = true;
     planForm.hidden = false;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    planForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 }
 
@@ -256,10 +256,10 @@ if (confirmNextBtn) {
     confirmStep.hidden = true;
     if (upsellStep) {
       upsellStep.hidden = false;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      upsellStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else if (emailStep) {
       emailStep.hidden = false;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      emailStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
   });
 }
@@ -268,7 +268,7 @@ function proceedFromUpsellToEmail() {
   upsellStep.hidden = true;
   if (emailStep) {
     emailStep.hidden = false;
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    emailStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 }
 
@@ -362,7 +362,7 @@ if (sendEmailBtn) {
     if (emailStep) emailStep.hidden = true;
     if (doneStep) {
       doneStep.hidden = false;
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      doneStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
       setTimeout(goToLineNow, 1500);
     }
 
