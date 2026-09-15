@@ -363,6 +363,7 @@ if (sendEmailBtn) {
     if (doneStep) {
       doneStep.hidden = false;
       window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(goToLineNow, 1500);
     }
 
     if (typeof SITE_CONFIG !== 'undefined' && SITE_CONFIG.SUBMISSION_ENDPOINT &&
@@ -404,13 +405,15 @@ function buildLineMessageText() {
   return lines.join('\n').trim();
 }
 
+function goToLineNow() {
+  const message = buildLineMessageText();
+  const lineUrl = 'https://line.me/R/oaMessage/' + LINE_OFFICIAL_ACCOUNT_ID + '/?' + encodeURIComponent(message);
+  window.location.href = lineUrl;
+}
+
 const lineSendBtn = document.getElementById('lineSendBtn');
 if (lineSendBtn) {
-  lineSendBtn.addEventListener('click', () => {
-    const message = buildLineMessageText();
-    const lineUrl = 'https://line.me/R/oaMessage/' + LINE_OFFICIAL_ACCOUNT_ID + '/?' + encodeURIComponent(message);
-    window.location.href = lineUrl;
-  });
+  lineSendBtn.addEventListener('click', goToLineNow);
 }
 
 updateEmptyHint();
