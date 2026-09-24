@@ -75,8 +75,33 @@
     transition: background 0.15s ease;
   }
   .admin-email-row:hover { background: #2A241D; }
+  .admin-email-row-left { display: flex; align-items: center; gap: 10px; min-width: 0; }
   .admin-email-row-email { font-size: 0.95rem; font-weight: 700; color: var(--gold-deep); word-break: break-all; }
   .admin-email-row-meta { font-size: 0.78rem; color: var(--ink-soft); flex-shrink: 0; white-space: nowrap; }
+
+  .admin-status-badge {
+    display: inline-block;
+    flex-shrink: 0;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .admin-status-badge.status-sent { background: rgba(123, 194, 110, 0.18); color: var(--sage-deep, #7BC26E); }
+  .admin-status-badge.status-progress { background: rgba(240, 179, 61, 0.18); color: var(--gold-deep); }
+  .admin-status-badge.status-confirmed { background: rgba(179, 169, 154, 0.18); color: var(--ink-soft); }
+  .admin-status-badge.status-none { background: rgba(226, 105, 74, 0.16); color: #E2694A; }
+  .admin-status-badge.status-live {
+    background: #E2694A; color: #fff;
+    animation: admin-live-pulse 1.6s ease-in-out infinite;
+  }
+  @keyframes admin-live-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.55; }
+  }
+
+  .admin-refresh-note { font-size: 0.78rem; color: var(--ink-soft); }
   .admin-back-btn { margin-bottom: 16px; }
 
   .admin-quick-panel { background: var(--cream-card); border: 1px solid var(--line); border-radius: 20px; padding: 20px 22px; margin: 24px 0; }
@@ -115,7 +140,10 @@
   <div class="wrap">
     <header class="header-inner" style="padding-top:24px;">
       <h1 style="font-size:1.3rem;">ご相談・依頼一覧</h1>
-      <button type="button" class="btn btn-outline" id="reloadBtn">再読み込み</button>
+      <div style="display:flex; align-items:center; gap:12px;">
+        <span class="admin-refresh-note" id="autoRefreshNote"></span>
+        <button type="button" class="btn btn-outline" id="reloadBtn">再読み込み</button>
+      </div>
     </header>
 
     <div id="quickContactArea"></div>
@@ -137,6 +165,54 @@
   var currentEmail = null;
   var adminKey = null;
   var handledIds = JSON.parse(localStorage.getItem('gitedgift_admin_handled') || '[]');
+  var sentIds = JSON.parse(localStorage.getItem('gitedgift_admin_sent') || '[]');
+
+  // ---------- ステータス管理（済／進行中／確認／未 と LIVE 表示） ----------
+  function itemId(item) {
+    return (item && item.email || 'noemail') + '::' + (item && item.date || 'nodate');
+  }
+
+  function markSent(id) {
+    if (sentIds.indexOf(id) === -1) {
+      sentIds.push(id);
+      localStorage.setItem('gitedgift_admin_sent', JSON.stringify(sentIds));
+    }
+  }
+
+  function hasDraft(id) {
+    return !!localStorage.getItem('gitedgift_admin_plan_draft_' + id);
+  }
+
+  var LIVE_WINDOW_MS = 5 * 60 * 1000;
+  function touchLastActive(id) {
+    try { localStorage.setItem('gitedgift_admin_active_' + id, String(Date.now())); } catch (e) {}
+  }
+  function isLive(id) {
+    var t = Number(localStorage.getItem('gitedgift_admin_active_' + id) || 0);
+    return t > 0 && (Date.now() - t) < LIVE_WINDOW_MS;
+  }
+
+  var STATUS_META = {
+    sent:      { label: '済',    cls: 'status-sent' },
+    progress:  { label: '進行中', cls: 'status-progress' },
+    confirmed: { label: '確認',  cls: 'status-confirmed' },
+    none:      { label: '未',    cls: 'status-none' },
+  };
+
+  function getItemStatus(item) {
+    var id = itemId(item);
+    if (sentIds.indexOf(id) !== -1) return 'sent';
+    if (hasDraft(id)) return 'progress';
+    if (handledIds.indexOf(id) !== -1) return 'confirmed';
+    return 'none';
+  }
+
+  function statusBadgeHtml(item) {
+    var id = itemId(item);
+    if (isLive(id)) return '<span class="admin-status-badge status-live">LIVE</span>';
+    var meta = STATUS_META[getItemStatus(item)];
+    return '<span class="admin-status-badge ' + meta.cls + '">' + meta.label + '</span>';
+  }
 
   document.getElementById('adminLoginBtn').addEventListener('click', function () {
     var input = document.getElementById('adminPassword').value.trim();
@@ -148,9 +224,10 @@
     document.getElementById('adminGate').style.display = 'none';
     document.getElementById('adminDashboard').style.display = 'block';
     loadSubmissions();
+    startAutoRefresh();
   });
 
-  document.getElementById('reloadBtn').addEventListener('click', loadSubmissions);
+  document.getElementById('reloadBtn').addEventListener('click', function () { loadSubmissions(); });
 
   function loadSubmissions() {
     document.getElementById('listArea').innerHTML = '<div class="admin-state">読み込み中です…</div>';
@@ -180,6 +257,77 @@
         document.getElementById('listArea').innerHTML =
           '<div class="admin-state admin-error">読み込みに失敗しました。Apps ScriptのURLやデプロイ設定をご確認ください。</div>';
       });
+  }
+
+  // ---------- 自動更新（開いているプラン編集欄・スクロール位置・検索条件を保ったまま裏で更新） ----------
+  var AUTO_REFRESH_MS = 20000;
+  var autoRefreshTimer = null;
+
+  function getOpenPanelItemIds() {
+    var ids = [];
+    Array.prototype.forEach.call(document.querySelectorAll('.admin-plan-panel'), function (panel) {
+      if (!panel.hidden && panel.dataset.itemId) ids.push(panel.dataset.itemId);
+    });
+    return ids;
+  }
+
+  function reopenPanels(ids) {
+    if (!ids || !ids.length) return;
+    Array.prototype.forEach.call(document.querySelectorAll('.admin-plan-panel'), function (panel) {
+      if (ids.indexOf(panel.dataset.itemId) !== -1) panel.hidden = false;
+    });
+  }
+
+  function isUserActivelyTyping() {
+    var active = document.activeElement;
+    if (!active || !active.closest) return false;
+    if (!active.closest('.admin-plan-panel')) return false;
+    return active.tagName === 'INPUT' || active.tagName === 'TEXTAREA' || active.tagName === 'SELECT';
+  }
+
+  function silentRefresh() {
+    if (!adminKey) return;
+    if (!SITE_CONFIG.SUBMISSION_ENDPOINT || SITE_CONFIG.SUBMISSION_ENDPOINT.indexOf('script.google.com') === -1) return;
+    if (isUserActivelyTyping()) return; // 入力中は今回だけスキップ（次の周期でまた試す）
+
+    // 開いているプラン編集欄があれば、内容を失わないよう自動で一時保存してから更新する
+    Array.prototype.forEach.call(document.querySelectorAll('.admin-plan-panel'), function (panel) {
+      if (panel.hidden) return;
+      var btn = panel.querySelector('.plan-draft-btn');
+      if (btn) btn.click();
+    });
+
+    var openIds = getOpenPanelItemIds();
+    var scrollY = window.scrollY;
+    var url = SITE_CONFIG.SUBMISSION_ENDPOINT + '?key=' + encodeURIComponent(adminKey || '');
+
+    fetch(url)
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        if (data && data.error) return;
+        allItems = data || [];
+        renderQuickContacts(allItems);
+
+        var searchInput = document.getElementById('searchInput');
+        if (searchInput.value.trim()) {
+          searchInput.dispatchEvent(new Event('input'));
+        } else if (currentEmail) {
+          renderEmailDetail(currentEmail);
+        } else {
+          renderEmailList(allItems);
+        }
+
+        reopenPanels(openIds);
+        window.scrollTo(0, scrollY);
+      })
+      .catch(function () {}); // 自動更新の失敗は静かに無視し、次の周期で再試行する
+  }
+
+  function startAutoRefresh() {
+    if (autoRefreshTimer) clearInterval(autoRefreshTimer);
+    autoRefreshTimer = setInterval(silentRefresh, AUTO_REFRESH_MS);
+    var note = document.getElementById('autoRefreshNote');
+    if (note) note.textContent = '自動更新中（' + Math.round(AUTO_REFRESH_MS / 1000) + '秒ごと）';
   }
 
   function isQuickContact(raw) {
@@ -233,10 +381,11 @@
 
     items.forEach(function (item) {
       var email = item.email || '（メールアドレスなし）';
-      if (!groups[email]) groups[email] = { email: email, count: 0, latest: item.date };
+      if (!groups[email]) groups[email] = { email: email, count: 0, latest: item.date, latestItem: item };
       groups[email].count += 1;
       if (item.date && (!groups[email].latest || new Date(item.date) > new Date(groups[email].latest))) {
         groups[email].latest = item.date;
+        groups[email].latestItem = item;
       }
     });
 
@@ -254,7 +403,10 @@
       var dateStr = row.latest ? new Date(row.latest).toLocaleString('ja-JP') : '';
       return (
         '<button type="button" class="admin-email-row" data-email="' + escapeHtml(row.email) + '">' +
-          '<span class="admin-email-row-email">' + escapeHtml(row.email) + '</span>' +
+          '<span class="admin-email-row-left">' +
+            statusBadgeHtml(row.latestItem) +
+            '<span class="admin-email-row-email">' + escapeHtml(row.email) + '</span>' +
+          '</span>' +
           '<span class="admin-email-row-meta">' + row.count + '件 ・最終 ' + escapeHtml(dateStr) + '</span>' +
         '</button>'
       );
@@ -300,7 +452,7 @@
     }
 
     listArea.innerHTML = items.map(function (item, index) {
-      var id = 'row-' + index + '-' + (item.date || '');
+      var id = itemId(item);
       var isHandled = handledIds.indexOf(id) !== -1;
       var dateStr = item.date ? new Date(item.date).toLocaleString('ja-JP') : '';
       var detailHtml = renderCategories(item.categories);
@@ -310,6 +462,7 @@
         '<div class="admin-card' + (isHandled ? ' is-handled' : '') + '">' +
           '<div class="admin-top">' +
             '<span class="admin-page-tag">' + escapeHtml(item.page || '') + '</span>' +
+            '<span class="admin-status-slot">' + statusBadgeHtml(item) + '</span>' +
             '<span class="admin-date">' + escapeHtml(dateStr) + '</span>' +
           '</div>' +
           '<div class="admin-email">' + escapeHtml(item.email || '') + '</div>' +
@@ -323,12 +476,19 @@
           '<div style="margin-top:10px;">' +
             '<button type="button" class="btn btn-outline admin-plan-toggle" data-index="' + index + '">プランを作成する</button>' +
           '</div>' +
-          '<div class="admin-plan-panel" id="planPanel-' + index + '" hidden>' +
+          '<div class="admin-plan-panel" id="planPanel-' + index + '" data-item-id="' + escapeHtml(id) + '" hidden>' +
             planRowTemplate(index) +
           '</div>' +
         '</div>'
       );
     }).join('');
+
+    function refreshCardBadge(checkbox) {
+      var card = checkbox.closest('.admin-card');
+      var slot = card.querySelector('.admin-status-slot');
+      var index = Array.prototype.indexOf.call(document.querySelectorAll('.admin-checkbox'), checkbox);
+      if (slot && items[index]) slot.innerHTML = statusBadgeHtml(items[index]);
+    }
 
     Array.prototype.forEach.call(document.querySelectorAll('.admin-checkbox'), function (checkbox) {
       checkbox.addEventListener('change', function () {
@@ -340,13 +500,16 @@
         }
         localStorage.setItem('gitedgift_admin_handled', JSON.stringify(handledIds));
         checkbox.closest('.admin-card').classList.toggle('is-handled', checkbox.checked);
+        refreshCardBadge(checkbox);
       });
     });
 
     Array.prototype.forEach.call(document.querySelectorAll('.admin-plan-toggle'), function (btn) {
       btn.addEventListener('click', function () {
         var panel = document.getElementById('planPanel-' + btn.dataset.index);
-        if (panel) panel.hidden = !panel.hidden;
+        if (!panel) return;
+        panel.hidden = !panel.hidden;
+        if (!panel.hidden && panel.dataset.itemId) touchLastActive(panel.dataset.itemId);
       });
     });
 
@@ -537,8 +700,11 @@
   function wirePlanPanel(panel, item) {
     var rowsBody = panel.querySelector('.plan-rows-body');
     var statusEl = panel.querySelector('.plan-send-status');
-    var panelIndex = panel.id.split('-')[1];
-    var draftKey = 'gitedgift_admin_plan_draft_' + panelIndex + '_' + (item && item.date || '');
+    var id = itemId(item);
+    var draftKey = 'gitedgift_admin_plan_draft_' + id;
+
+    panel.addEventListener('input', function () { touchLastActive(id); });
+    panel.addEventListener('change', function () { touchLastActive(id); });
 
     panel.querySelector('.plan-add-row').addEventListener('click', function () {
       rowsBody.insertAdjacentHTML('beforeend', planRowHtml());
@@ -669,6 +835,10 @@
         }),
       }).then(function () {
         statusEl.textContent = '送信しました。マイギフトに反映されます。';
+        markSent(id);
+        var card = panel.closest('.admin-card');
+        var slot = card && card.querySelector('.admin-status-slot');
+        if (slot) slot.innerHTML = statusBadgeHtml(item);
       }).catch(function () {
         statusEl.textContent = '送信に失敗しました。時間をおいて再度お試しください。';
       });
