@@ -183,13 +183,35 @@
     return !!localStorage.getItem('gitedgift_admin_plan_draft_' + id);
   }
 
-  var LIVE_WINDOW_MS = 5 * 60 * 1000;
+  // Instagramの「入力中…」のように、直近の操作から数秒だけ表示する“今まさに触っている”サイン
+  var LIVE_WINDOW_MS = 8000;
   function touchLastActive(id) {
     try { localStorage.setItem('gitedgift_admin_active_' + id, String(Date.now())); } catch (e) {}
   }
   function isLive(id) {
     var t = Number(localStorage.getItem('gitedgift_admin_active_' + id) || 0);
     return t > 0 && (Date.now() - t) < LIVE_WINDOW_MS;
+  }
+
+  function findItemById(id) {
+    for (var i = 0; i < allItems.length; i++) {
+      if (itemId(allItems[i]) === id) return allItems[i];
+    }
+    return null;
+  }
+
+  // LIVE表示の消灯をリアルタイムに反映するため、データの再取得なしでバッジだけを短い周期で更新する
+  function updateAllVisibleBadges() {
+    Array.prototype.forEach.call(document.querySelectorAll('.admin-status-slot[data-item-id]'), function (slot) {
+      var item = findItemById(slot.dataset.itemId);
+      if (item) slot.innerHTML = statusBadgeHtml(item);
+    });
+  }
+
+  var badgeTickTimer = null;
+  function startBadgeTicker() {
+    if (badgeTickTimer) clearInterval(badgeTickTimer);
+    badgeTickTimer = setInterval(updateAllVisibleBadges, 2000);
   }
 
   var STATUS_META = {
@@ -225,6 +247,7 @@
     document.getElementById('adminDashboard').style.display = 'block';
     loadSubmissions();
     startAutoRefresh();
+    startBadgeTicker();
   });
 
   document.getElementById('reloadBtn').addEventListener('click', function () { loadSubmissions(); });
@@ -404,7 +427,7 @@
       return (
         '<button type="button" class="admin-email-row" data-email="' + escapeHtml(row.email) + '">' +
           '<span class="admin-email-row-left">' +
-            statusBadgeHtml(row.latestItem) +
+            '<span class="admin-status-slot" data-item-id="' + escapeHtml(itemId(row.latestItem)) + '">' + statusBadgeHtml(row.latestItem) + '</span>' +
             '<span class="admin-email-row-email">' + escapeHtml(row.email) + '</span>' +
           '</span>' +
           '<span class="admin-email-row-meta">' + row.count + '件 ・最終 ' + escapeHtml(dateStr) + '</span>' +
@@ -462,7 +485,7 @@
         '<div class="admin-card' + (isHandled ? ' is-handled' : '') + '">' +
           '<div class="admin-top">' +
             '<span class="admin-page-tag">' + escapeHtml(item.page || '') + '</span>' +
-            '<span class="admin-status-slot">' + statusBadgeHtml(item) + '</span>' +
+            '<span class="admin-status-slot" data-item-id="' + escapeHtml(id) + '">' + statusBadgeHtml(item) + '</span>' +
             '<span class="admin-date">' + escapeHtml(dateStr) + '</span>' +
           '</div>' +
           '<div class="admin-email">' + escapeHtml(item.email || '') + '</div>' +
@@ -483,13 +506,6 @@
       );
     }).join('');
 
-    function refreshCardBadge(checkbox) {
-      var card = checkbox.closest('.admin-card');
-      var slot = card.querySelector('.admin-status-slot');
-      var index = Array.prototype.indexOf.call(document.querySelectorAll('.admin-checkbox'), checkbox);
-      if (slot && items[index]) slot.innerHTML = statusBadgeHtml(items[index]);
-    }
-
     Array.prototype.forEach.call(document.querySelectorAll('.admin-checkbox'), function (checkbox) {
       checkbox.addEventListener('change', function () {
         var id = checkbox.getAttribute('data-id');
@@ -500,7 +516,7 @@
         }
         localStorage.setItem('gitedgift_admin_handled', JSON.stringify(handledIds));
         checkbox.closest('.admin-card').classList.toggle('is-handled', checkbox.checked);
-        refreshCardBadge(checkbox);
+        updateAllVisibleBadges();
       });
     });
 
@@ -509,7 +525,10 @@
         var panel = document.getElementById('planPanel-' + btn.dataset.index);
         if (!panel) return;
         panel.hidden = !panel.hidden;
-        if (!panel.hidden && panel.dataset.itemId) touchLastActive(panel.dataset.itemId);
+        if (!panel.hidden && panel.dataset.itemId) {
+          touchLastActive(panel.dataset.itemId);
+          updateAllVisibleBadges();
+        }
       });
     });
 
@@ -703,8 +722,8 @@
     var id = itemId(item);
     var draftKey = 'gitedgift_admin_plan_draft_' + id;
 
-    panel.addEventListener('input', function () { touchLastActive(id); });
-    panel.addEventListener('change', function () { touchLastActive(id); });
+    panel.addEventListener('input', function () { touchLastActive(id); updateAllVisibleBadges(); });
+    panel.addEventListener('change', function () { touchLastActive(id); updateAllVisibleBadges(); });
 
     panel.querySelector('.plan-add-row').addEventListener('click', function () {
       rowsBody.insertAdjacentHTML('beforeend', planRowHtml());
@@ -836,9 +855,7 @@
       }).then(function () {
         statusEl.textContent = '送信しました。マイギフトに反映されます。';
         markSent(id);
-        var card = panel.closest('.admin-card');
-        var slot = card && card.querySelector('.admin-status-slot');
-        if (slot) slot.innerHTML = statusBadgeHtml(item);
+        updateAllVisibleBadges();
       }).catch(function () {
         statusEl.textContent = '送信に失敗しました。時間をおいて再度お試しください。';
       });
