@@ -375,6 +375,7 @@
       '<div class="admin-plan-actions">' +
         '<span class="plan-send-status" style="font-size:0.8rem;color:var(--ink-soft);"></span>' +
         '<div style="display:flex; gap:10px;">' +
+          '<button type="button" class="btn btn-outline plan-draft-btn">一時保存</button>' +
           '<button type="button" class="btn btn-outline plan-pdf-btn">PDF作成</button>' +
           '<button type="button" class="btn btn-primary plan-send-btn">マイギフトに送信</button>' +
         '</div>' +
@@ -483,6 +484,43 @@
     );
   }
 
+  var PLAN_DEFAULT_STEP_MINUTES = 90;
+
+  function parseTimeToMinutes(str) {
+    var m = String(str || '').trim().match(/^(\d{1,2}):(\d{2})$/);
+    if (!m) return null;
+    var h = parseInt(m[1], 10);
+    var min = parseInt(m[2], 10);
+    if (isNaN(h) || isNaN(min) || h > 29 || min > 59) return null;
+    return h * 60 + min;
+  }
+
+  function formatMinutesToTime(mins) {
+    var normalized = ((mins % (24 * 60)) + 24 * 60) % (24 * 60);
+    var h = Math.floor(normalized / 60);
+    var m = normalized % 60;
+    return (h < 10 ? '0' + h : String(h)) + ':' + (m < 10 ? '0' + m : String(m));
+  }
+
+  // 時間が未入力の行に、直前の時間 +90分の目安を自動で入れる（場所が入力されている行のみ対象）
+  function autofillPlanTimes(rowsBody) {
+    var lastMinutes = null;
+    Array.prototype.forEach.call(rowsBody.querySelectorAll('.plan-row'), function (row) {
+      var timeInput = row.querySelector('.plan-time');
+      var hasPlace = row.querySelector('.plan-place').value.trim() !== '';
+      var explicit = parseTimeToMinutes(timeInput.value);
+
+      if (explicit !== null) {
+        lastMinutes = explicit;
+        return;
+      }
+      if (!hasPlace) return;
+
+      lastMinutes = lastMinutes === null ? 10 * 60 : lastMinutes + PLAN_DEFAULT_STEP_MINUTES;
+      timeInput.value = formatMinutesToTime(lastMinutes);
+    });
+  }
+
   function collectSchedule(rowsBody) {
     return Array.prototype.map.call(rowsBody.querySelectorAll('.plan-row'), function (row) {
       return {
@@ -498,6 +536,9 @@
 
   function wirePlanPanel(panel, item) {
     var rowsBody = panel.querySelector('.plan-rows-body');
+    var statusEl = panel.querySelector('.plan-send-status');
+    var panelIndex = panel.id.split('-')[1];
+    var draftKey = 'gitedgift_admin_plan_draft_' + panelIndex + '_' + (item && item.date || '');
 
     panel.querySelector('.plan-add-row').addEventListener('click', function () {
       rowsBody.insertAdjacentHTML('beforeend', planRowHtml());
@@ -513,12 +554,64 @@
     var shioriPanel = panel.querySelector('.admin-shiori-panel');
 
     panel.querySelector('.plan-pdf-btn').addEventListener('click', function () {
+      autofillPlanTimes(rowsBody);
       shioriPanel.hidden = !shioriPanel.hidden;
     });
 
+    panel.querySelector('.plan-draft-btn').addEventListener('click', function () {
+      var draft = {
+        title: panel.querySelector('.plan-title-input').value,
+        status: panel.querySelector('.plan-status-select').value,
+        subtitle: shioriPanel.querySelector('.shiori-subtitle').value,
+        packing: shioriPanel.querySelector('.shiori-packing').value,
+        message: shioriPanel.querySelector('.shiori-message').value,
+        rows: Array.prototype.map.call(rowsBody.querySelectorAll('.plan-row'), function (row) {
+          return {
+            time: row.querySelector('.plan-time').value,
+            place: row.querySelector('.plan-place').value,
+            transport: row.querySelector('.plan-transport').value,
+            notes: row.querySelector('.plan-notes').value,
+          };
+        }),
+      };
+      try {
+        localStorage.setItem(draftKey, JSON.stringify(draft));
+        statusEl.textContent = '一時保存しました（' + new Date().toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' }) + '）。';
+      } catch (e) {
+        statusEl.textContent = '一時保存に失敗しました。';
+      }
+    });
+
+    (function restoreDraft() {
+      var saved;
+      try {
+        saved = JSON.parse(localStorage.getItem(draftKey));
+      } catch (e) {
+        saved = null;
+      }
+      if (!saved) return;
+
+      panel.querySelector('.plan-title-input').value = saved.title || '';
+      if (saved.status) panel.querySelector('.plan-status-select').value = saved.status;
+      shioriPanel.querySelector('.shiori-subtitle').value = saved.subtitle || '';
+      shioriPanel.querySelector('.shiori-packing').value = saved.packing || '';
+      shioriPanel.querySelector('.shiori-message').value = saved.message || '';
+
+      if (Array.isArray(saved.rows) && saved.rows.length > 0) {
+        rowsBody.innerHTML = saved.rows.map(function () { return planRowHtml(); }).join('');
+        var rowEls = rowsBody.querySelectorAll('.plan-row');
+        saved.rows.forEach(function (rowData, i) {
+          rowEls[i].querySelector('.plan-time').value = rowData.time || '';
+          rowEls[i].querySelector('.plan-place').value = rowData.place || '';
+          rowEls[i].querySelector('.plan-transport').value = rowData.transport || '';
+          rowEls[i].querySelector('.plan-notes').value = rowData.notes || '';
+        });
+      }
+      statusEl.textContent = '前回の一時保存を復元しました。';
+    })();
+
     shioriPanel.querySelector('.shiori-create-btn').addEventListener('click', function () {
       var title = panel.querySelector('.plan-title-input').value.trim();
-      var statusEl = panel.querySelector('.plan-send-status');
       var schedule = collectSchedule(rowsBody);
 
       if (!title) {
@@ -540,7 +633,6 @@
     panel.querySelector('.plan-send-btn').addEventListener('click', function () {
       var title = panel.querySelector('.plan-title-input').value.trim();
       var status = panel.querySelector('.plan-status-select').value;
-      var statusEl = panel.querySelector('.plan-send-status');
 
       if (!item || !item.email) {
         statusEl.textContent = 'この依頼にメールアドレスがないため送信できません。';
