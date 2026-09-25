@@ -42,6 +42,86 @@ function revealDateFieldOnInput(dateInputId, nextFieldId) {
 revealDateFieldOnInput('dateChoice1', 'dateChoice2Field');
 revealDateFieldOnInput('dateChoice2', 'dateChoice3Field');
 
+/* ---------- 手入力時、半角数字を yyyy/mm/dd に自動でスラッシュ区切り ---------- */
+function applyDateSlashMask(inputEl) {
+  if (!inputEl) return;
+  inputEl.addEventListener('input', () => {
+    const raw = inputEl.value;
+    if (!/^[0-9/]*$/.test(raw)) return; // 「未定」など数字以外が混ざったら何もしない
+
+    const cursorPos = inputEl.selectionStart;
+    const digitsBeforeCursor = raw.slice(0, cursorPos).replace(/\//g, '').length;
+
+    const digits = raw.replace(/\//g, '').slice(0, 8);
+    let formatted = digits.slice(0, 4);
+    if (digits.length > 4) formatted += '/' + digits.slice(4, 6);
+    if (digits.length > 6) formatted += '/' + digits.slice(6, 8);
+
+    if (formatted === raw) return;
+    inputEl.value = formatted;
+
+    let newPos = 0;
+    let seenDigits = 0;
+    while (newPos < formatted.length && seenDigits < digitsBeforeCursor) {
+      if (formatted[newPos] !== '/') seenDigits++;
+      newPos++;
+    }
+    inputEl.setSelectionRange(newPos, newPos);
+  });
+}
+
+applyDateSlashMask(document.getElementById('dateChoice1'));
+applyDateSlashMask(document.getElementById('dateChoice2'));
+applyDateSlashMask(document.getElementById('dateChoice3'));
+
+/* ---------- 希望日のカレンダー選択（開始日・終了日） ---------- */
+function formatIsoDateToJp(isoStr) {
+  const parts = isoStr.split('-');
+  return parts[0] + '/' + parts[1] + '/' + parts[2];
+}
+
+function wireDateRangePicker(baseId) {
+  const input = document.getElementById(baseId);
+  const toggle = document.getElementById(baseId + 'CalToggle');
+  const popover = document.getElementById(baseId + 'CalPopover');
+  const startInput = document.getElementById(baseId + 'Start');
+  const endInput = document.getElementById(baseId + 'End');
+  const applyBtn = popover ? popover.querySelector('.date-range-apply') : null;
+  if (!input || !toggle || !popover || !startInput || !endInput || !applyBtn) return;
+
+  toggle.addEventListener('click', () => {
+    popover.hidden = !popover.hidden;
+  });
+
+  startInput.addEventListener('change', () => {
+    if (startInput.value) endInput.min = startInput.value;
+  });
+
+  applyBtn.addEventListener('click', () => {
+    if (!startInput.value) {
+      popover.hidden = true;
+      return;
+    }
+    let text = formatIsoDateToJp(startInput.value);
+    if (endInput.value && endInput.value !== startInput.value) {
+      text += '〜' + formatIsoDateToJp(endInput.value);
+    }
+    input.value = text;
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+    popover.hidden = true;
+  });
+
+  document.addEventListener('click', (e) => {
+    if (popover.hidden) return;
+    if (popover.contains(e.target) || e.target === toggle) return;
+    popover.hidden = true;
+  });
+}
+
+wireDateRangePicker('dateChoice1');
+wireDateRangePicker('dateChoice2');
+wireDateRangePicker('dateChoice3');
+
 /* ---------- 選択値が一致したときだけ隣の入力欄を表示 ---------- */
 function revealFieldOnSelectValue(selectId, targetValue, fieldId) {
   const select = document.getElementById(selectId);
@@ -327,6 +407,7 @@ function collectRequestSummary() {
     });
 
     panel.querySelectorAll('.field-grid input[type="text"], .field-grid input[type="date"]').forEach((input) => {
+      if (input.closest('.date-range-popover')) return;
       const value = input.value.trim();
       if (!value) return;
       const label = input.closest('label');

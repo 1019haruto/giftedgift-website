@@ -371,6 +371,58 @@
   .meetup-field-grid { grid-template-columns: 200px 1fr; }
 }
 
+.date-range-field { position: relative; }
+.date-range-field input[type="text"] { width: 100%; box-sizing: border-box; padding-right: 42px; }
+
+.date-range-toggle {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  line-height: 1;
+  padding: 6px;
+  border-radius: 8px;
+}
+.date-range-toggle:hover { background: rgba(255, 255, 255, 0.08); }
+
+.date-range-popover[hidden] { display: none; }
+.date-range-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #2A3B54;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  padding: 14px;
+}
+.date-range-popover label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #B9C6D9;
+}
+.date-range-popover input[type="date"] {
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #35496A;
+  color: #F3F6FA;
+  font-family: var(--font-body);
+  color-scheme: dark;
+}
+.date-range-apply { width: 100%; text-align: center; }
+
 select, .field-grid input[type="text"], .field-grid input[type="date"] {
   padding: 12px 14px;
   border-radius: 12px;

@@ -248,13 +248,49 @@
       <h3>🗓️ 日時</h3>
       <div class="field-grid">
         <label>第1希望日
-          <input type="text" id="dateChoice1" placeholder="例：2026/10/15、または未定">
+          <div class="date-range-field">
+            <input type="text" id="dateChoice1" placeholder="例：2026/10/15、または未定">
+            <button type="button" class="date-range-toggle" id="dateChoice1CalToggle" aria-label="カレンダーから選択">📅</button>
+            <div class="date-range-popover" id="dateChoice1CalPopover" hidden>
+              <label>開始日
+                <input type="date" id="dateChoice1Start">
+              </label>
+              <label>終了日（1日だけなら空欄でOK）
+                <input type="date" id="dateChoice1End">
+              </label>
+              <button type="button" class="btn btn-outline date-range-apply">この内容を反映</button>
+            </div>
+          </div>
         </label>
         <label id="dateChoice2Field" hidden>第2希望日
-          <input type="text" id="dateChoice2" placeholder="例：2026/10/15、または未定">
+          <div class="date-range-field">
+            <input type="text" id="dateChoice2" placeholder="例：2026/10/15、または未定">
+            <button type="button" class="date-range-toggle" id="dateChoice2CalToggle" aria-label="カレンダーから選択">📅</button>
+            <div class="date-range-popover" id="dateChoice2CalPopover" hidden>
+              <label>開始日
+                <input type="date" id="dateChoice2Start">
+              </label>
+              <label>終了日（1日だけなら空欄でOK）
+                <input type="date" id="dateChoice2End">
+              </label>
+              <button type="button" class="btn btn-outline date-range-apply">この内容を反映</button>
+            </div>
+          </div>
         </label>
         <label id="dateChoice3Field" hidden>第3希望日
-          <input type="text" id="dateChoice3" placeholder="例：2026/10/15、または未定">
+          <div class="date-range-field">
+            <input type="text" id="dateChoice3" placeholder="例：2026/10/15、または未定">
+            <button type="button" class="date-range-toggle" id="dateChoice3CalToggle" aria-label="カレンダーから選択">📅</button>
+            <div class="date-range-popover" id="dateChoice3CalPopover" hidden>
+              <label>開始日
+                <input type="date" id="dateChoice3Start">
+              </label>
+              <label>終了日（1日だけなら空欄でOK）
+                <input type="date" id="dateChoice3End">
+              </label>
+              <button type="button" class="btn btn-outline date-range-apply">この内容を反映</button>
+            </div>
+          </div>
         </label>
       </div>
       <p class="panel-subheading">集合の時間帯</p>
