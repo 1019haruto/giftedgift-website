@@ -7,6 +7,13 @@ var SECRET = 'a7eenGndxwL_4LstTwx8UQdu'; // ← 管理者ページ(admin-dashboa
 function doPost(e) {
   var data = JSON.parse(e.postData.contents);
 
+  if (data.type === 'ai_itinerary') {
+    if (!data.key || data.key !== SECRET) {
+      return jsonOutput({ error: 'unauthorized' });
+    }
+    return handleAiItinerary(data);
+  }
+
   if (data.type === 'plan') {
     var planSheet = getOrCreateSheet(PLAN_SHEET_NAME);
     planSheet.appendRow([
@@ -48,6 +55,103 @@ function sendConfirmationEmail(email, code) {
     '※このメールは送信専用です。ご返信いただいてもお答えできませんのでご了承ください。';
 
   MailApp.sendEmail(email, subject, body);
+}
+
+// 管理者ページの「AIで間を埋める」用: Anthropic APIを呼び出し、入力済みの場所の間を
+// 埋める行程案（時間・場所・移動手段・備考）をJSONで返す。
+// 事前準備: スクリプトプロパティに ANTHROPIC_API_KEY を設定してください
+// （エディタ左の歯車アイコン→プロジェクトの設定→スクリプト プロパティ）。
+function handleAiItinerary(data) {
+  var apiKey = PropertiesService.getScriptProperties().getProperty('ANTHROPIC_API_KEY');
+  if (!apiKey) {
+    return jsonOutput({ error: 'ANTHROPIC_API_KEYが未設定です。スクリプトプロパティに追加してください。' });
+  }
+
+  var rows = data.rows || [];
+  var waypoints = rows.filter(function (r) { return r && r.place; });
+  if (waypoints.length < 2) {
+    return jsonOutput({ error: '場所を2件以上入力してから実行してください。' });
+  }
+
+  var waypointText = waypoints.map(function (r, i) {
+    var parts = [];
+    if (r.time) parts.push('時間: ' + r.time);
+    parts.push('場所: ' + r.place);
+    if (r.transport) parts.push('移動手段: ' + r.transport);
+    if (r.notes) parts.push('備考: ' + r.notes);
+    return (i + 1) + '. ' + parts.join(' / ');
+  }).join('\n');
+
+  var systemPrompt =
+    'あなたは日本国内の旅行・デート・ギフト体験プランを組み立てるコンシェルジュのアシスタントです。' +
+    'スタッフが入力した「立ち寄りたい場所」の一覧をもとに、現実的な移動手段・所要時間を踏まえて、' +
+    '必要な移動や乗り換え・休憩などの行を補い、当日のスケジュール表を完成させてください。' +
+    'ユーザーが入力した場所と順序は必ずそのまま残し、間を埋める形で行を追加してください。' +
+    '出力は前置き・説明・コードブロック記号なしで、次のJSON配列のみを返してください。' +
+    '各要素は {"time":"HH:MM","place":"地名","transport":"移動手段","notes":"補足（不要なら空文字）"} の形式とし、時間の昇順で並べてください。';
+
+  var userPrompt =
+    '現在スタッフが入力している行程です。この間を埋めて、当日のスケジュール表をJSON配列だけで返してください。\n\n' +
+    waypointText;
+
+  var payload = {
+    model: 'claude-opus-5',
+    max_tokens: 4096,
+    system: systemPrompt,
+    messages: [
+      { role: 'user', content: userPrompt }
+    ]
+  };
+
+  var response;
+  try {
+    response = UrlFetchApp.fetch('https://api.anthropic.com/v1/messages', {
+      method: 'post',
+      contentType: 'application/json',
+      headers: {
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01'
+      },
+      payload: JSON.stringify(payload),
+      muteHttpExceptions: true
+    });
+  } catch (e) {
+    return jsonOutput({ error: 'AI呼び出しに失敗しました: ' + e.message });
+  }
+
+  var statusCode = response.getResponseCode();
+  var bodyText = response.getContentText();
+  if (statusCode !== 200) {
+    return jsonOutput({ error: 'AI呼び出しに失敗しました（HTTP ' + statusCode + '）: ' + bodyText.slice(0, 300) });
+  }
+
+  var result;
+  try {
+    result = JSON.parse(bodyText);
+  } catch (e) {
+    return jsonOutput({ error: 'AIの応答を解析できませんでした。' });
+  }
+
+  var text = '';
+  if (result.content && result.content.length) {
+    for (var i = 0; i < result.content.length; i++) {
+      if (result.content[i].type === 'text') text += result.content[i].text;
+    }
+  }
+
+  var scheduleRows;
+  try {
+    var jsonMatch = text.match(/\[[\s\S]*\]/);
+    scheduleRows = JSON.parse(jsonMatch ? jsonMatch[0] : text);
+  } catch (e) {
+    return jsonOutput({ error: 'AIの提案内容をJSONとして解析できませんでした。もう一度お試しください。' });
+  }
+
+  if (!Array.isArray(scheduleRows) || scheduleRows.length === 0) {
+    return jsonOutput({ error: 'AIから有効な提案が得られませんでした。' });
+  }
+
+  return jsonOutput({ rows: scheduleRows });
 }
 
 function doGet(e) {

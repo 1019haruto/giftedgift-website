@@ -53,6 +53,7 @@
   .admin-plan-table input { width: 100%; padding: 7px 8px; border-radius: 6px; border: 1px solid var(--line); font-family: inherit; font-size: 0.85rem; background: var(--cream-card); color: var(--ink); }
   .plan-row-remove { border: none; background: none; color: var(--ink-soft); cursor: pointer; font-size: 1rem; padding: 0 6px; }
   .admin-plan-actions { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 10px; flex-wrap: wrap; }
+  .plan-ai-note { font-size: 0.76rem; color: var(--ink-soft); margin: 6px 0 12px; }
 
   .admin-shiori-panel { background: var(--cream); border-radius: 12px; padding: 16px; margin-top: 12px; border: 1px dashed var(--line); }
   .admin-shiori-panel h4 { font-size: 0.92rem; margin-bottom: 12px; }
@@ -546,7 +547,11 @@
         '<thead><tr><th>時間</th><th>場所</th><th>移動手段</th><th>備考</th><th></th></tr></thead>' +
         '<tbody class="plan-rows-body">' + planRowHtml() + '</tbody>' +
       '</table>' +
-      '<button type="button" class="btn btn-outline plan-add-row">＋ 行を追加</button>' +
+      '<div style="display:flex; gap:10px; flex-wrap:wrap;">' +
+        '<button type="button" class="btn btn-outline plan-add-row">＋ 行を追加</button>' +
+        '<button type="button" class="btn btn-outline plan-ai-fill-btn">✨ AIで間を埋める</button>' +
+      '</div>' +
+      '<p class="plan-ai-note">場所を2件以上入力すると、AIが移動手段・所要時間を考慮して間の行程を提案します（実行のたびに少額のAPI費用がかかります）。</p>' +
       '<label class="admin-plan-field">ステータス' +
         '<select class="plan-status-select">' +
           '<option value="ご提案中">ご提案中</option>' +
@@ -728,6 +733,68 @@
     panel.querySelector('.plan-add-row').addEventListener('click', function () {
       rowsBody.insertAdjacentHTML('beforeend', planRowHtml());
     });
+
+    var aiFillBtn = panel.querySelector('.plan-ai-fill-btn');
+    if (aiFillBtn) {
+      aiFillBtn.addEventListener('click', function () {
+        var currentRows = Array.prototype.map.call(rowsBody.querySelectorAll('.plan-row'), function (row) {
+          return {
+            time: row.querySelector('.plan-time').value.trim(),
+            place: row.querySelector('.plan-place').value.trim(),
+            transport: row.querySelector('.plan-transport').value.trim(),
+            notes: row.querySelector('.plan-notes').value.trim(),
+          };
+        });
+        var placeCount = currentRows.filter(function (r) { return r.place; }).length;
+        if (placeCount < 2) {
+          statusEl.textContent = '場所を2件以上入力してから実行してください。';
+          return;
+        }
+        if (!SITE_CONFIG.SUBMISSION_ENDPOINT || SITE_CONFIG.SUBMISSION_ENDPOINT.indexOf('script.google.com') === -1) {
+          statusEl.textContent = 'config.js の SUBMISSION_ENDPOINT が未設定です。';
+          return;
+        }
+
+        var originalLabel = aiFillBtn.textContent;
+        aiFillBtn.disabled = true;
+        aiFillBtn.textContent = 'AIが行程を作成中…';
+        statusEl.textContent = '';
+
+        fetch(SITE_CONFIG.SUBMISSION_ENDPOINT, {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify({ type: 'ai_itinerary', key: adminKey, rows: currentRows }),
+        })
+          .then(function (res) { return res.json(); })
+          .then(function (result) {
+            if (result && result.error) {
+              statusEl.textContent = result.error;
+              return;
+            }
+            if (!result || !Array.isArray(result.rows) || result.rows.length === 0) {
+              statusEl.textContent = 'AIの提案が空でした。時間をおいて再度お試しください。';
+              return;
+            }
+            rowsBody.innerHTML = result.rows.map(function () { return planRowHtml(); }).join('');
+            var rowEls = rowsBody.querySelectorAll('.plan-row');
+            result.rows.forEach(function (r, i) {
+              if (!rowEls[i]) return;
+              rowEls[i].querySelector('.plan-time').value = r.time || '';
+              rowEls[i].querySelector('.plan-place').value = r.place || '';
+              rowEls[i].querySelector('.plan-transport').value = r.transport || '';
+              rowEls[i].querySelector('.plan-notes').value = r.notes || '';
+            });
+            statusEl.textContent = 'AIが提案した行程を反映しました。内容をご確認・調整のうえご利用ください。';
+          })
+          .catch(function () {
+            statusEl.textContent = 'AI呼び出しに失敗しました。時間をおいて再度お試しください。';
+          })
+          .then(function () {
+            aiFillBtn.disabled = false;
+            aiFillBtn.textContent = originalLabel;
+          });
+      });
+    }
 
     rowsBody.addEventListener('click', function (e) {
       if (!e.target.classList.contains('plan-row-remove')) return;
