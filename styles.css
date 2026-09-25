@@ -186,7 +186,7 @@ img { max-width: 100%; display: block; }
 
 .hero-copy h1 {
   font-family: "Shippori Mincho", var(--font-display);
-  font-size: clamp(2.2rem, 4.4vw, 3.4rem);
+  font-size: clamp(1.9rem, 3.7vw, 2.8rem);
   font-weight: 400;
   color: #fff;
   text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
@@ -620,7 +620,7 @@ img { max-width: 100%; display: block; }
 @media (max-width: 900px) {
   .hero { min-height: calc(100svh - 41px); align-items: flex-end; }
   .hero-wrap { padding: 32px 24px calc(96px + env(safe-area-inset-bottom, 0px)); }
-  .hero-copy h1 { font-size: clamp(2rem, 7.4vw, 2.6rem); }
+  .hero-copy h1 { font-size: clamp(1.7rem, 6.4vw, 2.2rem); }
   .hero-lead { font-size: 0.95rem; }
 
   .travel-inner { grid-template-columns: 1fr; padding: 36px 28px; }
