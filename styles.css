@@ -330,7 +330,7 @@ img { max-width: 100%; display: block; }
   border: 1px solid var(--accent);
   color: var(--accent);
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 1.3rem;
   text-shadow: 0.5px 0 currentColor, -0.5px 0 currentColor, 0 0.5px currentColor, 0 -0.5px currentColor;
   display: flex;
   align-items: center;
