@@ -320,7 +320,7 @@ img { max-width: 100%; display: block; }
 }
 
 .service-card h3 { font-size: 1.05rem; margin-bottom: 0.4em; }
-.service-card--featured h3 { font-size: 0.85rem; color: var(--ink-soft); font-weight: 700; margin-bottom: 0.8em; }
+.service-card--featured h3 { font-size: 1.05rem; color: var(--ink-soft); font-weight: 700; margin-bottom: 0.8em; }
 .service-card--featured p { font-size: 1rem; line-height: 1.85; max-width: 44ch; }
 
 .service-card p { font-size: 0.85rem; color: var(--ink-soft); margin-bottom: 2.2em; }
