@@ -34,8 +34,8 @@ function revealDateFieldOnInput(dateInputId, nextFieldId) {
   const dateInput = document.getElementById(dateInputId);
   const nextField = document.getElementById(nextFieldId);
   if (!dateInput || !nextField) return;
-  dateInput.addEventListener('change', () => {
-    if (dateInput.value) nextField.hidden = false;
+  dateInput.addEventListener('input', () => {
+    if (dateInput.value.trim()) nextField.hidden = false;
   });
 }
 
