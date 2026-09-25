@@ -367,6 +367,10 @@
 /* .field-grid label/.field-label set display:flex, which beats the [hidden] UA rule — force it explicitly */
 .field-grid label[hidden], .field-grid .field-label[hidden] { display: none; }
 
+@media (min-width: 641px) {
+  .meetup-field-grid { grid-template-columns: 200px 1fr; }
+}
+
 select, .field-grid input[type="text"], .field-grid input[type="date"] {
   padding: 12px 14px;
   border-radius: 12px;
