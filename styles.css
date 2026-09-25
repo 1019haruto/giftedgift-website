@@ -396,7 +396,6 @@ img { max-width: 100%; display: block; }
 .photo {
   display: block;
   border-radius: 18px;
-  border: 4px solid rgba(244, 239, 229, 0.9);
   box-shadow: 0 24px 40px -18px rgba(0, 0, 0, 0.6);
   object-fit: cover;
 }
