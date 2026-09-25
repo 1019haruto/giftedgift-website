@@ -446,12 +446,19 @@
             <option>フレンチ・イタリアン</option>
             <option>カフェ・スイーツ</option>
             <option>個室・記念日利用向け</option>
+            <option>その他</option>
           </select>
         </label>
       </div>
       <div class="field-grid" style="margin-top:18px;">
         <label>アレルギー
-          <input type="text" placeholder="例：えび、そば、卵／なければ「特になし」">
+          <select id="allergySelect">
+            <option value="無">無</option>
+            <option value="有">有</option>
+          </select>
+        </label>
+        <label id="allergyDetailField" hidden>アレルギーの内容
+          <input type="text" id="allergyDetailInput" placeholder="例：えび、そば、卵">
         </label>
       </div>
       <label class="panel-notes">お二人の食の好み

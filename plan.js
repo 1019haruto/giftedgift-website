@@ -42,6 +42,25 @@ function revealDateFieldOnInput(dateInputId, nextFieldId) {
 revealDateFieldOnInput('dateChoice1', 'dateChoice2Field');
 revealDateFieldOnInput('dateChoice2', 'dateChoice3Field');
 
+/* ---------- 選択値が一致したときだけ隣の入力欄を表示 ---------- */
+function revealFieldOnSelectValue(selectId, targetValue, fieldId) {
+  const select = document.getElementById(selectId);
+  const field = document.getElementById(fieldId);
+  if (!select || !field) return;
+  const sync = () => {
+    const show = select.value === targetValue;
+    field.hidden = !show;
+    if (!show) {
+      const input = field.querySelector('input, textarea');
+      if (input) input.value = '';
+    }
+  };
+  select.addEventListener('change', sync);
+  sync();
+}
+
+revealFieldOnSelectValue('allergySelect', '有', 'allergyDetailField');
+
 /* ---------- 都道府県 dropdown ---------- */
 const prefectureToggle = document.getElementById('prefectureToggle');
 const prefecturePanel = document.getElementById('prefecturePanel');
