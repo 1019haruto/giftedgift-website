@@ -42,31 +42,83 @@ function revealDateFieldOnInput(dateInputId, nextFieldId) {
 revealDateFieldOnInput('dateChoice1', 'dateChoice2Field');
 revealDateFieldOnInput('dateChoice2', 'dateChoice3Field');
 
-/* ---------- 手入力時、半角数字を yyyy/mm/dd に自動でスラッシュ区切り ---------- */
+/* ---------- 手入力時、半角数字を yyyy/mm/dd に自動でスラッシュ区切り（終了日も続けて入力可） ---------- */
+function formatYmdPartial(digits) {
+  let out = digits.slice(0, 4);
+  if (digits.length > 4) out += '/' + digits.slice(4, 6);
+  if (digits.length > 6) out += '/' + digits.slice(6, 8);
+  return out;
+}
+
 function applyDateSlashMask(inputEl) {
   if (!inputEl) return;
+  let prevValue = inputEl.value;
+
   inputEl.addEventListener('input', () => {
-    const raw = inputEl.value;
-    if (!/^[0-9/]*$/.test(raw)) return; // 「未定」など数字以外が混ざったら何もしない
-
-    const cursorPos = inputEl.selectionStart;
-    const digitsBeforeCursor = raw.slice(0, cursorPos).replace(/\//g, '').length;
-
-    const digits = raw.replace(/\//g, '').slice(0, 8);
-    let formatted = digits.slice(0, 4);
-    if (digits.length > 4) formatted += '/' + digits.slice(4, 6);
-    if (digits.length > 6) formatted += '/' + digits.slice(6, 8);
-
-    if (formatted === raw) return;
-    inputEl.value = formatted;
-
-    let newPos = 0;
-    let seenDigits = 0;
-    while (newPos < formatted.length && seenDigits < digitsBeforeCursor) {
-      if (formatted[newPos] !== '/') seenDigits++;
-      newPos++;
+    if (inputEl.dataset.skipMask) {
+      delete inputEl.dataset.skipMask;
+      prevValue = inputEl.value;
+      return;
     }
-    inputEl.setSelectionRange(newPos, newPos);
+
+    const raw = inputEl.value;
+    const isDeleting = raw.length < prevValue.length;
+
+    if (!/^[0-9/〜]*$/.test(raw)) { prevValue = raw; return; } // 「未定」など数字以外が混ざったら何もしない
+
+    const tildeIndex = raw.indexOf('〜');
+
+    if (tildeIndex === -1) {
+      // 開始日を入力中
+      const cursorPos = inputEl.selectionStart;
+      const digitsBeforeCursor = raw.slice(0, cursorPos).replace(/\//g, '').length;
+
+      const digits = raw.replace(/\//g, '').slice(0, 8);
+      let formatted = formatYmdPartial(digits);
+
+      if (digits.length === 8 && !isDeleting) {
+        // 開始日が確定したら、自動で「〜yyyy/」を続けて終了日の入力に誘導する
+        formatted += '〜' + digits.slice(0, 4) + '/';
+        inputEl.value = formatted;
+        inputEl.setSelectionRange(formatted.length, formatted.length);
+        prevValue = inputEl.value;
+        return;
+      }
+
+      if (formatted !== raw) {
+        inputEl.value = formatted;
+        let newPos = 0;
+        let seenDigits = 0;
+        while (newPos < formatted.length && seenDigits < digitsBeforeCursor) {
+          if (formatted[newPos] !== '/') seenDigits++;
+          newPos++;
+        }
+        inputEl.setSelectionRange(newPos, newPos);
+      }
+      prevValue = inputEl.value;
+      return;
+    }
+
+    // 終了日を入力中（開始日部分はそのまま、年は開始日と揃える）
+    const startPart = raw.slice(0, tildeIndex);
+    const afterTilde = raw.slice(tildeIndex + 1);
+    const startYear = startPart.replace(/\//g, '').slice(0, 4);
+    const afterDigits = afterTilde.replace(/\//g, '');
+
+    let endFormatted;
+    if (afterDigits.length < 4 || isDeleting) {
+      endFormatted = afterDigits.length === 4 && !isDeleting ? afterDigits + '/' : afterDigits;
+    } else {
+      const monthDay = afterDigits.slice(4, 8);
+      endFormatted = startYear + '/' + monthDay.slice(0, 2) + (monthDay.length > 2 ? '/' + monthDay.slice(2, 4) : '');
+    }
+
+    const formatted = startPart + '〜' + endFormatted;
+    if (formatted !== raw) {
+      inputEl.value = formatted;
+      inputEl.setSelectionRange(formatted.length, formatted.length);
+    }
+    prevValue = inputEl.value;
   });
 }
 
@@ -107,6 +159,7 @@ function wireDateRangePicker(baseId) {
       text += '〜' + formatIsoDateToJp(endInput.value);
     }
     input.value = text;
+    input.dataset.skipMask = '1'; // カレンダーで確定した値は手入力マスクで書き換えない
     input.dispatchEvent(new Event('input', { bubbles: true }));
     popover.hidden = true;
   });
