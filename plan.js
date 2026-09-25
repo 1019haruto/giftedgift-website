@@ -77,8 +77,8 @@ function applyDateSlashMask(inputEl) {
       let formatted = formatYmdPartial(digits);
 
       if (digits.length === 8 && !isDeleting) {
-        // 開始日が確定したら、自動で「〜yyyy/」を続けて終了日の入力に誘導する
-        formatted += '〜' + digits.slice(0, 4) + '/';
+        // 開始日が確定したら「〜」だけ続ける。終了日は年から自由に入力してもらう
+        formatted += '〜';
         inputEl.value = formatted;
         inputEl.setSelectionRange(formatted.length, formatted.length);
         prevValue = inputEl.value;
@@ -99,19 +99,11 @@ function applyDateSlashMask(inputEl) {
       return;
     }
 
-    // 終了日を入力中（開始日部分はそのまま、年は開始日と揃える）
+    // 終了日を入力中（開始日部分はそのまま、終了日は年から独立して入力できる）
     const startPart = raw.slice(0, tildeIndex);
     const afterTilde = raw.slice(tildeIndex + 1);
-    const startYear = startPart.replace(/\//g, '').slice(0, 4);
-    const afterDigits = afterTilde.replace(/\//g, '');
-
-    let endFormatted;
-    if (afterDigits.length < 4 || isDeleting) {
-      endFormatted = afterDigits.length === 4 && !isDeleting ? afterDigits + '/' : afterDigits;
-    } else {
-      const monthDay = afterDigits.slice(4, 8);
-      endFormatted = startYear + '/' + monthDay.slice(0, 2) + (monthDay.length > 2 ? '/' + monthDay.slice(2, 4) : '');
-    }
+    const endDigits = afterTilde.replace(/\//g, '').slice(0, 8);
+    const endFormatted = formatYmdPartial(endDigits);
 
     const formatted = startPart + '〜' + endFormatted;
     if (formatted !== raw) {
