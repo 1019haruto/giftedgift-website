@@ -50,6 +50,14 @@
 
   <form class="plan-form wrap" id="planForm">
 
+    <!-- すべて相談して決める -->
+    <div class="category-panel" id="cat-all-consult">
+      <h3>📋 ご要望</h3>
+      <div class="checkbox-row" data-field-label="ご要望">
+        <label><input type="checkbox" id="allConsultCheckbox"> すべて相談して決める</label>
+      </div>
+    </div>
+
     <div class="category-panel" id="cat-purpose">
       <h3>📅 ご予算 <span style="font-size:0.7rem; font-weight:700; color:#E38FA8;">※必須</span></h3>
       <div class="field-grid">
@@ -284,5 +292,21 @@
 <script src="script.js"></script>
 <script src="plan.js"></script>
 <script src="gate.js"></script>
+<script>
+(function () {
+  var checkbox = document.getElementById('allConsultCheckbox');
+  if (!checkbox) return;
+  var panels = [
+    document.getElementById('cat-purpose'),
+    document.getElementById('cat-location'),
+    document.getElementById('cat-datetime'),
+  ];
+  checkbox.addEventListener('change', function () {
+    panels.forEach(function (panel) {
+      if (panel) panel.hidden = checkbox.checked;
+    });
+  });
+})();
+</script>
 </body>
 </html>
