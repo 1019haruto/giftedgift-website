@@ -326,6 +326,8 @@ const confirmContent = document.getElementById('confirmContent');
 const upsellStep = document.getElementById('upsellStep');
 const emailStep = document.getElementById('emailStep');
 const doneStep = document.getElementById('doneStep');
+const introStep = document.getElementById('introStep');
+const lineStep = document.getElementById('lineStep');
 let selectedAddons = [];
 let submittedEmail = '';
 let submittedToken = '';
@@ -379,8 +381,24 @@ if (planForm) {
       planForm.hidden = true;
       emailStep.hidden = false;
       emailStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else if (introStep) {
+      planForm.hidden = true;
+      introStep.hidden = false;
+      introStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
     } else {
       alert('ご相談内容を受け付けました（デモ画面です）。');
+    }
+  });
+}
+
+const introNextBtn = document.getElementById('introNextBtn');
+if (introNextBtn) {
+  introNextBtn.addEventListener('click', () => {
+    introStep.hidden = true;
+    if (lineStep) {
+      lineStep.hidden = false;
+      lineStep.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      setTimeout(goToLineNow, 1500);
     }
   });
 }

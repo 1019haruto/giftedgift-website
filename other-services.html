@@ -194,45 +194,24 @@
     <button type="submit" class="btn btn-primary btn-large" style="width:auto;">この内容で相談する →</button>
   </form>
 
-  <div class="plan-form wrap" id="confirmStep" hidden>
+  <div class="plan-form wrap" id="introStep" hidden>
     <div class="category-panel">
-      <h3>📋 入力内容のご確認</h3>
-      <p>以下の内容でよろしければ「この内容で進む」を押してください。修正する場合は「内容を修正する」から戻れます。</p>
-      <div id="confirmContent" class="confirm-content"></div>
-      <div class="confirm-actions">
-        <button type="button" class="btn btn-outline" id="confirmBackBtn">← 内容を修正する</button>
-        <button type="button" class="btn btn-primary" id="confirmNextBtn">この内容で進む →</button>
-      </div>
-    </div>
-  </div>
-
-  <div class="plan-form wrap" id="emailStep" hidden>
-    <div class="category-panel">
-      <h3>📧 メールアドレスのご入力</h3>
-      <p>選択いただいた内容を確認するため、メールアドレスをご入力ください。</p>
-      <label class="gate-field">メールアドレス
-        <input type="email" id="finalEmailInput" placeholder="example@mail.com">
-      </label>
-      <button type="button" class="btn btn-primary btn-large" id="sendEmailBtn" style="width:auto;">送信</button>
-    </div>
-  </div>
-
-  <div class="plan-form wrap" id="doneStep" hidden>
-    <div class="category-panel">
-      <h3>ここから、一緒に仕上げます。</h3>
+      <h3>マンツーマンで即日即対応！最短翌日実行！</h3>
       <p>
-        この度はGIFTED×GIFTへご相談いただき、誠にありがとうございます。<br>
-        内容を確認のうえ、担当より改めてご連絡させていただきます。<br>
-        2日以内にはプランをご提供します。
+        ご相談内容を受け付けました。専任スタッフがマンツーマンで対応し、<br>
+        最短翌日にはプランをご提案します。
       </p>
-      <p>追加でご希望することや内容の変更などがありましたら、公式LINEのチャットでお伝えください。（9:00〜20:00　この時間以降は翌日の返信になる可能性が高いです）</p>
-      <p id="confirmedEmail"></p>
-      <p>次回以降のログインにお使いいただける確認コードです。大切に保管してください。</p>
-      <p class="issued-code" id="issuedCode"></p>
-      <p class="done-actions-note">まもなく自動的にLINEのトーク画面に移動し、この内容が入力された状態になります。</p>
+      <p>このあと公式LINEのトーク画面に移動しますので、そのままチャットで詳細をお聞かせください。</p>
+      <button type="button" class="btn btn-primary btn-large" id="introNextBtn" style="width:auto;">次へ進む →</button>
+    </div>
+  </div>
+
+  <div class="plan-form wrap" id="lineStep" hidden>
+    <div class="category-panel">
+      <h3>公式LINEでやり取りを始めましょう</h3>
+      <p class="done-actions-note">まもなく自動的にLINEのトーク画面に移動し、この内容が入力された状態になります。移動しない場合は、下のボタンからLINEを開いてください。</p>
 
       <div class="done-actions">
-        <a href="mypage.html" class="btn btn-outline">マイギフトを見る</a>
         <button type="button" class="btn btn-line" id="lineSendBtn">LINEで自動送信する</button>
       </div>
     </div>
