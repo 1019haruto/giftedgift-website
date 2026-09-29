@@ -50,32 +50,9 @@
 
   <form class="plan-form wrap" id="planForm">
 
-    <div class="category-panel">
-      <h3>📝 ご相談内容 <span style="font-size:0.7rem; font-weight:700; color:#E38FA8;">※必須</span></h3>
-      <div class="choice-cards" id="topicCards">
-        <button type="button" class="choice-card" data-value="贈答マナー・のし・表書きの相談">
-          <span class="choice-card-icon">📜</span><span class="choice-card-label">贈答マナー・のし・表書き</span>
-        </button>
-        <button type="button" class="choice-card" data-value="当日の撮影・記録">
-          <span class="choice-card-icon">📸</span><span class="choice-card-label">当日の撮影・記録</span>
-        </button>
-        <button type="button" class="choice-card" data-value="予算設計・贈り分けの相談">
-          <span class="choice-card-icon">🧮</span><span class="choice-card-label">予算設計・贈り分け</span>
-        </button>
-        <button type="button" class="choice-card" data-value="その他">
-          <span class="choice-card-icon">✨</span><span class="choice-card-label">その他</span>
-        </button>
-      </div>
-      <label class="visually-hidden-field">ご希望の内容
-        <select id="topicSelect">
-          <option value="">未選択</option>
-          <option>贈答マナー・のし・表書きの相談</option>
-          <option>当日の撮影・記録</option>
-          <option>予算設計・贈り分けの相談</option>
-          <option>その他</option>
-        </select>
-      </label>
-      <div class="field-grid" style="margin-top:18px;">
+    <div class="category-panel" id="cat-purpose">
+      <h3>📅 ご予算 <span style="font-size:0.7rem; font-weight:700; color:#E38FA8;">※必須</span></h3>
+      <div class="field-grid">
         <label>ご予算の目安
           <select>
             <option>特に決まっていない</option>
@@ -87,103 +64,123 @@
       </div>
     </div>
 
-    <div class="category-panel">
-      <h3>📅 場面 <span style="font-size:0.7rem; font-weight:700; color:#E38FA8;">※必須</span></h3>
+    <!-- 場所 -->
+    <div class="category-panel" id="cat-location">
+      <h3>📍 場所</h3>
       <div class="field-grid">
-        <label>どのような場面
-          <select>
-            <option>誕生日</option>
-            <option>記念日・結婚記念日</option>
-            <option>プロポーズ</option>
-            <option>昇進・卒業などのお祝い</option>
-            <option>お礼・感謝</option>
-            <option>その他</option>
-          </select>
+        <div class="field-label">都道府県（複数選択可）
+          <div class="location-dropdown">
+            <button type="button" class="location-dropdown-toggle" id="prefectureToggle">
+              <span id="prefectureSummary">相談して決める</span>
+              <span class="location-dropdown-chevron">▼</span>
+            </button>
+            <div class="location-dropdown-panel checkbox-row" id="prefecturePanel" data-field-label="都道府県" hidden>
+              <label><input type="checkbox" value="北海道"> 北海道</label>
+              <label><input type="checkbox" value="青森県"> 青森県</label>
+              <label><input type="checkbox" value="岩手県"> 岩手県</label>
+              <label><input type="checkbox" value="宮城県"> 宮城県</label>
+              <label><input type="checkbox" value="秋田県"> 秋田県</label>
+              <label><input type="checkbox" value="山形県"> 山形県</label>
+              <label><input type="checkbox" value="福島県"> 福島県</label>
+              <label><input type="checkbox" value="茨城県"> 茨城県</label>
+              <label><input type="checkbox" value="栃木県"> 栃木県</label>
+              <label><input type="checkbox" value="群馬県"> 群馬県</label>
+              <label><input type="checkbox" value="埼玉県"> 埼玉県</label>
+              <label><input type="checkbox" value="千葉県"> 千葉県</label>
+              <label><input type="checkbox" value="東京都"> 東京都</label>
+              <label><input type="checkbox" value="神奈川県"> 神奈川県</label>
+              <label><input type="checkbox" value="新潟県"> 新潟県</label>
+              <label><input type="checkbox" value="富山県"> 富山県</label>
+              <label><input type="checkbox" value="石川県"> 石川県</label>
+              <label><input type="checkbox" value="福井県"> 福井県</label>
+              <label><input type="checkbox" value="山梨県"> 山梨県</label>
+              <label><input type="checkbox" value="長野県"> 長野県</label>
+              <label><input type="checkbox" value="岐阜県"> 岐阜県</label>
+              <label><input type="checkbox" value="静岡県"> 静岡県</label>
+              <label><input type="checkbox" value="愛知県"> 愛知県</label>
+              <label><input type="checkbox" value="三重県"> 三重県</label>
+              <label><input type="checkbox" value="滋賀県"> 滋賀県</label>
+              <label><input type="checkbox" value="京都府"> 京都府</label>
+              <label><input type="checkbox" value="大阪府"> 大阪府</label>
+              <label><input type="checkbox" value="兵庫県"> 兵庫県</label>
+              <label><input type="checkbox" value="奈良県"> 奈良県</label>
+              <label><input type="checkbox" value="和歌山県"> 和歌山県</label>
+              <label><input type="checkbox" value="鳥取県"> 鳥取県</label>
+              <label><input type="checkbox" value="島根県"> 島根県</label>
+              <label><input type="checkbox" value="岡山県"> 岡山県</label>
+              <label><input type="checkbox" value="広島県"> 広島県</label>
+              <label><input type="checkbox" value="山口県"> 山口県</label>
+              <label><input type="checkbox" value="徳島県"> 徳島県</label>
+              <label><input type="checkbox" value="香川県"> 香川県</label>
+              <label><input type="checkbox" value="愛媛県"> 愛媛県</label>
+              <label><input type="checkbox" value="高知県"> 高知県</label>
+              <label><input type="checkbox" value="福岡県"> 福岡県</label>
+              <label><input type="checkbox" value="佐賀県"> 佐賀県</label>
+              <label><input type="checkbox" value="長崎県"> 長崎県</label>
+              <label><input type="checkbox" value="熊本県"> 熊本県</label>
+              <label><input type="checkbox" value="大分県"> 大分県</label>
+              <label><input type="checkbox" value="宮崎県"> 宮崎県</label>
+              <label><input type="checkbox" value="鹿児島県"> 鹿児島県</label>
+              <label><input type="checkbox" value="沖縄県"> 沖縄県</label>
+            </div>
+          </div>
+        </div>
+        <label>市町村・どこでも
+          <input type="text" placeholder="例：渋谷区、横浜市／「どこでも」">
         </label>
       </div>
     </div>
 
-    <div class="category-panel">
-      <h3>👤 相手について <span style="font-size:0.7rem; font-weight:700; color:#E38FA8;">※必須</span></h3>
-      <div class="choice-cards" id="relationshipCards">
-        <button type="button" class="choice-card" data-value="恋人・パートナー">
-          <span class="choice-card-icon">💑</span><span class="choice-card-label">恋人・パートナー</span>
-        </button>
-        <button type="button" class="choice-card" data-value="家族">
-          <span class="choice-card-icon">👪</span><span class="choice-card-label">家族</span>
-        </button>
-        <button type="button" class="choice-card" data-value="友人">
-          <span class="choice-card-icon">🧑‍🤝‍🧑</span><span class="choice-card-label">友人</span>
-        </button>
-        <button type="button" class="choice-card" data-value="両親">
-          <span class="choice-card-icon">👴</span><span class="choice-card-label">両親</span>
-        </button>
-        <button type="button" class="choice-card" data-value="職場関係・お世話になった人">
-          <span class="choice-card-icon">💼</span><span class="choice-card-label">職場関係・お世話になった人</span>
-        </button>
-        <button type="button" class="choice-card" data-value="その他">
-          <span class="choice-card-icon">✨</span><span class="choice-card-label">その他</span>
-        </button>
-      </div>
-      <label class="visually-hidden-field">ご関係
-        <select id="relationshipSelect">
-          <option value="">未選択</option>
-          <option>恋人・パートナー</option>
-          <option>家族</option>
-          <option>友人</option>
-          <option>両親</option>
-          <option>職場関係・お世話になった人</option>
-          <option>その他</option>
-        </select>
-      </label>
-      <div class="field-grid" style="margin-top:18px;">
-        <label>年代
-          <select>
-            <option>10代</option>
-            <option>20代</option>
-            <option>30代</option>
-            <option>40代</option>
-            <option>50代以上</option>
-          </select>
-        </label>
-        <label>性別
-          <select>
-            <option>指定なし</option>
-            <option>女性</option>
-            <option>男性</option>
-          </select>
-        </label>
-      </div>
-      <label class="panel-notes">相手についての備考
-        <textarea rows="3" placeholder="好きなもの、苦手なもの、性格、エピソードなど自由にご記入ください"></textarea>
-      </label>
-    </div>
-
-    <div class="category-panel">
-      <h3>🙋 あなた自身どんな人？</h3>
+    <!-- 日時 -->
+    <div class="category-panel" id="cat-datetime">
+      <h3>🗓️ 日時</h3>
       <div class="field-grid">
-        <label>年齢
-          <select>
-            <option>10代</option>
-            <option>20代</option>
-            <option>30代</option>
-            <option>40代</option>
-            <option>50代以上</option>
-          </select>
+        <label>第1希望日
+          <div class="date-range-field">
+            <input type="text" id="dateChoice1" placeholder="例：2026/10/15、または未定">
+            <button type="button" class="date-range-toggle" id="dateChoice1CalToggle" aria-label="カレンダーから選択">📅</button>
+            <div class="date-range-popover" id="dateChoice1CalPopover" hidden>
+              <label>開始日
+                <input type="date" id="dateChoice1Start">
+              </label>
+              <label>終了日（1日だけなら空欄でOK）
+                <input type="date" id="dateChoice1End">
+              </label>
+              <button type="button" class="btn btn-outline date-range-apply">この内容を反映</button>
+            </div>
+          </div>
         </label>
-        <label>行きたい場所
-          <input type="text" placeholder="例：温泉地など">
+        <label id="dateChoice2Field" hidden>第2希望日
+          <div class="date-range-field">
+            <input type="text" id="dateChoice2" placeholder="例：2026/10/15、または未定">
+            <button type="button" class="date-range-toggle" id="dateChoice2CalToggle" aria-label="カレンダーから選択">📅</button>
+            <div class="date-range-popover" id="dateChoice2CalPopover" hidden>
+              <label>開始日
+                <input type="date" id="dateChoice2Start">
+              </label>
+              <label>終了日（1日だけなら空欄でOK）
+                <input type="date" id="dateChoice2End">
+              </label>
+              <button type="button" class="btn btn-outline date-range-apply">この内容を反映</button>
+            </div>
+          </div>
+        </label>
+        <label id="dateChoice3Field" hidden>第3希望日
+          <div class="date-range-field">
+            <input type="text" id="dateChoice3" placeholder="例：2026/10/15、または未定">
+            <button type="button" class="date-range-toggle" id="dateChoice3CalToggle" aria-label="カレンダーから選択">📅</button>
+            <div class="date-range-popover" id="dateChoice3CalPopover" hidden>
+              <label>開始日
+                <input type="date" id="dateChoice3Start">
+              </label>
+              <label>終了日（1日だけなら空欄でOK）
+                <input type="date" id="dateChoice3End">
+              </label>
+              <button type="button" class="btn btn-outline date-range-apply">この内容を反映</button>
+            </div>
+          </div>
         </label>
       </div>
-      <label class="panel-notes">ワクワクすること・大切にしている考え方
-        <textarea rows="3" placeholder="趣味、好きなこと、価値観、最近ときめいたことなど自由にご記入ください"></textarea>
-      </label>
-    </div>
-
-    <div class="notes-field">
-      <label>こだわり・補足事項
-        <textarea rows="5" placeholder="ご相談の内容や状況を詳しくご記入ください"></textarea>
-      </label>
     </div>
 
     <button type="submit" class="btn btn-primary btn-large" style="width:auto;">この内容で相談する →</button>
