@@ -198,7 +198,7 @@ if (prefectureToggle && prefecturePanel && prefectureSummary) {
 
   function updatePrefectureSummary() {
     const checked = Array.from(prefecturePanel.querySelectorAll('input[type="checkbox"]:checked')).map((cb) => cb.value);
-    if (checked.length === 0) prefectureSummary.textContent = '相談する';
+    if (checked.length === 0) prefectureSummary.textContent = '相談して決める';
     else if (checked.length <= 2) prefectureSummary.textContent = checked.join('、');
     else prefectureSummary.textContent = checked.length + '件選択中';
   }
