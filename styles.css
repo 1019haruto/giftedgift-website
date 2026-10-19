@@ -743,6 +743,21 @@ img { max-width: 100%; display: block; }
   .tab-bar-icon { font-size: 1.2rem; }
 }
 
+/* PC・iPad（縦向き含む）など十分な横幅がある場合は、他のflow-stepsと同じく左から右へ連なる横並びにする */
+@media (min-width: 701px) {
+  .flow-steps--vertical {
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    max-width: none;
+    gap: 24px;
+  }
+  .flow-steps--vertical .step-arrow { display: inline; }
+  .flow-steps--vertical .flow-step { max-width: 280px; gap: 16px; align-items: center; }
+  .flow-steps--vertical .step-icon { width: 90px; height: 90px; }
+  .flow-steps--vertical .flow-step p { font-size: 0.86rem; line-height: 1.6; }
+}
+
 @media (max-width: 640px) {
   .header-right { gap: 12px; }
   .nav-cta { padding: 8px 14px; font-size: 0.82rem; }
